@@ -12,10 +12,8 @@ const makeExamples = (container: HTMLElement, pals: typeof palettes) => {
 			<palette-example palette='${JSON.stringify(pals[key])}' name='${key}' res='${resolution}'></palette-example>
 		`
 		examplesDiv.innerHTML += example
-		console.log('adding example')
 	})
 
-	console.log('appending')
 	container.appendChild(examplesDiv)
 }
 
