@@ -57,7 +57,7 @@ export class PaletteContextComponent extends HTMLElement {
 		this.stroke = this.getAttribute('stroke') || undefined
 	}
 
-	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+	attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
 		if (name === 'colors-list') {
 			this.colorsList = newValue.split(',')
 			this.paint()

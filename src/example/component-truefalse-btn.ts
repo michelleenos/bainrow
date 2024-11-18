@@ -56,7 +56,7 @@ export class TrueFalseBtn extends HTMLElement {
 		if (this.label) this.label.textContent = this.falseText
 	}
 
-	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+	attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
 		if (name === 'value') {
 			if (!isTrueOrFalseString(newValue)) return
 			newValue === 'true' ? this.check() : this.unCheck()
