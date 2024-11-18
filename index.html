@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bainrow Palettes</title>
+		<link rel="stylesheet" href="/src/styles/style.scss" />
+	</head>
+	<body class="hide-contexts">
+		<div class="topbar">
+			<h1><span>b</span>ain<span>r</span>ow</h1>
+
+			<button class="br-toggle-contexts">Toggle Contexts</button>
+		</div>
+
+		<template id="palette-example-template">
+			<div class="palette-top">
+				<h2 class="palette-title"></h2>
+				<canvas class="palette-canvas"></canvas>
+				<div class="palette-example-btns">
+					<button class="btn-sq palette-btn-copy" aria-label="copy palette to clipboard"></button>
+				</div>
+				<palette-controls></palette-controls>
+			</div>
+			<div class="palette-bottom">
+				<div class="palette-contexts"></div>
+			</div>
+		</template>
+
+		<template id="palette-context-template">
+			<canvas class="ctx-canvas"></canvas>
+			<div class="ctx-btns">
+				<button class="ctx-btn btn-sq ctx-btn-copy" aria-label="copy context to clipboard"></button>
+				<button class="ctx-btn btn-sq ctx-btn-remove" aria-label="remove context"></button>
+			</div>
+		</template>
+
+		<template id="palette-controls-template">
+			<div class="generate">
+				<div class="intro">generate random context with ...</div>
+				<div class="new-ctx-opt">
+					background:
+					<button class="palette-bg-select"></button>
+				</div>
+				<div class="new-ctx-opt">
+					stroke:
+					<button class="palette-stroke-select"></button>
+				</div>
+				<div class="new-ctx-btn">
+					<button class="btn-new-ctx">Go</button>
+				</div>
+			</div>
+
+			<div class="isolate-wrap"><span>Isolate context colors:</span> <button class="btn-isolate">Isolate</button></div>
+			<div class="clear-wrap"><button class="btn-clear-all">clear all contexts</button></div>
+		</template>
+
+		<template id="component-truefalse-btn">
+			<div class="truefalse-btn">
+				<label for="truefalse-btn"></label>
+				<input type="checkbox" id="truefalse-btn" />
+			</div>
+		</template>
+
+		<div class="palette-examples-list"></div>
+		<script type="module" src="/src/example/component-palette-example.ts"></script>
+		<script type="module" src="/src/example/component-palette-controls.ts"></script>
+		<script type="module" src="/src/example/component-palette-context.ts"></script>
+		<script type="module" src="/src/example/component-truefalse-btn.ts"></script>
+		<script type="module" src="/src/example/example.ts"></script>
+	</body>
+</html>
