@@ -1,17 +1,18 @@
 {
-  "name": "bainrow",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@types/node": "^22.9.0",
-    "sass-embedded": "^1.80.6",
-    "typescript": "~5.6.2",
-    "vite": "^5.4.10"
-  }
+	"name": "@mishmish/bainrow",
+	"description": "a collection of color palettes for generative art projects",
+	"private": false,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/node": "^22.9.0",
+		"sass-embedded": "^1.80.6",
+		"typescript": "~5.6.2",
+		"vite": "^5.4.10"
+	}
 }
