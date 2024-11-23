@@ -1,9 +1,9 @@
 {
-	"name": "@mishmish/bainrow",
+	"name": "mish-bainrow",
 	"description": "a collection of color palettes for generative art projects",
-	"private": false,
 	"version": "1.0.0",
 	"type": "module",
+	"license": "ISC",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
