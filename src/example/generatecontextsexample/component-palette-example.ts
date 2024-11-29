@@ -1,7 +1,8 @@
-import { isPalette, Palette, PaletteContext } from '~/types'
+import { Palette, PaletteContext } from '~/palettes'
 import { PaletteContextComponent } from './component-palette-context'
 import { PaletteControls } from './component-palette-controls'
-import { adjustCanvas, CanvasProps, createElement, notify, random } from './utils'
+import { adjustCanvas, CanvasProps, createElement, notify, random } from '../utils'
+import { isPalette } from './types-example'
 
 type InitializedPaletteExampleComponent = {
 	palette: Palette

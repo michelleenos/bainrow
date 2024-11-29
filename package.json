@@ -6,13 +6,25 @@
 	"license": "ISC",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"clean": "rm -rf dist",
+		"build:lib": "tsc && vite build",
+		"build:types": "tsc src/palettes.ts --declaration --emitDeclarationOnly --outDir dist",
+		"build": "run-s clean build:lib build:types",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@rollup/plugin-typescript": "^12.1.1",
 		"@types/node": "^22.9.0",
+		"npm-run-all2": "^7.0.1",
 		"sass-embedded": "^1.80.6",
 		"typescript": "~5.6.2",
 		"vite": "^5.4.10"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/bainrow.js",
+			"require": "./dist/bainrow.umd.cjs",
+			"types": "./dist/palettes.d.ts"
+		}
 	}
 }

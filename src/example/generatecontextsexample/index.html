@@ -5,7 +5,6 @@
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Bainrow Palettes</title>
-		<link rel="stylesheet" href="/src/styles/style.scss" />
 	</head>
 	<body class="hide-contexts">
 		<div class="topbar">
@@ -24,6 +23,7 @@
 				<palette-controls></palette-controls>
 			</div>
 			<div class="palette-bottom">
+				<div class="palette-pairs"></div>
 				<div class="palette-contexts"></div>
 			</div>
 		</template>
@@ -64,10 +64,10 @@
 		</template>
 
 		<div class="palette-examples-list"></div>
-		<script type="module" src="/src/example/component-palette-example.ts"></script>
-		<script type="module" src="/src/example/component-palette-controls.ts"></script>
-		<script type="module" src="/src/example/component-palette-context.ts"></script>
-		<script type="module" src="/src/example/component-truefalse-btn.ts"></script>
-		<script type="module" src="/src/example/example.ts"></script>
+		<script type="module" src="./component-palette-example.ts"></script>
+		<script type="module" src="./component-palette-controls.ts"></script>
+		<script type="module" src="./component-palette-context.ts"></script>
+		<script type="module" src="./component-truefalse-btn.ts"></script>
+		<script type="module" src="./generatecontextsexample.ts"></script>
 	</body>
 </html>

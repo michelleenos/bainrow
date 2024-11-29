@@ -1,4 +1,4 @@
-import { adjustCanvas, CanvasProps, notify } from './utils'
+import { adjustCanvas, CanvasProps, notify } from '../utils'
 
 type ContextComponentEvents = {
 	removecontext: Event
@@ -116,7 +116,6 @@ export class PaletteContextComponent extends HTMLElement {
 		}
 
 		if (this.stroke) {
-			console.log(this.stroke)
 			this.ctx.strokeStyle = this.stroke
 			this.ctx.lineWidth = 3
 		}
