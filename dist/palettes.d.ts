@@ -327,6 +327,41 @@ declare const paletteDefs: {
             add: [string, string][];
         };
     };
+    candy: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("orange" | "yellow" | "green" | "pink")[];
+        pairs: {
+            lights: string[];
+            darks: string[];
+        };
+        contexts: ({
+            bg: string;
+            stroke: string;
+        } | {
+            bg: string;
+            stroke?: undefined;
+        })[];
+    };
+    mountains: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: "green"[];
+        pairs: {
+            lights: string[];
+            darks: string[];
+            add: [string, string][];
+        };
+        contexts: ({
+            bg: string;
+            stroke?: undefined;
+        } | {
+            bg: string;
+            stroke: string;
+        })[];
+    };
 };
 export declare const getPalettesArray: () => Palette[];
 export declare const getColorPairs: () => [string, string][];

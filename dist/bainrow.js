@@ -1,4 +1,4 @@
-const c = {
+const d = {
   island: {
     colors: ["#020887", "#334195", "#00635D", "#ff715b", "#77cf63"],
     tags: ["bright", "dark", "ocean"],
@@ -118,7 +118,8 @@ const c = {
     tags: ["dark", "twilight", "jewelTones"],
     contexts: [
       { bg: "#011638", stroke: "#a64253" },
-      { bg: "#a64253", stroke: "#011638" }
+      { bg: "#a64253", stroke: "#011638" },
+      { bg: "#247ba0", stroke: "#011638" }
     ],
     pairs: {
       lights: ["#247ba0", "#d56aa0"],
@@ -327,7 +328,13 @@ const c = {
     colors: ["#fcab30", "#ff626a", "#4C1E4F", "#496ddb", "#FFC4EB"],
     tags: ["bright", "contrast"],
     shades: ["yellow", "purple", "blue"],
-    contexts: [{ bg: "#fcab30", stroke: "#4C1E4F" }],
+    contexts: [
+      { bg: "#fcab30", stroke: "#4C1E4F" },
+      { bg: "#FFC4EB", stroke: "#4C1E4F" },
+      { bg: "#4C1E4F", stroke: "#fcab30" },
+      { bg: "#fff7e5", stroke: "#4C1E4F" },
+      { bg: "#4C1E4F", stroke: "#fff7e5" }
+    ],
     pairs: {
       lights: ["#fcab30", "#FFC4EB"],
       darks: ["#ff626a", "#496ddb", "#4C1E4F"],
@@ -345,34 +352,73 @@ const c = {
     contexts: [
       { bg: "#c4f5ed", stroke: "#04996d" },
       { bg: "#60ebca", stroke: "#4467ab" },
-      { bg: "#04996d", stroke: "#c4f5ed" }
+      { bg: "#04996d", stroke: "#c4f5ed" },
+      { bg: "#4467ab", stroke: "#c4f5ed" }
     ],
     pairs: {
       lights: ["#99dfff", "#c4f5ed", "#b8ccfc", "#60ebca"],
       darks: ["#04996d", "#4467ab"],
       add: [["#99dfff", "#60ebca"]]
     }
+  },
+  candy: {
+    name: "candy",
+    colors: ["#f398c3", "#cf3895", "#a0d28d", "#06b4b0", "#fed000", "#FF8552"],
+    tags: ["bright", "contrast"],
+    shades: ["pink", "yellow", "orange", "green"],
+    pairs: {
+      lights: ["#a0d28d", "#fed000", "#f398c3", "#FF8552"],
+      darks: ["#cf3895", "#06b4b0"]
+    },
+    contexts: [
+      { bg: "#a0d28d", stroke: "#cf3895" },
+      { bg: "#cf3895", stroke: "#f398c3" },
+      { bg: "#06b4b0", stroke: "#cf3895" },
+      { bg: "#fff7e5" },
+      { bg: "#fff7e5", stroke: "#cf3895" },
+      { bg: "#FF8552", stroke: "#fff7e5" },
+      { bg: "#a0d28d", stroke: "#fff7e5" }
+    ]
+  },
+  mountains: {
+    name: "mountains",
+    colors: ["#f8fff4", "#803848", "#ff8138", "#234e28", "#15bf8c"],
+    tags: ["nature", "earth"],
+    shades: ["green"],
+    pairs: {
+      lights: ["#f8fff4", "#15bf8c", "#ff8138"],
+      darks: ["#803848", "#234e28"],
+      add: [["#f8fff4", "#ff8138"]]
+    },
+    contexts: [
+      { bg: "#f8fff4" },
+      { bg: "#234e28" },
+      { bg: "#803848", stroke: "#f8fff4" },
+      { bg: "#234e28", stroke: "#f8fff4" },
+      { bg: "#f8fff4", stroke: "#234e28" },
+      { bg: "#15bf8c", stroke: "#234e28" }
+    ]
   }
 };
-let f = null, b = null;
-const h = () => f || (f = Object.keys(c).map((s) => c[s]), f), p = () => {
+let t = null, b = null;
+const h = () => t || (t = Object.keys(d).map((s) => d[s]), t), p = () => {
   if (b) return b;
-  let t = /* @__PURE__ */ new Set(), s = [], n = Object.keys(l);
-  const o = (r, e) => t.has(`${r}-${e}`.toLowerCase()) || t.has(`${e}-${r}`.toLowerCase()) ? !0 : (t.add(`${r}-${e}`.toLowerCase()), !1);
+  let f = /* @__PURE__ */ new Set(), s = [], n = Object.keys(l);
+  const o = (r, e) => f.has(`${r}-${e}`.toLowerCase()) || f.has(`${e}-${r}`.toLowerCase()) ? !0 : (f.add(`${r}-${e}`.toLowerCase()), !1);
   return n.forEach((r) => {
     let e = l[r];
     if (e.pairs) {
-      let { lights: i, darks: k, add: d } = e.pairs;
+      let { lights: i, darks: k, add: c } = e.pairs;
       i.forEach((a) => {
         k.forEach((g) => {
           o(a, g) || s.push([a, g]);
         });
-      }), d == null || d.forEach((a) => {
+      }), c == null || c.forEach((a) => {
         o(a[0], a[1]) || s.push(a);
       });
     }
   }), b = [...s], b;
-}, l = c;
+}, l = d;
 export {
   p as getColorPairs,
   h as getPalettesArray,
