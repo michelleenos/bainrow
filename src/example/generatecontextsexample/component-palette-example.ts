@@ -126,7 +126,6 @@ export class PaletteExampleComponent extends HTMLElement {
 		}
 
 		if (stroke === 'none') stroke = undefined
-		if (bg === 'none') bg = undefined
 
 		let newContext = { bg, stroke, initial: false }
 		let el = this.buildContextExample(newContext)

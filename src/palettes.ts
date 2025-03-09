@@ -2,21 +2,16 @@
 export type RoyGBiv = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'indigo' | 'violet' | 'teal' | 'pink' | 'purple' | 'gray' | 'brown'
 
 export type PaletteContext = {
-	bg?: string
+	bg: string
 	stroke?: string
-}
-
-export type PalettePairOptions = {
-	lights: string[]
-	darks: string[]
 }
 
 export type Palette = {
 	colors: string[]
 	name: string
-	tags?: string[]
-	shades?: RoyGBiv[]
-	contexts?: PaletteContext[]
+	tags: string[]
+	shades: RoyGBiv[]
+	contexts: PaletteContext[]
 	pairs?: {
 		lights: string[]
 		darks: string[]
@@ -47,6 +42,7 @@ const paletteDefs = {
 		name: 'island2',
 		colors: ['#fc440f', '#b4e33d', '#03d394', '#a29fb3', '#1f01b9'],
 		shades: ['orange', 'green', 'blue', 'gray'],
+		tags: ['bright', 'ocean'],
 		contexts: [
 			{ bg: '#1f01b9', stroke: '#b4e33d' },
 			{ bg: '#03d394', stroke: '#1f01b9' },
@@ -136,7 +132,6 @@ const paletteDefs = {
 		pairs: {
 			lights: ['#1b998b', '#c5d86d', '#f46036'],
 			darks: ['#2e294e', '#d7263d'],
-
 			add: [['#1b998b', '#c5d86d']],
 		},
 	},

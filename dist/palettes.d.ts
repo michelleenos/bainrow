@@ -1,18 +1,14 @@
 export type RoyGBiv = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'indigo' | 'violet' | 'teal' | 'pink' | 'purple' | 'gray' | 'brown';
 export type PaletteContext = {
-    bg?: string;
+    bg: string;
     stroke?: string;
-};
-export type PalettePairOptions = {
-    lights: string[];
-    darks: string[];
 };
 export type Palette = {
     colors: string[];
     name: string;
-    tags?: string[];
-    shades?: RoyGBiv[];
-    contexts?: PaletteContext[];
+    tags: string[];
+    shades: RoyGBiv[];
+    contexts: PaletteContext[];
     pairs?: {
         lights: string[];
         darks: string[];
@@ -39,6 +35,7 @@ declare const paletteDefs: {
         name: string;
         colors: string[];
         shades: ("orange" | "green" | "blue" | "gray")[];
+        tags: string[];
         contexts: {
             bg: string;
             stroke: string;

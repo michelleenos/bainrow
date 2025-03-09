@@ -1,4 +1,4 @@
-const d = {
+const o = {
   island: {
     colors: ["#020887", "#334195", "#00635D", "#ff715b", "#77cf63"],
     tags: ["bright", "dark", "ocean"],
@@ -21,6 +21,7 @@ const d = {
     name: "island2",
     colors: ["#fc440f", "#b4e33d", "#03d394", "#a29fb3", "#1f01b9"],
     shades: ["orange", "green", "blue", "gray"],
+    tags: ["bright", "ocean"],
     contexts: [
       { bg: "#1f01b9", stroke: "#b4e33d" },
       { bg: "#03d394", stroke: "#1f01b9" }
@@ -401,24 +402,24 @@ const d = {
   }
 };
 let t = null, b = null;
-const h = () => t || (t = Object.keys(d).map((s) => d[s]), t), p = () => {
+const h = () => t || (t = Object.keys(o).map((s) => o[s]), t), p = () => {
   if (b) return b;
   let f = /* @__PURE__ */ new Set(), s = [], n = Object.keys(l);
-  const o = (r, e) => f.has(`${r}-${e}`.toLowerCase()) || f.has(`${e}-${r}`.toLowerCase()) ? !0 : (f.add(`${r}-${e}`.toLowerCase()), !1);
+  const d = (r, e) => f.has(`${r}-${e}`.toLowerCase()) || f.has(`${e}-${r}`.toLowerCase()) ? !0 : (f.add(`${r}-${e}`.toLowerCase()), !1);
   return n.forEach((r) => {
     let e = l[r];
     if (e.pairs) {
       let { lights: i, darks: k, add: c } = e.pairs;
       i.forEach((a) => {
         k.forEach((g) => {
-          o(a, g) || s.push([a, g]);
+          d(a, g) || s.push([a, g]);
         });
       }), c == null || c.forEach((a) => {
-        o(a[0], a[1]) || s.push(a);
+        d(a[0], a[1]) || s.push(a);
       });
     }
   }), b = [...s], b;
-}, l = d;
+}, l = o;
 export {
   p as getColorPairs,
   h as getPalettesArray,
