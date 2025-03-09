@@ -1,4 +1,4 @@
-const o = {
+const i = {
   island: {
     colors: ["#020887", "#334195", "#00635D", "#ff715b", "#77cf63"],
     tags: ["bright", "dark", "ocean"],
@@ -401,27 +401,43 @@ const o = {
     ]
   }
 };
-let t = null, b = null;
-const h = () => t || (t = Object.keys(o).map((s) => o[s]), t), p = () => {
-  if (b) return b;
-  let f = /* @__PURE__ */ new Set(), s = [], n = Object.keys(l);
-  const d = (r, e) => f.has(`${r}-${e}`.toLowerCase()) || f.has(`${e}-${r}`.toLowerCase()) ? !0 : (f.add(`${r}-${e}`.toLowerCase()), !1);
-  return n.forEach((r) => {
-    let e = l[r];
+let g = null, l = null;
+const p = () => g || (g = Object.keys(i).map((s) => i[s]), g), u = () => {
+  if (l) return l;
+  let f = /* @__PURE__ */ new Set(), s = [], c = Object.keys(k);
+  const b = (r, e) => f.has(`${r}-${e}`.toLowerCase()) || f.has(`${e}-${r}`.toLowerCase()) ? !0 : (f.add(`${r}-${e}`.toLowerCase()), !1);
+  return c.forEach((r) => {
+    let e = k[r];
     if (e.pairs) {
-      let { lights: i, darks: k, add: c } = e.pairs;
-      i.forEach((a) => {
-        k.forEach((g) => {
-          d(a, g) || s.push([a, g]);
+      let { lights: n, darks: d, add: o } = e.pairs;
+      n.forEach((a) => {
+        d.forEach((t) => {
+          b(a, t) || s.push([a, t]);
         });
-      }), c == null || c.forEach((a) => {
-        d(a[0], a[1]) || s.push(a);
+      }), o == null || o.forEach((a) => {
+        b(a[0], a[1]) || s.push(a);
       });
     }
-  }), b = [...s], b;
-}, l = o;
+  }), l = [...s], l;
+};
+function m(f = !0) {
+  let s = p(), c = [];
+  return s.forEach((b) => {
+    let r = b.name, e = b.colors, n = b.contexts, d = /* @__PURE__ */ new Set(), o = 0;
+    n.forEach((a) => {
+      let t = a.bg;
+      d.has(t) || (d.add(t), c.push({
+        name: `${r}-${o++}`,
+        colors: f ? e.filter((h) => h !== t) : e,
+        bg: t
+      }));
+    });
+  }), c;
+}
+const k = i;
 export {
-  p as getColorPairs,
-  h as getPalettesArray,
-  l as palettes
+  u as getColorPairs,
+  p as getPalettesArray,
+  m as getPalettesWithBg,
+  k as palettes
 };

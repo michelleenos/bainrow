@@ -471,4 +471,28 @@ export const getColorPairs = () => {
 	return colorPairs
 }
 
+export function getPalettesWithBg(isolateColors: boolean = true) {
+	let palArr = getPalettesArray()
+	let pals: { bg: string; colors: string[]; name: string }[] = []
+	palArr.forEach((pal) => {
+		let name = pal.name
+		let colors = pal.colors
+		let contexts = pal.contexts
+		let bgSet = new Set()
+		let count = 0
+		contexts.forEach((context) => {
+			let bg = context.bg
+			if (bgSet.has(bg)) return
+			bgSet.add(bg)
+			pals.push({
+				name: `${name}-${count++}`,
+				colors: isolateColors ? colors.filter((c) => c !== bg) : colors,
+				bg,
+			})
+		})
+	})
+
+	return pals
+}
+
 export const palettes = paletteDefs as { [key in keyof typeof paletteDefs]: Palette }

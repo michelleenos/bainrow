@@ -362,5 +362,10 @@ declare const paletteDefs: {
 };
 export declare const getPalettesArray: () => Palette[];
 export declare const getColorPairs: () => [string, string][];
+export declare function getPalettesWithBg(isolateColors?: boolean): {
+    bg: string;
+    colors: string[];
+    name: string;
+}[];
 export declare const palettes: { [key in keyof typeof paletteDefs]: Palette; };
 export {};
