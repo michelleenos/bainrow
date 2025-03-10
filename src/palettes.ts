@@ -471,12 +471,18 @@ export const getColorPairs = () => {
 	return colorPairs
 }
 
-export function getPalettesWithBg(isolateColors: boolean = true) {
+type PaletteWithBg = {
+	bg: string
+	colors: string[]
+	name: string
+}
+
+export function getPalettesWithBg(isolateColors: boolean = true, minColors?: number): PaletteWithBg[] {
 	let palArr = getPalettesArray()
 	let pals: { bg: string; colors: string[]; name: string }[] = []
 	palArr.forEach((pal) => {
 		let name = pal.name
-		let colors = pal.colors
+		// if (minColors && pal.colors.length < minColors) return
 		let contexts = pal.contexts
 		let bgSet = new Set()
 		let count = 0
@@ -484,9 +490,12 @@ export function getPalettesWithBg(isolateColors: boolean = true) {
 			let bg = context.bg
 			if (bgSet.has(bg)) return
 			bgSet.add(bg)
+			let colors = isolateColors ? pal.colors.filter((c) => c !== bg) : pal.colors
+			if (minColors && colors.length < minColors) return
+
 			pals.push({
 				name: `${name}-${count++}`,
-				colors: isolateColors ? colors.filter((c) => c !== bg) : colors,
+				colors,
 				bg,
 			})
 		})
