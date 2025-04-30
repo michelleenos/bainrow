@@ -4,7 +4,13 @@ import { palettes } from '~/palettes'
 
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 
-const addPaletteExamples = (container: Element, btnTogglePairs?: HTMLButtonElement, btnToggleContexts?: HTMLButtonElement) => {
+type PaletteBtns = {
+	pairs?: HTMLButtonElement
+	contexts?: HTMLButtonElement
+	stroke?: HTMLButtonElement
+}
+
+const addPaletteExamples = (container: Element, btns: PaletteBtns = {}) => {
 	keys.forEach((key) => {
 		const palette = palettes[key]
 		const paletteDiv = document.createElement('div')
@@ -57,6 +63,7 @@ const addPaletteExamples = (container: Element, btnTogglePairs?: HTMLButtonEleme
 						${palette.colors
 							.map((color) => {
 								let style = ''
+								if (!stroke && color === bg) return ''
 								if (stroke) style += `border-color: ${stroke};`
 								style += `background-color: ${color};`
 								return `<div class="context-color" style="${style}"></div>`
@@ -70,7 +77,7 @@ const addPaletteExamples = (container: Element, btnTogglePairs?: HTMLButtonEleme
 		container.appendChild(paletteDiv)
 	})
 
-	btnTogglePairs?.addEventListener('click', () => {
+	btns.pairs?.addEventListener('click', () => {
 		container.classList.toggle('show-pairs')
 		localStorage.setItem('show-pairs', container.classList.contains('show-pairs') ? 'true' : 'false')
 	})
@@ -78,18 +85,27 @@ const addPaletteExamples = (container: Element, btnTogglePairs?: HTMLButtonEleme
 		container.classList.add('show-pairs')
 	}
 
-	btnToggleContexts?.addEventListener('click', () => {
+	btns.contexts?.addEventListener('click', () => {
 		container.classList.toggle('show-contexts')
 		localStorage.setItem('show-contexts', container.classList.contains('show-contexts') ? 'true' : 'false')
 	})
 	if (localStorage.getItem('show-contexts') === 'true') {
 		container.classList.add('show-contexts')
 	}
+
+	btns.stroke?.addEventListener('click', () => {
+		container.classList.toggle('hide-stroke')
+		localStorage.setItem('hide-stroke', container.classList.contains('hide-stroke') ? 'true' : 'false')
+	})
+	if (localStorage.getItem('hide-stroke') === 'true') {
+		container.classList.add('hide-stroke')
+	}
 }
 
-let btnTogglePairs = document.querySelector<HTMLButtonElement>('button.br-toggle-pairs')
-let btnToggleContexts = document.querySelector<HTMLButtonElement>('button.br-toggle-contexts')
+let btnTogglePairs = document.querySelector<HTMLButtonElement>('button.br-toggle-pairs') || undefined
+let btnToggleContexts = document.querySelector<HTMLButtonElement>('button.br-toggle-contexts') || undefined
+let btnToggleStroke = document.querySelector<HTMLButtonElement>('button.br-toggle-stroke') || undefined
 let container = document.querySelector('.palette-examples')
 if (container) {
-	addPaletteExamples(container, btnTogglePairs || undefined, btnToggleContexts || undefined)
+	addPaletteExamples(container, { pairs: btnTogglePairs, contexts: btnToggleContexts, stroke: btnToggleStroke })
 }

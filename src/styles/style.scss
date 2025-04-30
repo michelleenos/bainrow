@@ -157,3 +157,9 @@ body {
 .palette-examples:not(.show-contexts) .palette-example-contexts {
 	display: none;
 }
+
+.palette-examples.hide-stroke .palette-example-context {
+	> div {
+		border-color: transparent !important;
+	}
+}
