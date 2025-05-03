@@ -1,4 +1,4 @@
-import { Palette } from '~/palettes'
+import type { Palette } from '~/lib/types'
 
 // export const isPaletteContext = (obj: unknown): obj is PaletteContext => {
 // 	if (typeof obj !== 'object' || obj === null) return false

@@ -1,5 +1,5 @@
 import { getContrast } from './color-utils'
-import { palettes } from '~/palettes'
+import { palettes } from './palette-defs'
 
 export const getAllPairs = (contrastMin: number = 4) => {
 	let pairsSet = new Set<string>()

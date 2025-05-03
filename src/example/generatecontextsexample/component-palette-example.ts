@@ -1,4 +1,4 @@
-import { Palette, PaletteContext } from '~/palettes'
+import type { Palette, PaletteContext } from '~/lib/types'
 import { PaletteContextComponent } from './component-palette-context'
 import { PaletteControls } from './component-palette-controls'
 import { adjustCanvas, CanvasProps, createElement, notify, random } from '../utils'

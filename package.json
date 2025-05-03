@@ -1,14 +1,14 @@
 {
 	"name": "mish-bainrow",
 	"description": "a collection of color palettes for generative art projects",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"type": "module",
 	"license": "ISC",
 	"scripts": {
 		"dev": "vite",
 		"clean": "rm -rf dist",
 		"build:lib": "tsc && vite build",
-		"build:types": "tsc src/palettes.ts --declaration --emitDeclarationOnly --outDir dist",
+		"build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
 		"build": "run-s clean build:lib build:types",
 		"preview": "vite preview"
 	},

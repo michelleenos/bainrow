@@ -1,7 +1,7 @@
-import '~/styles/style.scss'
+import './styles/style.scss'
 
-import { palettes } from '~/palettes'
-import { getPairsFromPalette } from '~/palette-utils/get-pairs'
+import { palettes } from '~/lib/palette-defs'
+import { getPairsFromPalette } from '~/lib/get-pairs'
 
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 

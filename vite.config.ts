@@ -11,7 +11,7 @@ export default defineConfig({
 	build: {
 		outDir: resolve(__dirname, 'dist'),
 		lib: {
-			entry: resolve(__dirname, 'src/palettes.ts'),
+			entry: resolve(__dirname, 'src/index.ts'),
 			name: 'bainrow',
 			fileName: 'bainrow',
 		},
