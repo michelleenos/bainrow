@@ -1,6 +1,7 @@
 import '~/styles/style.scss'
 
 import { palettes } from '~/palettes'
+import { getPairsFromPalette } from '~/palette-utils/get-pairs'
 
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 
@@ -22,34 +23,20 @@ const addPaletteExamples = (container: Element, btns: PaletteBtns = {}) => {
 			</div>
 		`
 
-		if (palette.pairs) {
-			let pairsDiv = document.createElement('div')
-			pairsDiv.classList.add('palette-example-pairs')
+		let pairsDiv = document.createElement('div')
+		pairsDiv.classList.add('palette-example-pairs')
 
-			let { lights, darks } = palette.pairs
-			lights.forEach((light) => {
-				darks.forEach((dark) => {
-					const pairDiv = document.createElement('div')
-					pairDiv.classList.add('palette-example-pair')
-					pairDiv.innerHTML = `
-						<div class="pair-color" style="background-color: ${light}"></div>
-						<div class="pair-color" style="background-color: ${dark}"></div>
-					`
-					pairsDiv.appendChild(pairDiv)
-				})
-			})
-
-			palette.pairs.add?.forEach((pair) => {
-				const pairDiv = document.createElement('div')
-				pairDiv.classList.add('palette-example-pair')
-				pairDiv.innerHTML = `
-					<div class="pair-color" style="background-color: ${pair[0]}"></div>
-					<div class="pair-color" style="background-color: ${pair[1]}"></div>
-				`
-				pairsDiv.appendChild(pairDiv)
-			})
-			paletteDiv.appendChild(pairsDiv)
-		}
+		let pairsList = getPairsFromPalette(palette.colors, 3)
+		pairsList.forEach((pair) => {
+			const pairDiv = document.createElement('div')
+			pairDiv.classList.add('palette-example-pair')
+			pairDiv.innerHTML = `
+				<div class="pair-color" style="background-color: ${pair[0]}"></div>
+				<div class="pair-color" style="background-color: ${pair[1]}"></div>
+			`
+			pairsDiv.appendChild(pairDiv)
+		})
+		paletteDiv.appendChild(pairsDiv)
 
 		if (palette.contexts) {
 			let contextsDiv = document.createElement('div')
