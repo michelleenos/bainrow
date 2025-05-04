@@ -4,6 +4,12 @@ export type RGB = {
 	b: number
 }
 
+export type HSV = {
+	h: number
+	s: number
+	v: number
+}
+
 export function hexToRgb(hex: string): RGB {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
@@ -20,6 +26,51 @@ export function hexToRgb(hex: string): RGB {
 		g: +gHex.toFixed(2),
 		b: +bHex.toFixed(2),
 	}
+}
+
+export function rgbToHsv(rgb: RGB): HSV {
+	const r = rgb.r / 255
+	const g = rgb.g / 255
+	const b = rgb.b / 255
+
+	let max = Math.max(r, g, b)
+	let min = Math.min(r, g, b)
+
+	let h = 0,
+		s = 0,
+		v = max
+
+	let d = max - min
+	s = max === 0 ? 0 : d / max
+
+	if (max === min) {
+		h = 0
+	} else {
+		switch (max) {
+			case r:
+				h = (g - b) / d + (g < b ? 6 : 0)
+				break
+			case g:
+				h = (b - r) / d + 2
+				break
+			case b:
+				h = (r - g) / d + 4
+				break
+		}
+
+		h /= 6
+	}
+
+	return {
+		h: Math.round(h * 360),
+		s: Math.round(s * 100),
+		v: Math.round(v * 100),
+	}
+}
+
+export function getValue(color: string) {
+	const hsv = rgbToHsv(hexToRgb(color))
+	return hsv.v
 }
 
 export function getLuminance(color: RGB | string) {

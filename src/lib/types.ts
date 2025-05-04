@@ -4,6 +4,8 @@ export type RoyGBiv = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'indigo' 
 export type PaletteContext = {
 	bg: string
 	stroke?: string
+	omit?: string[]
+	add?: string[]
 }
 
 export type Palette = {

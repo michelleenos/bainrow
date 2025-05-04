@@ -1,4 +1,4 @@
-const m = {
+const h = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4C1E4F", "#496ddb", "#FFC4EB"],
@@ -163,65 +163,70 @@ const m = {
       { bg: "#bba0ca", stroke: "#fff8e8" }
     ]
   }
-}, g = m;
-function p(s) {
-  const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(s);
+}, c = h;
+function m(a) {
+  const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(a);
   if (!e)
     throw new Error("Could not parse Hex Color");
-  const t = parseInt(e[1], 16), a = parseInt(e[2], 16), r = parseInt(e[3], 16);
+  const t = parseInt(e[1], 16), s = parseInt(e[2], 16), r = parseInt(e[3], 16);
   return {
     r: +t.toFixed(2),
-    g: +a.toFixed(2),
+    g: +s.toFixed(2),
     b: +r.toFixed(2)
   };
 }
-function i(s) {
-  const e = typeof s == "string" ? p(s) : s, t = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
+function d(a) {
+  const e = typeof a == "string" ? m(a) : a, t = (s) => (s /= 255, s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4));
   return 0.2126 * t(e.r) + 0.7152 * t(e.g) + 0.0722 * t(e.b);
 }
-function k(s, e) {
-  const t = i(s), a = i(e);
-  return t > a ? (t + 0.05) / (a + 0.05) : (a + 0.05) / (t + 0.05);
+function p(a, e) {
+  const t = d(a), s = d(e);
+  return t > s ? (t + 0.05) / (s + 0.05) : (s + 0.05) / (t + 0.05);
 }
-const w = (s = 4) => {
+const w = (a = 4) => {
   let e = /* @__PURE__ */ new Set(), t = [];
-  return Object.keys(g).forEach((r) => {
-    let f = g[r].colors;
-    x(f, s).forEach((o) => {
-      e.has(`${o[0]}-${o[1]}`.toLowerCase()) || e.has(`${o[1]}-${o[0]}`.toLowerCase()) || (e.add(`${o[0]}-${o[1]}`.toLowerCase()), t.push(o));
+  return Object.keys(c).forEach((r) => {
+    let o = c[r].colors;
+    k(o, a).forEach((n) => {
+      e.has(`${n[0]}-${n[1]}`.toLowerCase()) || e.has(`${n[1]}-${n[0]}`.toLowerCase()) || (e.add(`${n[0]}-${n[1]}`.toLowerCase()), t.push(n));
     });
   }), t;
-}, x = (s, e = 4) => {
+}, k = (a, e = 4) => {
   let t = [];
-  return s.forEach((a, r) => {
-    s.slice(r + 1).forEach((n) => {
-      k(a, n) < e || t.push([a, n]);
+  return a.forEach((s, r) => {
+    a.slice(r + 1).forEach((f) => {
+      p(s, f) < e || t.push([s, f]);
     });
   }), t;
 };
-let c = null;
-const y = () => c || (c = Object.keys(g).map((e) => g[e]), c);
-function F(s = !0, e) {
-  let t = y(), a = [];
-  return t.forEach((r) => {
-    let n = r.name, f = r.contexts, l = /* @__PURE__ */ new Set(), o = 0;
-    f.forEach((u) => {
-      let b = u.bg;
-      if (l.has(b)) return;
-      l.add(b);
-      let d = s ? r.colors.filter((h) => h !== b) : r.colors;
-      e && d.length < e || a.push({
-        name: `${n}-${o++}`,
-        colors: d,
-        bg: b
-      });
+let g = null;
+const y = () => g || (g = Object.keys(c).map((e) => c[e]), g);
+function x(a, e = !0) {
+  let t = typeof a == "string" ? c[a] : a, s = t.name, r = t.contexts, f = [], o = /* @__PURE__ */ new Set(), b = 0;
+  return r.forEach((n) => {
+    let l = n.bg;
+    if (o.has(l)) return;
+    o.add(l);
+    let i = e ? t.colors.filter((u) => u !== l) : t.colors;
+    f.push({
+      name: `${s}-${b++}`,
+      colors: i,
+      bg: l
     });
-  }), a;
+  }), f;
+}
+function F({ isolateColors: a = !0, minColors: e, exclude: t, include: s } = {}) {
+  let r = y(), f = [];
+  return s ? r = r.filter((o) => s.includes(o.name)) : t && (r = r.filter((o) => !t.includes(o.name))), r.forEach((o) => {
+    let b = x(o, a);
+    e && (b = b.filter((n) => n.colors.length >= e)), f.push(...b);
+  }), f;
 }
 export {
   w as getAllPairs,
-  x as getPairsFromPalette,
+  k as getPairsFromPalette,
+  x as getPaletteWithBg,
   y as getPalettesArray,
   F as getPalettesWithBg,
-  g as palettes
+  c as palettes
 };

@@ -234,5 +234,6 @@ declare const paletteDefs: {
         }[];
     };
 };
-export declare const palettes: { [key in keyof typeof paletteDefs]: Palette; };
+export type PaletteName = keyof typeof paletteDefs;
+export declare const palettes: { [key in PaletteName]: Palette; };
 export {};

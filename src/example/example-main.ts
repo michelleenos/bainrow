@@ -1,7 +1,7 @@
 import './styles/style.scss'
 
-import { palettes } from '~/lib/palette-defs'
 import { getPairsFromPalette } from '~/lib/get-pairs'
+import { palettes } from '~/lib/palette-defs'
 
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 
@@ -42,12 +42,13 @@ const addPaletteExamples = (container: Element, btns: PaletteBtns = {}) => {
 			let contextsDiv = document.createElement('div')
 			contextsDiv.classList.add('palette-example-contexts')
 
-			palette.contexts.forEach(({ stroke, bg }) => {
+			palette.contexts.forEach(({ stroke, bg, omit, add }) => {
 				const contextDiv = document.createElement('div')
 				contextDiv.classList.add('palette-example-context')
 				contextDiv.style.backgroundColor = bg || ''
+
 				contextDiv.innerHTML = `
-						${palette.colors
+						${[...palette.colors.filter((c) => !omit?.includes(c)), ...(add || [])]
 							.map((color) => {
 								let style = ''
 								if (!stroke && color === bg) return ''

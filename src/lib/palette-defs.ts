@@ -6,7 +6,7 @@ const paletteDefs = {
 		colors: ['#fcab30', '#ff626a', '#4C1E4F', '#496ddb', '#FFC4EB'],
 		tags: ['bright', 'contrast'],
 		shades: ['yellow', 'purple', 'blue'],
-		contexts: [{ bg: '#fcab30', stroke: '#4C1E4F' }, { bg: '#FFC4EB' }, { bg: '#fff7e5' }, { bg: '#4C1E4F', stroke: '#fff7e5' }],
+		contexts: [{ bg: '#fff7e5' }, { bg: '#4C1E4F', stroke: '#fff7e5' }],
 	},
 	autmn: {
 		name: 'autmn',
@@ -25,12 +25,19 @@ const paletteDefs = {
 		shades: ['red', 'blue', 'green', 'yellow', 'purple', 'blue', 'orange'],
 		contexts: [{ bg: '#533a71' }, { bg: '#fff7e5', stroke: '#454a96' }, { bg: '#454a96', stroke: '#fff7e5' }],
 	},
+	bubbles: {
+		name: 'bubbles',
+		colors: ['#a2faa3', '#92c9b1', '#4f759b', '#ffe5d9', '#5d5179', '#320e3b'],
+		tags: ['mid', 'light'],
+		shades: ['blue', 'purple', 'green'],
+		contexts: [{ bg: '#320e3b' }, { bg: '#fbf6f3', omit: ['#ffe5d9'] }],
+	},
 	candy: {
 		name: 'candy',
 		colors: ['#f398c3', '#cf3895', '#a0d28d', '#06b4b0', '#fed000', '#FF8552'],
 		tags: ['bright', 'contrast'],
 		shades: ['pink', 'yellow', 'orange', 'green'],
-		contexts: [{ bg: '#06b4b0' }, { bg: '#fff7e5' }, { bg: '#a0d28d', stroke: '#fff7e5' }],
+		contexts: [{ bg: '#fff7e5' }, { bg: '#a0d28d', stroke: '#fff7e5' }],
 	},
 	earthGem1: {
 		name: 'earthGem1',
@@ -102,16 +109,19 @@ const paletteDefs = {
 		shades: ['orange', 'purple', 'teal'],
 		contexts: [{ bg: '#f5ffff' }, { bg: '#2c4251', stroke: '#f5ffff' }, { bg: '#b288c0', stroke: '#2c4251' }],
 	},
+	pearly: {
+		name: 'pearly',
+		colors: ['#3e2679', '#477f8d', '#59babc', '#f5f5f5', '#d49add', '#ffaf00'],
+		tags: ['bright', 'light'],
+		shades: ['purple', 'blue'],
+		contexts: [{ bg: '#f5f5f5' }, { bg: '#180a3b', omit: ['#3e2679'] }],
+	},
 	rebo: {
 		name: 'rebo',
 		colors: ['#d7263d', '#f46036', '#2e294e', '#1b998b', '#c5d86d'],
 		tags: ['contrast', 'bright'],
 		shades: ['red', 'green', 'teal', 'orange'],
-		contexts: [
-			{ bg: '#2e294e', stroke: '#1b998b' },
-			{ bg: '#1b998b', stroke: '#c5d86d' },
-			{ bg: '#fafde9', stroke: '#2e294e' },
-		],
+		contexts: [{ bg: '#2e294e' }, { bg: '#fafde9', stroke: '#2e294e' }],
 	},
 	solarFlair: {
 		name: 'solarFlair',
@@ -157,10 +167,10 @@ const paletteDefs = {
 			{ bg: '#fff8e8', stroke: '#091540' },
 			{ bg: '#990d35', stroke: '#fff8e8' },
 			{ bg: '#091540', stroke: '#bba0ca' },
-			{ bg: '#bba0ca', stroke: '#fff8e8' },
 		],
 	},
 } satisfies { [key: string]: Palette }
 // about TS satisfies operator: https://stackoverflow.com/questions/70956050/how-do-i-declare-object-value-type-without-declaring-key-type
 
-export const palettes = paletteDefs as { [key in keyof typeof paletteDefs]: Palette }
+export type PaletteName = keyof typeof paletteDefs
+export const palettes = paletteDefs as { [key in PaletteName]: Palette }
