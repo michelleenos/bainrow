@@ -24,7 +24,7 @@ export function getPaletteContexts(
 	let contexts = palette.contexts
 
 	let count = 0
-	let colorsSet = new Set()
+	// let colorsSet = new Set()
 	let result: PaletteWithContext[] = []
 
 	contexts.forEach((context) => {
