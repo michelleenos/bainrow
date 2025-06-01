@@ -7,10 +7,10 @@ declare const paletteDefs: {
         shades: ("yellow" | "blue" | "purple")[];
         contexts: ({
             bg: string;
-            stroke: string;
+            stroke?: undefined;
         } | {
             bg: string;
-            stroke?: undefined;
+            stroke: string;
         })[];
     };
     autmn: {
@@ -34,6 +34,19 @@ declare const paletteDefs: {
         } | {
             bg: string;
             stroke: string;
+        })[];
+    };
+    bubbles: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("green" | "blue" | "purple")[];
+        contexts: ({
+            bg: string;
+            omit?: undefined;
+        } | {
+            bg: string;
+            omit: string[];
         })[];
     };
     candy: {
@@ -160,15 +173,31 @@ declare const paletteDefs: {
             stroke: string;
         })[];
     };
+    pearly: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("blue" | "purple")[];
+        contexts: ({
+            bg: string;
+            omit?: undefined;
+        } | {
+            bg: string;
+            omit: string[];
+        })[];
+    };
     rebo: {
         name: string;
         colors: string[];
         tags: string[];
         shades: ("red" | "orange" | "green" | "teal")[];
-        contexts: {
+        contexts: ({
+            bg: string;
+            stroke?: undefined;
+        } | {
             bg: string;
             stroke: string;
-        }[];
+        })[];
     };
     solarFlair: {
         name: string;

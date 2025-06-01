@@ -1,10 +1,10 @@
-const h = {
+const E = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4C1E4F", "#496ddb", "#FFC4EB"],
     tags: ["bright", "contrast"],
     shades: ["yellow", "purple", "blue"],
-    contexts: [{ bg: "#fcab30", stroke: "#4C1E4F" }, { bg: "#FFC4EB" }, { bg: "#fff7e5" }, { bg: "#4C1E4F", stroke: "#fff7e5" }]
+    contexts: [{ bg: "#fff7e5" }, { bg: "#4C1E4F", stroke: "#fff7e5" }]
   },
   autmn: {
     name: "autmn",
@@ -23,12 +23,19 @@ const h = {
     shades: ["red", "blue", "green", "yellow", "purple", "blue", "orange"],
     contexts: [{ bg: "#533a71" }, { bg: "#fff7e5", stroke: "#454a96" }, { bg: "#454a96", stroke: "#fff7e5" }]
   },
+  bubbles: {
+    name: "bubbles",
+    colors: ["#a2faa3", "#92c9b1", "#4f759b", "#ffe5d9", "#5d5179", "#320e3b"],
+    tags: ["mid", "light"],
+    shades: ["blue", "purple", "green"],
+    contexts: [{ bg: "#320e3b" }, { bg: "#fbf6f3", omit: ["#ffe5d9"] }]
+  },
   candy: {
     name: "candy",
     colors: ["#f398c3", "#cf3895", "#a0d28d", "#06b4b0", "#fed000", "#FF8552"],
     tags: ["bright", "contrast"],
     shades: ["pink", "yellow", "orange", "green"],
-    contexts: [{ bg: "#06b4b0" }, { bg: "#fff7e5" }, { bg: "#a0d28d", stroke: "#fff7e5" }]
+    contexts: [{ bg: "#fff7e5" }, { bg: "#a0d28d", stroke: "#fff7e5" }]
   },
   earthGem1: {
     name: "earthGem1",
@@ -103,16 +110,19 @@ const h = {
     shades: ["orange", "purple", "teal"],
     contexts: [{ bg: "#f5ffff" }, { bg: "#2c4251", stroke: "#f5ffff" }, { bg: "#b288c0", stroke: "#2c4251" }]
   },
+  pearly: {
+    name: "pearly",
+    colors: ["#3e2679", "#477f8d", "#59babc", "#f5f5f5", "#d49add", "#ffaf00"],
+    tags: ["bright", "light"],
+    shades: ["purple", "blue"],
+    contexts: [{ bg: "#f5f5f5" }, { bg: "#180a3b", omit: ["#3e2679"] }]
+  },
   rebo: {
     name: "rebo",
     colors: ["#d7263d", "#f46036", "#2e294e", "#1b998b", "#c5d86d"],
     tags: ["contrast", "bright"],
     shades: ["red", "green", "teal", "orange"],
-    contexts: [
-      { bg: "#2e294e", stroke: "#1b998b" },
-      { bg: "#1b998b", stroke: "#c5d86d" },
-      { bg: "#fafde9", stroke: "#2e294e" }
-    ]
+    contexts: [{ bg: "#2e294e" }, { bg: "#fafde9", stroke: "#2e294e" }]
   },
   solarFlair: {
     name: "solarFlair",
@@ -159,74 +169,81 @@ const h = {
     contexts: [
       { bg: "#fff8e8", stroke: "#091540" },
       { bg: "#990d35", stroke: "#fff8e8" },
-      { bg: "#091540", stroke: "#bba0ca" },
-      { bg: "#bba0ca", stroke: "#fff8e8" }
+      { bg: "#091540", stroke: "#bba0ca" }
     ]
   }
-}, c = h;
-function m(a) {
-  const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(a);
+}, i = E;
+function F(t) {
+  const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);
   if (!e)
     throw new Error("Could not parse Hex Color");
-  const t = parseInt(e[1], 16), s = parseInt(e[2], 16), r = parseInt(e[3], 16);
+  const a = parseInt(e[1], 16), s = parseInt(e[2], 16), o = parseInt(e[3], 16);
   return {
-    r: +t.toFixed(2),
+    r: +a.toFixed(2),
     g: +s.toFixed(2),
-    b: +r.toFixed(2)
+    b: +o.toFixed(2)
   };
 }
-function d(a) {
-  const e = typeof a == "string" ? m(a) : a, t = (s) => (s /= 255, s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4));
-  return 0.2126 * t(e.r) + 0.7152 * t(e.g) + 0.0722 * t(e.b);
+function A(t) {
+  const e = F(t);
+  return (e.r * 299 + e.g * 587 + e.b * 114) / 1e3;
 }
-function p(a, e) {
-  const t = d(a), s = d(e);
-  return t > s ? (t + 0.05) / (s + 0.05) : (s + 0.05) / (t + 0.05);
+function $(t) {
+  const e = typeof t == "string" ? F(t) : t, a = (s) => (s /= 255, s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4));
+  return 0.2126 * a(e.r) + 0.7152 * a(e.g) + 0.0722 * a(e.b);
 }
-const w = (a = 4) => {
-  let e = /* @__PURE__ */ new Set(), t = [];
-  return Object.keys(c).forEach((r) => {
-    let o = c[r].colors;
-    k(o, a).forEach((n) => {
-      e.has(`${n[0]}-${n[1]}`.toLowerCase()) || e.has(`${n[1]}-${n[0]}`.toLowerCase()) || (e.add(`${n[0]}-${n[1]}`.toLowerCase()), t.push(n));
+function C(t, e) {
+  const a = $(t), s = $(e);
+  return a > s ? (a + 0.05) / (s + 0.05) : (s + 0.05) / (a + 0.05);
+}
+const G = (t = 4) => {
+  let e = /* @__PURE__ */ new Set(), a = [];
+  return Object.keys(i).forEach((o) => {
+    let c = i[o].colors;
+    T(c, t).forEach((r) => {
+      e.has(`${r[0]}-${r[1]}`.toLowerCase()) || e.has(`${r[1]}-${r[0]}`.toLowerCase()) || (e.add(`${r[0]}-${r[1]}`.toLowerCase()), a.push(r));
     });
-  }), t;
-}, k = (a, e = 4) => {
-  let t = [];
-  return a.forEach((s, r) => {
-    a.slice(r + 1).forEach((f) => {
-      p(s, f) < e || t.push([s, f]);
+  }), a;
+}, T = (t, e = 4) => {
+  let a = [];
+  return t.forEach((s, o) => {
+    t.slice(o + 1).forEach((b) => {
+      C(s, b) < e || a.push([s, b]);
     });
-  }), t;
+  }), a;
 };
-let g = null;
-const y = () => g || (g = Object.keys(c).map((e) => c[e]), g);
-function x(a, e = !0) {
-  let t = typeof a == "string" ? c[a] : a, s = t.name, r = t.contexts, f = [], o = /* @__PURE__ */ new Set(), b = 0;
-  return r.forEach((n) => {
-    let l = n.bg;
-    if (o.has(l)) return;
-    o.add(l);
-    let i = e ? t.colors.filter((u) => u !== l) : t.colors;
-    f.push({
-      name: `${s}-${b++}`,
-      colors: i,
-      bg: l
+let d = null;
+const j = () => d || (d = Object.keys(i).map((e) => i[e]), d);
+function P(t, { minContrastBg: e, isolateColors: a = !1, useStroke: s = !0, minColors: o, bgShade: b } = {}) {
+  let c = t.name, h = t.contexts, r = 0, m = /* @__PURE__ */ new Set(), p = [];
+  return h.forEach((k) => {
+    let { bg: l, omit: x, add: y } = k;
+    if (b) {
+      let { type: n, limit: u } = b, w = A(l);
+      if (n === "dark") {
+        if (w > (u || 128)) return;
+      } else if (w < (u || 128)) return;
+    }
+    let g = s ? k.stroke : void 0;
+    if (m.has(`${l}-${g}`)) return;
+    m.add(`${l}-${g}`);
+    let f = a ? t.colors.filter((n) => n !== l && n !== g) : t.colors;
+    x && (f = f.filter((n) => !x.includes(n))), y && f.push(...y), e && (f = f.filter((n) => C(l, n) >= e)), !(o && f.length < o) && p.push({
+      bg: l,
+      stroke: g,
+      colors: f,
+      name: `${c}-${r++}`
     });
-  }), f;
+  }), p;
 }
-function F({ isolateColors: a = !0, minColors: e, exclude: t, include: s } = {}) {
-  let r = y(), f = [];
-  return s ? r = r.filter((o) => s.includes(o.name)) : t && (r = r.filter((o) => !t.includes(o.name))), r.forEach((o) => {
-    let b = x(o, a);
-    e && (b = b.filter((n) => n.colors.length >= e)), f.push(...b);
-  }), f;
+function H(t = {}) {
+  return j().flatMap((e) => P(e, t));
 }
 export {
-  w as getAllPairs,
-  k as getPairsFromPalette,
-  x as getPaletteWithBg,
-  y as getPalettesArray,
-  F as getPalettesWithBg,
-  c as palettes
+  G as getAllPairs,
+  H as getAllPaletteContexts,
+  T as getPairsFromPalette,
+  P as getPaletteContexts,
+  j as getPalettesArray,
+  i as palettes
 };

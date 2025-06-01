@@ -2,6 +2,8 @@ export type RoyGBiv = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'indigo' 
 export type PaletteContext = {
     bg: string;
     stroke?: string;
+    omit?: string[];
+    add?: string[];
 };
 export type Palette = {
     colors: string[];
@@ -10,8 +12,9 @@ export type Palette = {
     shades?: RoyGBiv[];
     contexts: PaletteContext[];
 };
-export type PaletteWithBg = {
+export type PaletteWithContext = {
     bg: string;
+    stroke?: string;
     colors: string[];
     name: string;
 };
