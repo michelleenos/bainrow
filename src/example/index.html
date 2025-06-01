@@ -10,10 +10,43 @@
 		<div class="topbar">
 			<h1><span>b</span>ain<span>r</span>ow</h1>
 
-			<div>
-				<button class="br-toggle-pairs">Toggle Pairs</button>
+			<div class="topbar-controls">
+				<div class="control-wrap col1">
+					<input type="checkbox" id="br-toggle-pairs" />
+					<label for="br-toggle-pairs">Show Pairs</label>
+				</div>
+				<div class="control-wrap col1">
+					<input type="checkbox" id="br-toggle-contexts" />
+					<label for="br-toggle-contexts">Show Contexts</label>
+				</div>
+
+				<div class="control-wrap context-control col1">
+					<input type="checkbox" id="br-toggle-stroke" />
+					<label for="br-toggle-stroke">Show Stroke</label>
+				</div>
+				<div class="control-wrap context-control use-contrast-check">
+					<input type="checkbox" id="br-use-contrast" />
+					<label for="br-use-contrast">Use Min Contrast</label>
+				</div>
+				<div class="control-wrap context-control num-control-wrap contrast-input">
+					<label for="br-contrast">Min Contrast</label>
+					<input type="number" step="0.1" min="0" max="14" id="br-contrast" />
+				</div>
+
+				<!-- <button class="br-toggle-pairs">Toggle Pairs</button>
 				<button class="br-toggle-contexts">Toggle Contexts</button>
 				<button class="br-toggle-stroke">Toggle Stroke</button>
+
+				<div class="br-contrast-stuff">
+					<label for="br-use-contrast">
+						Use min contrast
+						<input type="checkbox" id="br-use-contrast" />
+					</label>
+					<label for="br-contrast">
+						Min Contrast
+						<input type="number" step="0.1" min="0" max="14" id="br-contrast" />
+					</label>
+				</div> -->
 			</div>
 		</div>
 

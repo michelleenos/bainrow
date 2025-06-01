@@ -68,6 +68,11 @@ export function rgbToHsv(rgb: RGB): HSV {
 	}
 }
 
+export function getBrightness(color: string) {
+	const rgb = hexToRgb(color)
+	return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000
+}
+
 export function getValue(color: string) {
 	const hsv = rgbToHsv(hexToRgb(color))
 	return hsv.v
@@ -76,12 +81,12 @@ export function getValue(color: string) {
 export function getLuminance(color: RGB | string) {
 	const rgb = typeof color === 'string' ? hexToRgb(color) : color
 
-	const normalizeRgb = (val: number) => {
+	const lumVal = (val: number) => {
 		val /= 255
 		return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4)
 	}
 
-	return 0.2126 * normalizeRgb(rgb.r) + 0.7152 * normalizeRgb(rgb.g) + 0.0722 * normalizeRgb(rgb.b)
+	return 0.2126 * lumVal(rgb.r) + 0.7152 * lumVal(rgb.g) + 0.0722 * lumVal(rgb.b)
 }
 
 export function getContrast(color1: RGB | string, color2: RGB | string) {

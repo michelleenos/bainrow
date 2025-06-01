@@ -46,6 +46,46 @@ body {
 			color: #ff6b6b;
 		}
 	}
+
+	.topbar-controls {
+		display: grid;
+		grid-template-rows: auto auto;
+		grid-template-columns: auto auto;
+		align-items: center;
+		column-gap: 20px;
+
+		.control-wrap {
+			line-height: 1.4;
+			font-size: 0.9rem;
+			display: flex;
+			column-gap: 3px;
+			align-items: center;
+
+			&:has(:disabled) {
+				label {
+					color: #676767;
+				}
+				input {
+					opacity: 0.5;
+				}
+			}
+
+			&.col1 {
+				grid-column: 1;
+			}
+			&.use-contrast-check {
+				grid-area: 1 / 2;
+			}
+			&.contrast-input {
+				grid-row: 2 / 4;
+				grid-column: 2;
+				align-self: start;
+				input {
+					width: 3.5em;
+				}
+			}
+		}
+	}
 }
 
 .notification {

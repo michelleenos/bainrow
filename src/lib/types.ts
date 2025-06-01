@@ -16,8 +16,9 @@ export type Palette = {
 	contexts: PaletteContext[]
 }
 
-export type PaletteWithBg = {
+export type PaletteWithContext = {
 	bg: string
+	stroke?: string
 	colors: string[]
 	name: string
 }
