@@ -173,7 +173,7 @@ const E = {
     ]
   }
 }, i = E;
-function F(t) {
+function C(t) {
   const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);
   if (!e)
     throw new Error("Could not parse Hex Color");
@@ -185,14 +185,14 @@ function F(t) {
   };
 }
 function A(t) {
-  const e = F(t);
+  const e = C(t);
   return (e.r * 299 + e.g * 587 + e.b * 114) / 1e3;
 }
 function $(t) {
-  const e = typeof t == "string" ? F(t) : t, s = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
+  const e = typeof t == "string" ? C(t) : t, s = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
   return 0.2126 * s(e.r) + 0.7152 * s(e.g) + 0.0722 * s(e.b);
 }
-function C(t, e) {
+function F(t, e) {
   const s = $(t), a = $(e);
   return s > a ? (s + 0.05) / (a + 0.05) : (a + 0.05) / (s + 0.05);
 }
@@ -208,30 +208,30 @@ const H = (t = 4) => {
   let s = [];
   return t.forEach((a, r) => {
     t.slice(r + 1).forEach((l) => {
-      C(a, l) < e || s.push([a, l]);
+      F(a, l) < e || s.push([a, l]);
     });
   }), s;
 };
 let d = null;
 const j = () => d || (d = Object.keys(i).map((e) => i[e]), d);
-function G(t, { minContrastBg: e, isolateColors: s = !1, useStroke: a = !0, minColors: r, bgShade: l } = {}) {
-  let c = t.name, h = t.contexts, o = 0, m = /* @__PURE__ */ new Set(), p = [];
-  return h.forEach((k) => {
+function G(t, { minContrastBg: e, isolateColors: s = !1, useStroke: a = !0, minColors: r = 1, bgShade: l } = {}) {
+  let c = t.name, m = t.contexts, o = 0, h = /* @__PURE__ */ new Set(), p = [];
+  return m.forEach((k) => {
     let { bg: b, omit: x, add: y } = k;
     if (l) {
-      let { type: f, limit: u } = l, w = A(b);
-      if (f === "dark") {
+      let { type: n, limit: u } = l, w = A(b);
+      if (n === "dark") {
         if (w > (u || 128)) return;
       } else if (w < (u || 128)) return;
     }
     let g = a ? k.stroke : void 0;
-    if (m.has(`${b}-${g}`)) return;
-    m.add(`${b}-${g}`);
-    let n = s ? t.colors.filter((f) => f !== b && f !== g) : t.colors;
-    x && (n = n.filter((f) => !x.includes(f))), y && n.push(...y), e && (n = n.filter((f) => C(b, f) >= e)), !(r && n.length < r) && p.push({
+    if (h.has(`${b}-${g}`)) return;
+    h.add(`${b}-${g}`);
+    let f = s ? t.colors.filter((n) => n !== b && n !== g) : t.colors;
+    x && (f = f.filter((n) => !x.includes(n))), y && f.push(...y), e && (f = f.filter((n) => F(b, n) >= e)), !(f.length < r) && p.push({
       bg: b,
       stroke: g,
-      colors: n,
+      colors: f,
       name: `${c}-${o++}`
     });
   }), p;
