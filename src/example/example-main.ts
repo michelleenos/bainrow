@@ -1,7 +1,7 @@
 import './styles/style.scss'
 
 import { getPairsFromPalette } from '~/lib/get-pairs'
-import { getPaletteContexts, GetPaletteContextsOptions } from '~/lib/get-palette-contexts'
+import { getAllPaletteContexts, getPaletteContexts, GetPaletteContextsOptions } from '~/lib/get-palette-contexts'
 import { palettes } from '~/lib/palette-defs'
 import { Palette } from '~/lib/types'
 
@@ -44,7 +44,6 @@ class PaletteExamples {
 			minContrastBg: this.useMinContrast ? this.minContrast : undefined,
 			isolateColors: this.isolateColors,
 			useStroke: this.useStroke,
-			// bgShade: { type: 'light', limit: 128 },
 		})
 	}
 
@@ -200,3 +199,5 @@ if (container instanceof HTMLElement) {
 	new PaletteExamples(container)
 	// addPaletteExamples(container, { pairs: btnTogglePairs, contexts: btnToggleContexts, stroke: btnToggleStroke })
 }
+
+console.log(getAllPaletteContexts())

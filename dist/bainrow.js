@@ -1,4 +1,4 @@
-const E = {
+const A = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4C1E4F", "#496ddb", "#FFC4EB"],
@@ -172,8 +172,8 @@ const E = {
       { bg: "#091540", stroke: "#bba0ca" }
     ]
   }
-}, i = E;
-function C(t) {
+}, i = A;
+function $(t) {
   const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);
   if (!e)
     throw new Error("Could not parse Hex Color");
@@ -184,16 +184,16 @@ function C(t) {
     b: +r.toFixed(2)
   };
 }
-function A(t) {
-  const e = C(t);
+function E(t) {
+  const e = $(t);
   return (e.r * 299 + e.g * 587 + e.b * 114) / 1e3;
 }
-function $(t) {
-  const e = typeof t == "string" ? C(t) : t, s = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
+function C(t) {
+  const e = typeof t == "string" ? $(t) : t, s = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
   return 0.2126 * s(e.r) + 0.7152 * s(e.g) + 0.0722 * s(e.b);
 }
 function F(t, e) {
-  const s = $(t), a = $(e);
+  const s = C(t), a = C(e);
   return s > a ? (s + 0.05) / (a + 0.05) : (a + 0.05) / (s + 0.05);
 }
 const H = (t = 4) => {
@@ -219,7 +219,7 @@ function G(t, { minContrastBg: e, isolateColors: s = !1, useStroke: a = !0, minC
   return m.forEach((k) => {
     let { bg: b, omit: x, add: y } = k;
     if (l) {
-      let { type: n, limit: u } = l, w = A(b);
+      let { type: n, limit: u } = l, w = E(b);
       if (n === "dark") {
         if (w > (u || 128)) return;
       } else if (w < (u || 128)) return;
@@ -237,10 +237,11 @@ function G(t, { minContrastBg: e, isolateColors: s = !1, useStroke: a = !0, minC
   }), p;
 }
 function L({
-  excludePalettes: t = [],
-  includePalettes: e = [],
+  excludePalettes: t,
+  includePalettes: e,
   ...s
 } = {}) {
+  console.log("getAllPaletteContexts", t, e);
   let a = j();
   return e && (a = a.filter((r) => e.includes(r.name))), t && (a = a.filter((r) => !t.includes(r.name))), a.flatMap((r) => G(r, s));
 }
