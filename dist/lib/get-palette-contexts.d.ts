@@ -1,3 +1,4 @@
+import { PaletteName } from './palette-defs';
 import type { Palette, PaletteWithContext } from './types';
 export type GetPaletteContextsOptions = {
     minContrastBg?: number;
@@ -10,4 +11,8 @@ export type GetPaletteContextsOptions = {
     };
 };
 export declare function getPaletteContexts(palette: Palette, { minContrastBg, isolateColors, useStroke, minColors, bgShade }?: GetPaletteContextsOptions): PaletteWithContext[];
-export declare function getAllPaletteContexts(options?: GetPaletteContextsOptions): PaletteWithContext[];
+export type GetAllPaletteContextsOptions = GetPaletteContextsOptions & {
+    excludePalettes?: PaletteName[];
+    includePalettes?: PaletteName[];
+};
+export declare function getAllPaletteContexts({ excludePalettes, includePalettes, ...options }?: GetAllPaletteContextsOptions): PaletteWithContext[];

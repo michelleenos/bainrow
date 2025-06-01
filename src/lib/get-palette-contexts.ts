@@ -1,5 +1,6 @@
 import { getBrightness, getContrast } from './color-utils'
 import { getPalettesArray } from './get-palettes-array'
+import { PaletteName } from './palette-defs'
 import type { Palette, PaletteWithContext } from './types'
 
 export type GetPaletteContextsOptions = {
@@ -59,6 +60,17 @@ export function getPaletteContexts(
 	return result
 }
 
-export function getAllPaletteContexts(options: GetPaletteContextsOptions = {}): PaletteWithContext[] {
-	return getPalettesArray().flatMap((p) => getPaletteContexts(p, options))
+export type GetAllPaletteContextsOptions = GetPaletteContextsOptions & {
+	excludePalettes?: PaletteName[]
+	includePalettes?: PaletteName[]
+}
+export function getAllPaletteContexts({
+	excludePalettes = [],
+	includePalettes = [],
+	...options
+}: GetAllPaletteContextsOptions = {}): PaletteWithContext[] {
+	let palettes = getPalettesArray()
+	if (includePalettes) palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
+	if (excludePalettes) palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
+	return palettes.flatMap((p) => getPaletteContexts(p, options))
 }

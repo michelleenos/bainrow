@@ -177,11 +177,11 @@ function F(t) {
   const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);
   if (!e)
     throw new Error("Could not parse Hex Color");
-  const a = parseInt(e[1], 16), s = parseInt(e[2], 16), o = parseInt(e[3], 16);
+  const s = parseInt(e[1], 16), a = parseInt(e[2], 16), r = parseInt(e[3], 16);
   return {
-    r: +a.toFixed(2),
-    g: +s.toFixed(2),
-    b: +o.toFixed(2)
+    r: +s.toFixed(2),
+    g: +a.toFixed(2),
+    b: +r.toFixed(2)
   };
 }
 function A(t) {
@@ -189,61 +189,66 @@ function A(t) {
   return (e.r * 299 + e.g * 587 + e.b * 114) / 1e3;
 }
 function $(t) {
-  const e = typeof t == "string" ? F(t) : t, a = (s) => (s /= 255, s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4));
-  return 0.2126 * a(e.r) + 0.7152 * a(e.g) + 0.0722 * a(e.b);
+  const e = typeof t == "string" ? F(t) : t, s = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
+  return 0.2126 * s(e.r) + 0.7152 * s(e.g) + 0.0722 * s(e.b);
 }
 function C(t, e) {
-  const a = $(t), s = $(e);
-  return a > s ? (a + 0.05) / (s + 0.05) : (s + 0.05) / (a + 0.05);
+  const s = $(t), a = $(e);
+  return s > a ? (s + 0.05) / (a + 0.05) : (a + 0.05) / (s + 0.05);
 }
-const G = (t = 4) => {
-  let e = /* @__PURE__ */ new Set(), a = [];
-  return Object.keys(i).forEach((o) => {
-    let c = i[o].colors;
-    T(c, t).forEach((r) => {
-      e.has(`${r[0]}-${r[1]}`.toLowerCase()) || e.has(`${r[1]}-${r[0]}`.toLowerCase()) || (e.add(`${r[0]}-${r[1]}`.toLowerCase()), a.push(r));
+const H = (t = 4) => {
+  let e = /* @__PURE__ */ new Set(), s = [];
+  return Object.keys(i).forEach((r) => {
+    let c = i[r].colors;
+    T(c, t).forEach((o) => {
+      e.has(`${o[0]}-${o[1]}`.toLowerCase()) || e.has(`${o[1]}-${o[0]}`.toLowerCase()) || (e.add(`${o[0]}-${o[1]}`.toLowerCase()), s.push(o));
     });
-  }), a;
+  }), s;
 }, T = (t, e = 4) => {
-  let a = [];
-  return t.forEach((s, o) => {
-    t.slice(o + 1).forEach((b) => {
-      C(s, b) < e || a.push([s, b]);
+  let s = [];
+  return t.forEach((a, r) => {
+    t.slice(r + 1).forEach((l) => {
+      C(a, l) < e || s.push([a, l]);
     });
-  }), a;
+  }), s;
 };
 let d = null;
 const j = () => d || (d = Object.keys(i).map((e) => i[e]), d);
-function P(t, { minContrastBg: e, isolateColors: a = !1, useStroke: s = !0, minColors: o, bgShade: b } = {}) {
-  let c = t.name, h = t.contexts, r = 0, m = /* @__PURE__ */ new Set(), p = [];
+function G(t, { minContrastBg: e, isolateColors: s = !1, useStroke: a = !0, minColors: r, bgShade: l } = {}) {
+  let c = t.name, h = t.contexts, o = 0, m = /* @__PURE__ */ new Set(), p = [];
   return h.forEach((k) => {
-    let { bg: l, omit: x, add: y } = k;
-    if (b) {
-      let { type: n, limit: u } = b, w = A(l);
-      if (n === "dark") {
+    let { bg: b, omit: x, add: y } = k;
+    if (l) {
+      let { type: f, limit: u } = l, w = A(b);
+      if (f === "dark") {
         if (w > (u || 128)) return;
       } else if (w < (u || 128)) return;
     }
-    let g = s ? k.stroke : void 0;
-    if (m.has(`${l}-${g}`)) return;
-    m.add(`${l}-${g}`);
-    let f = a ? t.colors.filter((n) => n !== l && n !== g) : t.colors;
-    x && (f = f.filter((n) => !x.includes(n))), y && f.push(...y), e && (f = f.filter((n) => C(l, n) >= e)), !(o && f.length < o) && p.push({
-      bg: l,
+    let g = a ? k.stroke : void 0;
+    if (m.has(`${b}-${g}`)) return;
+    m.add(`${b}-${g}`);
+    let n = s ? t.colors.filter((f) => f !== b && f !== g) : t.colors;
+    x && (n = n.filter((f) => !x.includes(f))), y && n.push(...y), e && (n = n.filter((f) => C(b, f) >= e)), !(r && n.length < r) && p.push({
+      bg: b,
       stroke: g,
-      colors: f,
-      name: `${c}-${r++}`
+      colors: n,
+      name: `${c}-${o++}`
     });
   }), p;
 }
-function H(t = {}) {
-  return j().flatMap((e) => P(e, t));
+function L({
+  excludePalettes: t = [],
+  includePalettes: e = [],
+  ...s
+} = {}) {
+  let a = j();
+  return e && (a = a.filter((r) => e.includes(r.name))), t && (a = a.filter((r) => !t.includes(r.name))), a.flatMap((r) => G(r, s));
 }
 export {
-  G as getAllPairs,
-  H as getAllPaletteContexts,
+  H as getAllPairs,
+  L as getAllPaletteContexts,
   T as getPairsFromPalette,
-  P as getPaletteContexts,
+  G as getPaletteContexts,
   j as getPalettesArray,
   i as palettes
 };
