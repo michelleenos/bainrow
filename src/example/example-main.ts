@@ -1,7 +1,7 @@
 import './styles/style.scss'
 
 import { getPairsFromPalette } from '~/lib/get-pairs'
-import { getAllPaletteContexts, getPaletteContexts, GetPaletteContextsOptions } from '~/lib/get-palette-contexts'
+import { getPaletteContexts, GetPaletteContextsOptions } from '~/lib/get-palette-contexts'
 import { palettes } from '~/lib/palette-defs'
 import { Palette } from '~/lib/types'
 
@@ -13,6 +13,8 @@ type PaletteControls = {
 	stroke?: HTMLInputElement
 	minContrast?: HTMLInputElement
 	minContrastAmount?: HTMLInputElement
+	bgShade?: HTMLSelectElement
+	bgShadeLimit?: HTMLInputElement
 }
 
 class PaletteExamples {
@@ -25,6 +27,8 @@ class PaletteExamples {
 	showContexts = true
 	data: ReturnType<typeof getAllPaletteExampleData>
 	controls: PaletteControls
+	bgShadeType?: 'dark' | 'light'
+	bgShadeLimit: number = 128
 	constructor(container: HTMLElement) {
 		this.container = container
 		this.data = this.getData()
@@ -44,6 +48,7 @@ class PaletteExamples {
 			minContrastBg: this.useMinContrast ? this.minContrast : undefined,
 			isolateColors: this.isolateColors,
 			useStroke: this.useStroke,
+			bgShade: this.bgShadeType ? { type: this.bgShadeType, limit: this.bgShadeLimit } : undefined,
 		})
 	}
 
@@ -53,8 +58,10 @@ class PaletteExamples {
 		let stroke = document.querySelector<HTMLInputElement>('input#br-toggle-stroke') || undefined
 		let minContrast = document.querySelector<HTMLInputElement>('input#br-use-contrast') || undefined
 		let minContrastAmount = document.querySelector<HTMLInputElement>('input#br-contrast') || undefined
+		let bgShade = document.querySelector<HTMLSelectElement>('select#br-bg-shade') || undefined
+		let bgShadeLimit = document.querySelector<HTMLInputElement>('input#br-bg-shade-limit') || undefined
 
-		return { pairs, contexts, stroke, minContrast, minContrastAmount }
+		return { pairs, contexts, stroke, minContrast, minContrastAmount, bgShade, bgShadeLimit }
 	}
 
 	enableAppropriateControls() {
@@ -67,6 +74,8 @@ class PaletteExamples {
 		if (this.controls.minContrastAmount) {
 			this.controls.minContrastAmount.disabled = !this.showContexts || !this.useMinContrast
 		}
+		if (this.controls.bgShade) this.controls.bgShade.disabled = !this.showContexts
+		if (this.controls.bgShadeLimit) this.controls.bgShadeLimit.disabled = !this.showContexts
 	}
 
 	interactions() {
@@ -127,11 +136,25 @@ class PaletteExamples {
 				}
 			}
 		})
+
+		this.controls.bgShade?.addEventListener('change', () => {
+			this.bgShadeType = this.controls.bgShade!.value as 'light' | 'dark' | undefined
+			this.setHTML()
+		})
+
+		this.controls.bgShadeLimit?.addEventListener('input', () => {
+			this.bgShadeLimit = parseInt(this.controls.bgShadeLimit!.value)
+			this.setHTML()
+		})
 	}
 }
 
 const getPaletteExampleData = (palette: Palette, opts: GetPaletteContextsOptions = {}) => {
-	return { palette, contexts: getPaletteContexts(palette, opts), pairs: getPairsFromPalette(palette.colors, 3) }
+	return {
+		palette,
+		contexts: getPaletteContexts(palette, opts),
+		pairs: getPairsFromPalette(palette.colors, 3),
+	}
 }
 
 const getAllPaletteExampleData = (opts: GetPaletteContextsOptions = {}) => {
@@ -144,9 +167,16 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 	data.forEach((item) => {
 		const palette = item.palette
 		const paletteDiv = document.createElement('div')
+		// const coolorsLink = document.createElement('a')
+		// coolorsLink.innerText = 'open in coolors'
 		paletteDiv.classList.add('palette-example')
 		paletteDiv.innerHTML = `
 			<h2>${palette.name}</h2>
+			<a href='https://coolors.co/${palette.colors
+				.map((color) => color.replace('#', ''))
+				.join(
+					'-'
+				)}' target='_blank' rel='noopener noreferrer' class='coolors-link'>open in coolors</a>
 			<div class="palette-example-colors">
 				${palette.colors.map((color) => `<div class="color" style="background-color: ${color}"></div>`).join('')}
 			</div>
@@ -197,7 +227,4 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 let container = document.querySelector('.palette-examples')
 if (container instanceof HTMLElement) {
 	new PaletteExamples(container)
-	// addPaletteExamples(container, { pairs: btnTogglePairs, contexts: btnToggleContexts, stroke: btnToggleStroke })
 }
-
-console.log(getAllPaletteContexts())

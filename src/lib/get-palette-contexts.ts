@@ -12,7 +12,13 @@ export type GetPaletteContextsOptions = {
 }
 export function getPaletteContexts(
 	palette: Palette,
-	{ minContrastBg, isolateColors = false, useStroke = true, minColors = 1, bgShade }: GetPaletteContextsOptions = {}
+	{
+		minContrastBg,
+		isolateColors = false,
+		useStroke = true,
+		minColors = 1,
+		bgShade,
+	}: GetPaletteContextsOptions = {}
 ): PaletteWithContext[] {
 	let name = palette.name
 	let contexts = palette.contexts
@@ -35,9 +41,10 @@ export function getPaletteContexts(
 
 		let stroke = useStroke ? context.stroke : undefined
 
-		if (colorsSet.has(`${bg}-${stroke}`)) return
-		colorsSet.add(`${bg}-${stroke}`)
-		let colors = isolateColors ? palette.colors.filter((c) => c !== bg && c !== stroke) : palette.colors
+		// if (colorsSet.has(`${bg}-${stroke}`)) return
+		// colorsSet.add(`${bg}-${stroke}`)
+		let colors = [...palette.colors]
+		colors = isolateColors ? colors.filter((c) => c !== bg && c !== stroke) : colors
 		if (omit) colors = colors.filter((c) => !omit.includes(c))
 		if (add) colors.push(...add)
 

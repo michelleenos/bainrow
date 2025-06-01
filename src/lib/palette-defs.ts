@@ -16,6 +16,8 @@ const paletteDefs = {
 		contexts: [
 			{ bg: '#a46589', stroke: '#352c62' },
 			{ bg: '#352c62', stroke: '#7a82b8' },
+			{ bg: '#fef8eb' },
+			{ bg: '#221e36' },
 		],
 	},
 	brain: {
@@ -23,14 +25,23 @@ const paletteDefs = {
 		colors: ['#533a71', '#454a96', '#6184d8', '#50c5b7', '#9cec5b', '#f0f465', '#ff4a1c', '#ed254e'],
 		tags: ['rainbow', 'bright', 'light'],
 		shades: ['red', 'blue', 'green', 'yellow', 'purple', 'blue', 'orange'],
-		contexts: [{ bg: '#533a71' }, { bg: '#fff7e5', stroke: '#454a96' }, { bg: '#454a96', stroke: '#fff7e5' }],
+		contexts: [
+			{ bg: '#533a71' },
+			{ bg: '#fff7e5', stroke: '#454a96' },
+			// { bg: '#454a96', stroke: '#fff7e5' },
+		],
 	},
 	bubbles: {
 		name: 'bubbles',
 		colors: ['#a2faa3', '#92c9b1', '#4f759b', '#ffe5d9', '#5d5179', '#320e3b'],
 		tags: ['mid', 'light'],
 		shades: ['blue', 'purple', 'green'],
-		contexts: [{ bg: '#320e3b' }, { bg: '#fbf6f3', omit: ['#ffe5d9'] }],
+		contexts: [
+			{ bg: '#320e3b' },
+			{ bg: '#0A0103', omit: ['#320e3b', '#92c9b1'] },
+			{ bg: '#fbf6f3', omit: ['#ffe5d9'] },
+			{ bg: '#ffe5d9', omit: ['#a2faa3'] },
+		],
 	},
 	candy: {
 		name: 'candy',
@@ -44,7 +55,12 @@ const paletteDefs = {
 		colors: ['#87425d', '#3c2e6b', '#0081af', '#a7d6c3', '#285943', '#8a8fbd', '#9a79b8', '#fcee49'],
 		tags: ['jewelTones', 'earthy'],
 		shades: ['purple', 'green', 'orange', 'pink'],
-		contexts: [{ bg: '#3c2e6b', stroke: '#a7d6c3' }, { bg: '#0081af' }, { bg: '#87425d' }, { bg: '#285943', stroke: '#a7d6c3' }],
+		contexts: [
+			{ bg: '#3c2e6b', stroke: '#a7d6c3' },
+			{ bg: '#0081af' },
+			{ bg: '#87425d' },
+			{ bg: '#285943', stroke: '#a7d6c3' },
+		],
 	},
 	earthGem2: {
 		name: 'earthGem2',
@@ -65,7 +81,11 @@ const paletteDefs = {
 		colors: ['#241e4e', '#960200', '#ce6c47', '#00635D', '#7a4656'],
 		tags: ['dark', 'elegant'],
 		shades: ['red', 'green', 'blue', 'brown'],
-		contexts: [{ bg: '#241e4e', stroke: '#e4c0b3' }, { bg: '#00635D', stroke: '#241e4e' }, { bg: '#fbeee9' }],
+		contexts: [
+			{ bg: '#241e4e', stroke: '#e4c0b3' },
+			{ bg: '#00635D', stroke: '#241e4e' },
+			{ bg: '#fbeee9' },
+		],
 	},
 	magritte: {
 		name: 'magritte', // colorlisa.com - The Son of Man by René Magritte
@@ -107,7 +127,11 @@ const paletteDefs = {
 		colors: ['#f5ffff', '#25ced1', '#2c4251', '#f17300', '#b288c0'],
 		tags: ['icecream'],
 		shades: ['orange', 'purple', 'teal'],
-		contexts: [{ bg: '#f5ffff' }, { bg: '#2c4251', stroke: '#f5ffff' }, { bg: '#b288c0', stroke: '#2c4251' }],
+		contexts: [
+			{ bg: '#f5ffff' },
+			{ bg: '#2c4251', stroke: '#f5ffff' },
+			{ bg: '#b288c0', stroke: '#2c4251' },
+		],
 	},
 	pearly: {
 		name: 'pearly',
@@ -142,7 +166,14 @@ const paletteDefs = {
 		colors: ['#f75c03', '#d90368', '#e5beed', '#820263', '#291720', '#04a777'],
 		tags: ['bright'],
 		shades: ['orange', 'pink', 'green', 'purple'],
-		contexts: [{ bg: '#291720' }, { bg: '#fff1e9' }],
+		contexts: [
+			{ bg: '#291720' },
+			{ bg: '#fff1e9' },
+			{
+				bg: '#291720',
+				omit: ['#f75c03'],
+			},
+		],
 	},
 	twi: {
 		name: 'twi',
