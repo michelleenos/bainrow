@@ -69,7 +69,6 @@ export function getAllPaletteContexts({
 	includePalettes,
 	...options
 }: GetAllPaletteContextsOptions = {}): PaletteWithContext[] {
-	console.log('getAllPaletteContexts', excludePalettes, includePalettes)
 	let palettes = getPalettesArray()
 	if (includePalettes) palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
 	if (excludePalettes) palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
