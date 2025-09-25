@@ -3,10 +3,14 @@ import type { Palette } from './types'
 const paletteDefs = {
 	ambry: {
 		name: 'ambry',
-		colors: ['#fcab30', '#ff626a', '#4C1E4F', '#496ddb', '#FFC4EB'],
+		colors: ['#fcab30', '#ff626a', '#4c1e4f', '#496ddb', '#ffc4eb'],
 		tags: ['bright', 'contrast'],
 		shades: ['yellow', 'purple', 'blue'],
-		contexts: [{ bg: '#fff7e5' }, { bg: '#4C1E4F', stroke: '#fff7e5' }],
+		contexts: [
+			{ bg: '#fff7e5' },
+			{ bg: '#4c1e4f', stroke: '#fff7e5' },
+			{ bg: '#000000', omit: ['#4c1e4f'] },
+		],
 	},
 	autmn: {
 		name: 'autmn',
@@ -17,6 +21,7 @@ const paletteDefs = {
 			{ bg: '#a46589', stroke: '#352c62' },
 			{ bg: '#352c62', stroke: '#7a82b8' },
 			{ bg: '#fef8eb' },
+			{ bg: '#050507' },
 			{ bg: '#221e36' },
 		],
 	},
@@ -28,6 +33,7 @@ const paletteDefs = {
 		contexts: [
 			{ bg: '#533a71' },
 			{ bg: '#fff7e5', stroke: '#454a96' },
+			{ bg: '#000000' },
 			// { bg: '#454a96', stroke: '#fff7e5' },
 		],
 	},
@@ -38,17 +44,17 @@ const paletteDefs = {
 		shades: ['blue', 'purple', 'green'],
 		contexts: [
 			{ bg: '#320e3b' },
-			{ bg: '#0A0103', omit: ['#320e3b', '#92c9b1'] },
+			{ bg: '#0a0103', omit: ['#320e3b', '#92c9b1'] },
 			{ bg: '#fbf6f3', omit: ['#ffe5d9'] },
 			{ bg: '#ffe5d9', omit: ['#a2faa3'] },
 		],
 	},
 	candy: {
 		name: 'candy',
-		colors: ['#f398c3', '#cf3895', '#a0d28d', '#06b4b0', '#fed000', '#FF8552'],
+		colors: ['#f398c3', '#cf3895', '#a0d28d', '#06b4b0', '#fed000', '#ff8552'],
 		tags: ['bright', 'contrast'],
 		shades: ['pink', 'yellow', 'orange', 'green'],
-		contexts: [{ bg: '#fff7e5' }, { bg: '#a0d28d', stroke: '#fff7e5' }],
+		contexts: [{ bg: '#fff7e5' }, { bg: '#a0d28d', stroke: '#fff7e5' }, { bg: '#0c0a0b' }],
 	},
 	earthGem1: {
 		name: 'earthGem1',
@@ -60,6 +66,7 @@ const paletteDefs = {
 			{ bg: '#0081af' },
 			{ bg: '#87425d' },
 			{ bg: '#285943', stroke: '#a7d6c3' },
+			{ bg: '#020107' },
 		],
 	},
 	earthGem2: {
@@ -67,23 +74,31 @@ const paletteDefs = {
 		colors: ['#874286', '#856596', '#f9c8ce', '#a8d7a8', '#b6cccc', '#8aadbc', '#7a7eb8', '#fc814a'],
 		tags: ['jewelTones', 'earthy'],
 		shades: ['purple', 'green', 'yellow'],
-		contexts: [{ bg: '#7a7eb8' }, { bg: '#874286' }, { bg: '#f2f9f9' }],
+		contexts: [{ bg: '#7a7eb8' }, { bg: '#874286' }, { bg: '#f2f9f9' }, { bg: '#0b040b' }],
 	},
 	goldenCloud: {
 		name: 'goldenCloud', // credit - https://colorlisa.com/
 		colors: ['#171635', '#00225d', '#763262', '#ca7508', '#e9a621'],
 		tags: ['golden', 'jewelTones'],
 		shades: ['blue', 'orange', 'yellow', 'purple'],
-		contexts: [{ bg: '#171635' }, { bg: '#fcf4e5' }],
+		contexts: [{ bg: '#171635' }, { bg: '#fcf4e5' }, { bg: '#000000' }],
+		credit: { url: 'https://colorlisa.com/' },
+	},
+	harimau: {
+		name: 'harimau',
+		colors: ['#281740', '#f29d35', '#04504e', '#f27405', '#f24c3d'],
+		shades: ['yellow', 'green'],
+		contexts: [{ bg: '#281740' }, { bg: '#fff0cf' }],
+		credit: { url: 'https://studioyorktown.github.io/coloryorktownhall/', name: 'studio yorktown' },
 	},
 	livingRoom: {
 		name: 'livingRoom',
-		colors: ['#241e4e', '#960200', '#ce6c47', '#00635D', '#7a4656'],
+		colors: ['#241e4e', '#960200', '#ce6c47', '#00635d', '#7a4656'],
 		tags: ['dark', 'elegant'],
 		shades: ['red', 'green', 'blue', 'brown'],
 		contexts: [
 			{ bg: '#241e4e', stroke: '#e4c0b3' },
-			{ bg: '#00635D', stroke: '#241e4e' },
+			{ bg: '#00635d', stroke: '#241e4e' },
 			{ bg: '#fbeee9' },
 		],
 	},
@@ -99,7 +114,7 @@ const paletteDefs = {
 		colors: ['#080708', '#3772ff', '#df2935', '#fdca40', '#e6e8e6'],
 		tags: ['primary', 'bright'],
 		shades: ['red', 'blue', 'yellow'],
-		contexts: [{ bg: '#e6e8e6', stroke: '#080708' }],
+		contexts: [{ bg: '#e6e8e6', stroke: '#080708' }, { bg: '#080708' }],
 	},
 	mountains: {
 		name: 'mountains',
@@ -110,6 +125,7 @@ const paletteDefs = {
 	},
 	mystery: {
 		name: 'mystery', // https://colorlisa.com/ giorgio de chirico - mystery and melancholy of a street
+		credit: { url: 'https://colorlisa.com/', name: 'colorlisa / giorgio de chirico' },
 		colors: ['#27403d', '#48725c', '#212412', '#f3e4c2', '#d88f2e'],
 		tags: ['subtle', 'elegant'],
 		shades: ['green'],
@@ -133,6 +149,12 @@ const paletteDefs = {
 			{ bg: '#b288c0', stroke: '#2c4251' },
 		],
 	},
+	nikkeidai: {
+		name: 'nikkeidai',
+		credit: { url: 'https://studioyorktown.github.io/coloryorktownhall/', name: 'studio yorktown' },
+		colors: ['#f66689', '#65136c', '#f22e0e', '#00a75e', '#d7d7d7'],
+		contexts: [{ bg: '#d7d7d7' }, { bg: '#220724' }],
+	},
 	pearly: {
 		name: 'pearly',
 		colors: ['#3e2679', '#477f8d', '#59babc', '#f5f5f5', '#d49add', '#ffaf00'],
@@ -152,7 +174,7 @@ const paletteDefs = {
 		colors: ['#f9c80e', '#f86624', '#ea3546', '#662e9b', '#43bccd'],
 		tags: ['bright', 'rainbow'],
 		shades: ['yellow', 'red', 'purple', 'blue'],
-		contexts: [{ bg: '#fff8de', stroke: '#232020' }, { bg: '#232020' }],
+		contexts: [{ bg: '#fff8de', stroke: '#232020' }, { bg: '#232020' }, { bg: '#050101' }],
 	},
 	squiggles: {
 		name: 'squiggles', // colorlisa.com - Squiggles by Sol Lewitt
@@ -187,7 +209,7 @@ const paletteDefs = {
 		colors: ['#2c458d', '#e4dfd9', '#425b4f', '#ebad30', '#bf2124'],
 		shades: ['blue', 'red'],
 		tags: ['mid'],
-		contexts: [{ bg: '#e4dfd9' }, { bg: '#425b4f' }],
+		contexts: [{ bg: '#e4dfd9' }, { bg: '#425b4f' }, { bg: '#000000' }],
 	},
 	valen: {
 		name: 'valen',
@@ -198,6 +220,7 @@ const paletteDefs = {
 			{ bg: '#fff8e8', stroke: '#091540' },
 			{ bg: '#990d35', stroke: '#fff8e8' },
 			{ bg: '#091540', stroke: '#bba0ca' },
+			{ bg: '#010308' },
 		],
 	},
 } satisfies { [key: string]: Palette }

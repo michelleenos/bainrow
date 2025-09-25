@@ -1,4 +1,4 @@
-const A = {
+const E = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4C1E4F", "#496ddb", "#FFC4EB"],
@@ -203,7 +203,7 @@ const A = {
       { bg: "#091540", stroke: "#bba0ca" }
     ]
   }
-}, d = A;
+}, d = E;
 function C(t) {
   const e = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);
   if (!e)
@@ -215,7 +215,7 @@ function C(t) {
     b: +r.toFixed(2)
   };
 }
-function E(t) {
+function $(t) {
   const e = C(t);
   return (e.r * 299 + e.g * 587 + e.b * 114) / 1e3;
 }
@@ -231,11 +231,11 @@ const G = (t = 4) => {
   let e = /* @__PURE__ */ new Set(), s = [];
   return Object.keys(d).forEach((r) => {
     let l = d[r].colors;
-    $(l, t).forEach((f) => {
+    A(l, t).forEach((f) => {
       e.has(`${f[0]}-${f[1]}`.toLowerCase()) || e.has(`${f[1]}-${f[0]}`.toLowerCase()) || (e.add(`${f[0]}-${f[1]}`.toLowerCase()), s.push(f));
     });
   }), s;
-}, $ = (t, e = 4) => {
+}, A = (t, e = 4) => {
   let s = [];
   return t.forEach((a, r) => {
     t.slice(r + 1).forEach((b) => {
@@ -256,7 +256,7 @@ function j(t, {
   return u.forEach((h) => {
     let { bg: c, omit: p, add: k } = h;
     if (b) {
-      let { type: n, limit: i } = b, y = E(c);
+      let { type: n, limit: i } = b, y = $(c);
       if (n === "dark") {
         if (y > (i || 128)) return;
       } else if (y < (i || 128)) return;
@@ -280,9 +280,9 @@ function H({
 }
 export {
   G as getAllPairs,
-  H as getAllPaletteContexts,
-  $ as getPairsFromPalette,
-  j as getPaletteContexts,
+  A as getPairsFromPalette,
+  H as getPaletteContexts,
   T as getPalettesArray,
+  j as getSinglePaletteContexts,
   d as palettes
 };

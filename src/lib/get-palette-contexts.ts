@@ -1,16 +1,31 @@
-import { getBrightness, getContrast } from './color-utils'
+import { getContrast, getLuminance } from './color-utils'
 import { getPalettesArray } from './get-palettes-array'
 import { PaletteName } from './palette-defs'
 import type { Palette, PaletteWithContext } from './types'
 
-export type GetPaletteContextsOptions = {
+export type SinglePaletteContextOptions = {
+	/**
+	 * minimum contrast ratio against background color
+	 */
 	minContrastBg?: number
+	/**
+	 * only use colors that are not background or stroke
+	 */
 	isolateColors?: boolean
 	useStroke?: boolean
 	minColors?: number
-	bgShade?: { type: 'dark' | 'light'; limit?: number }
+	bgShade?: {
+		/**
+		 * background shade based on luminance
+		 */
+		type: 'dark' | 'light'
+		/**
+		 * limit luminance value 0 to 1 (default 0.5)
+		 */
+		limit?: number
+	}
 }
-export function getPaletteContexts(
+export function getSinglePaletteContexts(
 	palette: Palette,
 	{
 		minContrastBg,
@@ -18,24 +33,24 @@ export function getPaletteContexts(
 		useStroke = true,
 		minColors = 1,
 		bgShade,
-	}: GetPaletteContextsOptions = {}
+	}: SinglePaletteContextOptions = {}
 ): PaletteWithContext[] {
 	let name = palette.name
 	let contexts = palette.contexts
 
 	let count = 0
-	// let colorsSet = new Set()
 	let result: PaletteWithContext[] = []
 
 	contexts.forEach((context) => {
 		let { bg, omit, add } = context
+		bg = bg.toLowerCase()
 		if (bgShade) {
 			let { type, limit } = bgShade
-			let bgBrightness = getBrightness(bg)
+			let bgLuminance = getLuminance(bg)
 			if (type === 'dark') {
-				if (bgBrightness > (limit || 128)) return
+				if (bgLuminance > (typeof limit === 'number' ? limit : 0.5)) return
 			} else {
-				if (bgBrightness < (limit || 128)) return
+				if (bgLuminance < (typeof limit === 'number' ? limit : 0.5)) return
 			}
 		}
 
@@ -43,9 +58,9 @@ export function getPaletteContexts(
 
 		// if (colorsSet.has(`${bg}-${stroke}`)) return
 		// colorsSet.add(`${bg}-${stroke}`)
-		let colors = [...palette.colors]
+		let colors = [...palette.colors].map((c) => c.toLowerCase())
 		colors = isolateColors ? colors.filter((c) => c !== bg && c !== stroke) : colors
-		if (omit) colors = colors.filter((c) => !omit.includes(c))
+		if (omit) colors = colors.filter((c) => !omit.includes(c.toLowerCase()))
 		if (add) colors.push(...add)
 
 		if (minContrastBg) {
@@ -67,17 +82,17 @@ export function getPaletteContexts(
 	return result
 }
 
-export type GetAllPaletteContextsOptions = GetPaletteContextsOptions & {
+export type GetPaletteContextOptions = SinglePaletteContextOptions & {
 	excludePalettes?: PaletteName[]
 	includePalettes?: PaletteName[]
 }
-export function getAllPaletteContexts({
+export function getPaletteContexts({
 	excludePalettes,
 	includePalettes,
 	...options
-}: GetAllPaletteContextsOptions = {}): PaletteWithContext[] {
+}: GetPaletteContextOptions = {}): PaletteWithContext[] {
 	let palettes = getPalettesArray()
 	if (includePalettes) palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
 	if (excludePalettes) palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
-	return palettes.flatMap((p) => getPaletteContexts(p, options))
+	return palettes.flatMap((p) => getSinglePaletteContexts(p, options))
 }

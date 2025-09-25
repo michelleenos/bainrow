@@ -13,6 +13,7 @@ export type Palette = {
 	name: string
 	tags?: string[]
 	shades?: RoyGBiv[]
+	credit?: { url?: string; name?: string }
 	contexts: PaletteContext[]
 }
 

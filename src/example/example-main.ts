@@ -1,13 +1,14 @@
 import './styles/style.scss'
 
 import { getPairsFromPalette } from '~/lib/get-pairs'
-import { getPaletteContexts, GetPaletteContextsOptions } from '~/lib/get-palette-contexts'
+import { getSinglePaletteContexts, SinglePaletteContextOptions } from '~/lib/get-palette-contexts'
 import { palettes } from '~/lib/palette-defs'
 import { Palette } from '~/lib/types'
 
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 
 type PaletteControls = {
+	palettes?: HTMLInputElement
 	pairs?: HTMLInputElement
 	contexts?: HTMLInputElement
 	stroke?: HTMLInputElement
@@ -25,10 +26,11 @@ class PaletteExamples {
 	useStroke = false
 	showPairs = false
 	showContexts = true
+	showPalettes = true
 	data: ReturnType<typeof getAllPaletteExampleData>
 	controls: PaletteControls
 	bgShadeType?: 'dark' | 'light'
-	bgShadeLimit: number = 128
+	bgShadeLimit: number = 0.5
 	constructor(container: HTMLElement) {
 		this.container = container
 		this.data = this.getData()
@@ -53,6 +55,7 @@ class PaletteExamples {
 	}
 
 	findControls() {
+		let palettes = document.querySelector<HTMLInputElement>('input#br-toggle-palettes') || undefined
 		let pairs = document.querySelector<HTMLInputElement>('input#br-toggle-pairs') || undefined
 		let contexts = document.querySelector<HTMLInputElement>('input#br-toggle-contexts') || undefined
 		let stroke = document.querySelector<HTMLInputElement>('input#br-toggle-stroke') || undefined
@@ -61,7 +64,7 @@ class PaletteExamples {
 		let bgShade = document.querySelector<HTMLSelectElement>('select#br-bg-shade') || undefined
 		let bgShadeLimit = document.querySelector<HTMLInputElement>('input#br-bg-shade-limit') || undefined
 
-		return { pairs, contexts, stroke, minContrast, minContrastAmount, bgShade, bgShadeLimit }
+		return { palettes, pairs, contexts, stroke, minContrast, minContrastAmount, bgShade, bgShadeLimit }
 	}
 
 	enableAppropriateControls() {
@@ -75,10 +78,22 @@ class PaletteExamples {
 			this.controls.minContrastAmount.disabled = !this.showContexts || !this.useMinContrast
 		}
 		if (this.controls.bgShade) this.controls.bgShade.disabled = !this.showContexts
-		if (this.controls.bgShadeLimit) this.controls.bgShadeLimit.disabled = !this.showContexts
+		if (this.controls.bgShadeLimit)
+			this.controls.bgShadeLimit.disabled = this.bgShadeType === undefined || !this.showContexts
 	}
 
 	interactions() {
+		this.controls.palettes?.addEventListener('change', () => {
+			this.showPalettes = this.controls.palettes!.checked
+			this.container.classList.toggle('show-palettes', this.showPalettes)
+			this.enableAppropriateControls()
+			this.setHTML()
+		})
+		if (this.controls.palettes) {
+			this.controls.palettes.checked = this.showPalettes
+			this.container.classList.toggle('show-palettes', this.showPalettes)
+		}
+
 		this.controls.pairs?.addEventListener('change', () => {
 			this.showPairs = this.controls.pairs!.checked
 			this.container.classList.toggle('show-pairs', this.showPairs)
@@ -117,6 +132,7 @@ class PaletteExamples {
 
 		this.controls.minContrastAmount?.addEventListener('input', () => {
 			this.minContrast = parseInt(this.controls.minContrastAmount!.value)
+			console.log('minContrast', this.minContrast)
 			this.setHTML()
 		})
 
@@ -139,25 +155,30 @@ class PaletteExamples {
 
 		this.controls.bgShade?.addEventListener('change', () => {
 			this.bgShadeType = this.controls.bgShade!.value as 'light' | 'dark' | undefined
+			this.enableAppropriateControls()
 			this.setHTML()
 		})
 
+		if (this.controls.bgShadeLimit) {
+			this.controls.bgShadeLimit.value = this.bgShadeLimit.toString()
+		}
 		this.controls.bgShadeLimit?.addEventListener('input', () => {
-			this.bgShadeLimit = parseInt(this.controls.bgShadeLimit!.value)
+			this.bgShadeLimit = parseFloat(this.controls.bgShadeLimit!.value)
+			console.log('bgShadeLimit input', this.bgShadeLimit)
 			this.setHTML()
 		})
 	}
 }
 
-const getPaletteExampleData = (palette: Palette, opts: GetPaletteContextsOptions = {}) => {
+const getPaletteExampleData = (palette: Palette, opts: SinglePaletteContextOptions = {}) => {
 	return {
 		palette,
-		contexts: getPaletteContexts(palette, opts),
+		contexts: getSinglePaletteContexts(palette, opts),
 		pairs: getPairsFromPalette(palette.colors, 3),
 	}
 }
 
-const getAllPaletteExampleData = (opts: GetPaletteContextsOptions = {}) => {
+const getAllPaletteExampleData = (opts: SinglePaletteContextOptions = {}) => {
 	return keys.map((key) => getPaletteExampleData(palettes[key], opts))
 }
 
@@ -167,17 +188,33 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 	data.forEach((item) => {
 		const palette = item.palette
 		const paletteDiv = document.createElement('div')
+
+		const credit = item.palette.credit
 		// const coolorsLink = document.createElement('a')
 		// coolorsLink.innerText = 'open in coolors'
 		paletteDiv.classList.add('palette-example')
-		paletteDiv.innerHTML = `
-			<h2>${palette.name}</h2>
+		paletteDiv.innerHTML = `<h2>${palette.name}</h2>`
+		let paletteSideHtml = ''
+		if (credit) {
+			const url = credit.url
+			const name = credit.name || url
+			let creditHtml = ''
+			if (url) {
+				creditHtml += `<a href='${url}' target='_blank'>${name}</a>`
+			} else {
+				creditHtml += `<span>${name}</span>`
+			}
+
+			paletteSideHtml += `<div class='credit'>credit: ${creditHtml}</div>`
+		}
+		paletteSideHtml += `
 			<a href='https://coolors.co/${palette.colors
 				.map((color) => color.replace('#', ''))
 				.join(
 					'-'
-				)}' target='_blank' rel='noopener noreferrer' class='coolors-link'>open in coolors</a>
-			<div class="palette-example-colors">
+				)}' target='_blank' rel='noopener noreferrer' class='coolors-link'>open in coolors</a>`
+		paletteDiv.innerHTML += `<div class="palette-side">${paletteSideHtml}</div>`
+		paletteDiv.innerHTML += `<div class="palette-example-colors">
 				${palette.colors.map((color) => `<div class="color" style="background-color: ${color}"></div>`).join('')}
 			</div>
 		`

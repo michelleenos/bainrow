@@ -19,7 +19,7 @@
 }
 
 body {
-	padding-top: 5rem;
+	padding-top: 6rem;
 }
 
 .topbar {
@@ -51,6 +51,7 @@ body {
 		display: grid;
 		grid-template-rows: auto auto;
 		grid-template-columns: auto auto auto;
+		grid-auto-flow: column;
 		align-items: center;
 		column-gap: 20px;
 
@@ -73,12 +74,15 @@ body {
 			&.col1 {
 				grid-column: 1;
 			}
+			&.col2 {
+				grid-column: 2;
+			}
 			&.use-contrast-check {
-				grid-area: 1 / 2;
+				// grid-area: 1 / 2;
 			}
 			&.contrast-input {
-				grid-row: 2 / 4;
-				grid-column: 2;
+				// grid-row: 2 / 4;
+				// grid-column: 2;
 				align-self: start;
 			}
 
@@ -124,19 +128,18 @@ body {
 
 		h2 {
 			grid-column: 1;
+			align-self: end;
+			font-size: 1rem;
+			font-weight: 400;
+			margin: 0 3% 0.5rem;
 		}
 
-		.coolors-link {
+		.palette-side {
 			grid-column: 2;
 			margin-right: 1rem;
 			margin-bottom: 0.3rem;
+			text-align: right;
 		}
-	}
-
-	.palette-example h2 {
-		font-size: 1rem;
-		font-weight: 400;
-		margin: 0 3%;
 	}
 
 	.palette-example-colors {
@@ -229,5 +232,15 @@ body {
 .palette-examples.hide-stroke .palette-example-context {
 	> div {
 		border-color: transparent !important;
+	}
+}
+
+.palette-examples:not(.show-palettes) {
+	row-gap: 3rem;
+	.palette-example {
+		.palette-example-colors,
+		.coolors-link {
+			display: none;
+		}
 	}
 }
