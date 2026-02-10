@@ -43,7 +43,7 @@ const paletteDefs = {
 		tags: ['mid', 'light'],
 		shades: ['blue', 'purple', 'green'],
 		contexts: [
-			{ bg: '#320e3b' },
+			{ bg: '#320e3b', stroke: '#ffe5d9' },
 			{ bg: '#0a0103', omit: ['#320e3b', '#92c9b1'] },
 			{ bg: '#fbf6f3', omit: ['#ffe5d9'] },
 			{ bg: '#ffe5d9', omit: ['#a2faa3'] },
@@ -74,21 +74,26 @@ const paletteDefs = {
 		colors: ['#874286', '#856596', '#f9c8ce', '#a8d7a8', '#b6cccc', '#8aadbc', '#7a7eb8', '#fc814a'],
 		tags: ['jewelTones', 'earthy'],
 		shades: ['purple', 'green', 'yellow'],
-		contexts: [{ bg: '#7a7eb8' }, { bg: '#874286' }, { bg: '#f2f9f9' }, { bg: '#0b040b' }],
+		contexts: [
+			{ bg: '#7a7eb8', stroke: '#372336' },
+			{ bg: '#874286', stroke: '#f2f9f9' },
+			{ bg: '#f2f9f9' },
+			{ bg: '#0b040b' },
+		],
 	},
 	goldenCloud: {
 		name: 'goldenCloud', // credit - https://colorlisa.com/
 		colors: ['#171635', '#00225d', '#763262', '#ca7508', '#e9a621'],
 		tags: ['golden', 'jewelTones'],
 		shades: ['blue', 'orange', 'yellow', 'purple'],
-		contexts: [{ bg: '#171635' }, { bg: '#fcf4e5' }, { bg: '#000000' }],
+		contexts: [{ bg: '#171635', stroke: '#edcf99' }, { bg: '#fcf4e5' }, { bg: '#000000' }],
 		credit: { url: 'https://colorlisa.com/' },
 	},
 	harimau: {
 		name: 'harimau',
 		colors: ['#281740', '#f29d35', '#04504e', '#f27405', '#f24c3d'],
 		shades: ['yellow', 'green'],
-		contexts: [{ bg: '#281740' }, { bg: '#fff0cf' }],
+		contexts: [{ bg: '#281740', stroke: '#ffd097' }, { bg: '#fff0cf' }],
 		credit: { url: 'https://studioyorktown.github.io/coloryorktownhall/', name: 'studio yorktown' },
 	},
 	livingRoom: {
@@ -107,7 +112,7 @@ const paletteDefs = {
 		colors: ['#b60614', '#3a282f', '#909018', '#e3bfa1', '#ee833e'],
 		tags: ['subtle', 'muted'],
 		shades: ['brown', 'red'],
-		contexts: [{ bg: '#3a282f' }, { bg: '#fff8f2' }],
+		contexts: [{ bg: '#3a282f' }, { bg: '#fff8f2', stroke: '#3a282f' }],
 	},
 	mondri: {
 		name: 'mondri',
@@ -209,7 +214,7 @@ const paletteDefs = {
 		colors: ['#2c458d', '#e4dfd9', '#425b4f', '#ebad30', '#bf2124'],
 		shades: ['blue', 'red'],
 		tags: ['mid'],
-		contexts: [{ bg: '#e4dfd9' }, { bg: '#425b4f' }, { bg: '#000000' }],
+		contexts: [{ bg: '#e4dfd9', stroke: '#000000' }, { bg: '#425b4f' }, { bg: '#000000' }],
 	},
 	valen: {
 		name: 'valen',

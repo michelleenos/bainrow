@@ -33,7 +33,7 @@ export function getSinglePaletteContexts(
 		useStroke = true,
 		minColors = 1,
 		bgShade,
-	}: SinglePaletteContextOptions = {}
+	}: SinglePaletteContextOptions = {},
 ): PaletteWithContext[] {
 	let name = palette.name
 	let contexts = palette.contexts
