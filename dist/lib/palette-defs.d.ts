@@ -5,12 +5,18 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("yellow" | "blue" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
+            omit?: undefined;
         } | {
             bg: string;
             stroke: string;
+            omit?: undefined;
+        } | {
+            bg: string;
+            omit: string[];
+            stroke?: undefined;
         })[];
     };
     autmn: {
@@ -18,7 +24,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("orange" | "yellow" | "teal" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke: string;
         } | {
@@ -31,7 +37,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("red" | "orange" | "yellow" | "green" | "blue" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
         } | {
@@ -44,12 +50,14 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("green" | "blue" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
+            stroke: string;
             omit?: undefined;
         } | {
             bg: string;
             omit: string[];
+            stroke?: undefined;
         })[];
     };
     candy: {
@@ -57,7 +65,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("orange" | "yellow" | "green" | "pink")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
         } | {
@@ -70,7 +78,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("orange" | "green" | "pink" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke: string;
         } | {
@@ -83,25 +91,65 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("yellow" | "green" | "purple")[];
-        contexts: {
+        variants: ({
             bg: string;
-        }[];
+            stroke: string;
+        } | {
+            bg: string;
+            stroke?: undefined;
+        })[];
+    };
+    glowFish: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("orange" | "yellow" | "indigo" | "purple")[];
+        variants: ({
+            bg: string;
+            add?: undefined;
+        } | {
+            add: string[];
+            bg: string;
+        })[];
     };
     goldenCloud: {
         name: string;
         colors: string[];
         tags: string[];
         shades: ("orange" | "yellow" | "blue" | "purple")[];
-        contexts: {
+        variants: ({
             bg: string;
-        }[];
+            stroke: string;
+        } | {
+            bg: string;
+            stroke?: undefined;
+        })[];
+        credit: {
+            url: string;
+        };
+    };
+    harimau: {
+        name: string;
+        colors: string[];
+        shades: ("yellow" | "green")[];
+        variants: ({
+            bg: string;
+            stroke: string;
+        } | {
+            bg: string;
+            stroke?: undefined;
+        })[];
+        credit: {
+            url: string;
+            name: string;
+        };
     };
     livingRoom: {
         name: string;
         colors: string[];
         tags: string[];
         shades: ("red" | "green" | "blue" | "brown")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke: string;
         } | {
@@ -110,11 +158,27 @@ declare const paletteDefs: {
         })[];
     };
     magritte: {
+        credit: {
+            url: string;
+        };
         name: string;
         colors: string[];
         tags: string[];
         shades: ("red" | "brown")[];
-        contexts: {
+        variants: ({
+            bg: string;
+            stroke?: undefined;
+        } | {
+            bg: string;
+            stroke: string;
+        })[];
+    };
+    market: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("red" | "pink" | "brown")[];
+        variants: {
             bg: string;
         }[];
     };
@@ -123,17 +187,20 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("red" | "yellow" | "blue")[];
-        contexts: {
+        variants: ({
             bg: string;
             stroke: string;
-        }[];
+        } | {
+            bg: string;
+            stroke?: undefined;
+        })[];
     };
     mountains: {
         name: string;
         colors: string[];
         tags: string[];
         shades: "green"[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
         } | {
@@ -143,10 +210,14 @@ declare const paletteDefs: {
     };
     mystery: {
         name: string;
+        credit: {
+            url: string;
+            name: string;
+        };
         colors: string[];
         tags: string[];
         shades: "green"[];
-        contexts: {
+        variants: {
             bg: string;
         }[];
     };
@@ -155,7 +226,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("green" | "blue" | "teal")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke: string;
         } | {
@@ -168,7 +239,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("orange" | "teal" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
         } | {
@@ -176,12 +247,23 @@ declare const paletteDefs: {
             stroke: string;
         })[];
     };
+    nikkeidai: {
+        name: string;
+        credit: {
+            url: string;
+            name: string;
+        };
+        colors: string[];
+        variants: {
+            bg: string;
+        }[];
+    };
     pearly: {
         name: string;
         colors: string[];
         tags: string[];
         shades: ("blue" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             omit?: undefined;
         } | {
@@ -194,7 +276,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("red" | "orange" | "green" | "teal")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
         } | {
@@ -207,7 +289,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("red" | "yellow" | "blue" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke: string;
         } | {
@@ -220,7 +302,7 @@ declare const paletteDefs: {
         colors: string[];
         shades: ("yellow" | "blue")[];
         tags: string[];
-        contexts: {
+        variants: {
             bg: string;
         }[];
     };
@@ -229,7 +311,7 @@ declare const paletteDefs: {
         colors: string[];
         tags: string[];
         shades: ("orange" | "green" | "pink" | "purple")[];
-        contexts: ({
+        variants: ({
             bg: string;
             omit?: undefined;
         } | {
@@ -242,7 +324,7 @@ declare const paletteDefs: {
         colors: string[];
         shades: ("red" | "blue")[];
         tags: string[];
-        contexts: ({
+        variants: ({
             bg: string;
             stroke?: undefined;
         } | {
@@ -255,19 +337,35 @@ declare const paletteDefs: {
         colors: string[];
         shades: ("red" | "blue")[];
         tags: string[];
-        contexts: {
+        variants: ({
             bg: string;
-        }[];
+            stroke: string;
+        } | {
+            bg: string;
+            stroke?: undefined;
+        })[];
     };
     valen: {
         name: string;
         colors: string[];
         tags: string[];
         shades: ("red" | "pink" | "purple")[];
-        contexts: {
+        variants: ({
             bg: string;
             stroke: string;
-        }[];
+            add?: undefined;
+            omit?: undefined;
+        } | {
+            bg: string;
+            stroke?: undefined;
+            add?: undefined;
+            omit?: undefined;
+        } | {
+            bg: string;
+            add: string[];
+            omit: string[];
+            stroke?: undefined;
+        })[];
     };
 };
 export type PaletteName = keyof typeof paletteDefs;

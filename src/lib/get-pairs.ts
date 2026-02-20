@@ -12,7 +12,11 @@ export const getAllPairs = (contrastMin: number = 4) => {
 		let pairsToAdd = getPairsFromPalette(colors, contrastMin)
 
 		pairsToAdd.forEach((pair) => {
-			if (pairsSet.has(`${pair[0]}-${pair[1]}`.toLowerCase()) || pairsSet.has(`${pair[1]}-${pair[0]}`.toLowerCase())) return
+			if (
+				pairsSet.has(`${pair[0]}-${pair[1]}`.toLowerCase()) ||
+				pairsSet.has(`${pair[1]}-${pair[0]}`.toLowerCase())
+			)
+				return
 			pairsSet.add(`${pair[0]}-${pair[1]}`.toLowerCase())
 			pairs.push(pair)
 		})

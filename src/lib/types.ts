@@ -1,7 +1,7 @@
 // prettier-ignore
 export type RoyGBiv = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'indigo' | 'violet' | 'teal' | 'pink' | 'purple' | 'gray' | 'brown'
 
-export type PaletteContext = {
+type VariantDef = {
 	bg: string
 	stroke?: string
 	omit?: string[]
@@ -14,10 +14,10 @@ export type Palette = {
 	tags?: string[]
 	shades?: RoyGBiv[]
 	credit?: { url?: string; name?: string }
-	contexts: PaletteContext[]
+	variants: VariantDef[]
 }
 
-export type PaletteWithContext = {
+export type PaletteVariant = {
 	bg: string
 	stroke?: string
 	colors: string[]

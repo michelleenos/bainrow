@@ -1,63 +1,81 @@
-import { getContrast, getLuminance } from './color-utils'
+import { getContrast, hexToHsl } from './color-utils'
 import { getPalettesArray } from './get-palettes-array'
 import { PaletteName } from './palette-defs'
-import type { Palette, PaletteWithContext } from './types'
+import type { Palette, PaletteVariant } from './types'
 
-export type SinglePaletteContextOptions = {
+type SinglePaletteVariantOpts = {
 	/**
 	 * minimum contrast ratio against background color
 	 */
 	minContrastBg?: number
 	/**
-	 * only use colors that are not background or stroke
+	 * if true, don't repeat the background or stroke colors in the colors list
 	 */
 	isolateColors?: boolean
+	/**
+	 * Whether to include a stroke color
+	 * @default true
+	 */
 	useStroke?: boolean
 	minColors?: number
+	maxColors?: number
 	bgShade?: {
 		/**
-		 * background shade based on luminance
+		 * background shade
 		 */
-		type: 'dark' | 'light'
+		type?: 'dark' | 'light' | 'edge'
 		/**
-		 * limit luminance value 0 to 1 (default 0.5)
+		 * will keep lightness value on the dark/light edge by this amount.
+		 * accepts values between 0 and 100
+		 * @default 50
 		 */
-		limit?: number
+		edge?: number
+		/**
+		 * max hsl saturation
+		 */
+		maxSaturation?: number
 	}
 }
-export function getSinglePaletteContexts(
+export function getVariantsFromSinglePalette(
 	palette: Palette,
 	{
 		minContrastBg,
 		isolateColors = false,
 		useStroke = true,
 		minColors = 1,
+		maxColors = Infinity,
 		bgShade,
-	}: SinglePaletteContextOptions = {},
-): PaletteWithContext[] {
+	}: SinglePaletteVariantOpts = {},
+): PaletteVariant[] {
 	let name = palette.name
-	let contexts = palette.contexts
+	let contexts = palette.variants
 
 	let count = 0
-	let result: PaletteWithContext[] = []
+	let result: PaletteVariant[] = []
 
 	contexts.forEach((context) => {
 		let { bg, omit, add } = context
 		bg = bg.toLowerCase()
 		if (bgShade) {
-			let { type, limit } = bgShade
-			let bgLuminance = getLuminance(bg)
+			let { type, edge = 50, maxSaturation } = bgShade
+			let hsl = hexToHsl(bg)
+			let lightness = hsl.l
 			if (type === 'dark') {
-				if (bgLuminance > (typeof limit === 'number' ? limit : 0.5)) return
-			} else {
-				if (bgLuminance < (typeof limit === 'number' ? limit : 0.5)) return
+				if (lightness > edge) return
+			} else if (type === 'light') {
+				if (lightness < 100 - edge) return
+			} else if (type === 'edge') {
+				if (lightness < 50 && lightness > edge) return
+				if (lightness >= 50 && 100 - lightness > edge) return
+			}
+
+			if (typeof maxSaturation === 'number') {
+				if (hsl.s > maxSaturation) return
 			}
 		}
 
 		let stroke = useStroke ? context.stroke : undefined
 
-		// if (colorsSet.has(`${bg}-${stroke}`)) return
-		// colorsSet.add(`${bg}-${stroke}`)
 		let colors = [...palette.colors].map((c) => c.toLowerCase())
 		colors = isolateColors ? colors.filter((c) => c !== bg && c !== stroke) : colors
 		if (omit) colors = colors.filter((c) => !omit.includes(c.toLowerCase()))
@@ -70,7 +88,7 @@ export function getSinglePaletteContexts(
 			})
 		}
 
-		if (colors.length < minColors) return
+		if (colors.length < minColors || colors.length > maxColors) return
 		result.push({
 			bg,
 			stroke,
@@ -82,17 +100,17 @@ export function getSinglePaletteContexts(
 	return result
 }
 
-export type GetPaletteContextOptions = SinglePaletteContextOptions & {
+export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
 	excludePalettes?: PaletteName[]
 	includePalettes?: PaletteName[]
 }
-export function getPaletteContexts({
+export function getPaletteVariants({
 	excludePalettes,
 	includePalettes,
 	...options
-}: GetPaletteContextOptions = {}): PaletteWithContext[] {
+}: GetPaletteVariantOpts = {}): PaletteVariant[] {
 	let palettes = getPalettesArray()
 	if (includePalettes) palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
 	if (excludePalettes) palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
-	return palettes.flatMap((p) => getSinglePaletteContexts(p, options))
+	return palettes.flatMap((p) => getVariantsFromSinglePalette(p, options))
 }

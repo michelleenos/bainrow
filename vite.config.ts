@@ -1,8 +1,9 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-	root: 'src/example',
+	// root: 'src/example',
 	resolve: {
 		alias: {
 			'~': `${resolve(__dirname, 'src')}/`,
@@ -16,4 +17,7 @@ export default defineConfig({
 			fileName: 'bainrow',
 		},
 	},
+	// test: {
+	// 	include: ['../src/**/*.{test,spec}.{ts}'],
+	// },
 })

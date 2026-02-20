@@ -1,7 +1,7 @@
-import { createElement } from '~/example/utils'
+import { createElement } from '../utils'
 import { palettes } from '~/lib/palette-defs'
-import '~/example/styles/example-components.scss'
-import '~/example/styles/style.scss'
+import '../styles/example-components.scss'
+import '../styles/style.scss'
 
 const makeExamples = (container: HTMLElement, pals: typeof palettes) => {
 	const resolution = Math.min(window.devicePixelRatio, 2)

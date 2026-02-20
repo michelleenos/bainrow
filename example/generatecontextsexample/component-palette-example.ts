@@ -1,7 +1,7 @@
-import type { Palette, PaletteContext } from '~/lib/types'
+import type { Palette } from '~/lib/types'
+import { adjustCanvas, CanvasProps, createElement, notify, random } from '../utils'
 import { PaletteContextComponent } from './component-palette-context'
 import { PaletteControls } from './component-palette-controls'
-import { adjustCanvas, CanvasProps, createElement, notify, random } from '../utils'
 import { isPalette } from './types-example'
 
 type InitializedPaletteExampleComponent = {
@@ -20,8 +20,7 @@ export class PaletteExampleComponent extends HTMLElement {
 	controls?: PaletteControls
 	name: string
 	props!: CanvasProps
-	contexts: (PaletteContext & { el?: PaletteContextComponent; initial: boolean })[] = []
-	contextCombos?: [number, number][]
+	contexts: ({ bg: string; stroke?: string } & { el?: PaletteContextComponent; initial: boolean })[] = []
 	combosUnused: Set<string> = new Set()
 
 	constructor() {
@@ -157,8 +156,8 @@ export class PaletteExampleComponent extends HTMLElement {
 
 	getAllColors = (palette: Palette) => {
 		let allColorsSet = new Set(palette.colors)
-		if (!palette.contexts) return Array.from(allColorsSet)
-		palette.contexts.forEach(({ bg, stroke }) => {
+		if (!palette.variants) return Array.from(allColorsSet)
+		palette.variants.forEach(({ bg, stroke }) => {
 			if (bg) allColorsSet.add(bg)
 			if (stroke) allColorsSet.add(stroke)
 		})
@@ -205,7 +204,7 @@ export class PaletteExampleComponent extends HTMLElement {
 
 		ctxDiv.innerHTML = ''
 
-		this.contexts = (this.palette.contexts || []).map((c) => ({ ...c, initial: true }))
+		this.contexts = (this.palette.variants || []).map((c) => ({ ...c, initial: true }))
 		let combosUnused = new Set<string>()
 
 		this.allColors.forEach((firstVal) => {
@@ -227,7 +226,12 @@ export class PaletteExampleComponent extends HTMLElement {
 		this.combosUnused = combosUnused
 	}
 
-	buildContextExample = (context: (typeof this.contexts)[number]) => {
+	buildContextExample = (context: {
+		bg: string
+		stroke?: string
+		el?: PaletteContextComponent
+		initial: boolean
+	}) => {
 		if (!this.canDraw()) throw new Error('Cannot draw')
 		let width = `${Math.max(this.palette.colors.length * 65, 350)}`
 		let height = `${Math.max(this.palette.colors.length * 18, 100)}`
@@ -252,7 +256,12 @@ export class PaletteExampleComponent extends HTMLElement {
 		return el
 	}
 
-	removeContext = (context: (typeof this.contexts)[number]) => {
+	removeContext = (context: {
+		bg: string
+		stroke?: string
+		el?: PaletteContextComponent
+		initial: boolean
+	}) => {
 		this.contexts = this.contexts.filter((c) => c !== context)
 		this.combosUnused.add(`${context.bg || 'none'}-${context.stroke || 'none'}`)
 		context.el?.remove()
