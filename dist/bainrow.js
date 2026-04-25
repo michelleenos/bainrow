@@ -1,4 +1,4 @@
-const x = {
+const M = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4c1e4f", "#496ddb", "#ffc4eb"],
@@ -250,27 +250,27 @@ const x = {
       }
     ]
   }
-}, m = x;
-function A(r) {
+}, k = M;
+function j(r) {
   let e = r.replace("#", "");
   e.length === 3 && (e = e.split("").map((o) => `${o}${o}`).join(""));
   const a = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
   if (!a)
     throw new Error("Could not parse Hex Color");
-  const t = parseInt(a[1], 16), s = parseInt(a[2], 16), f = parseInt(a[3], 16);
+  const t = parseInt(a[1], 16), s = parseInt(a[2], 16), n = parseInt(a[3], 16);
   return {
     r: t,
     g: s,
-    b: f
+    b: n
   };
 }
-function T(r) {
-  let e = r.r / 255, a = r.g / 255, t = r.b / 255, s = Math.max(e, a, t), f = Math.min(e, a, t), o = 0, i, n = (s + f) / 2;
-  if (s === f)
+function C(r) {
+  let e = r.r / 255, a = r.g / 255, t = r.b / 255, s = Math.max(e, a, t), n = Math.min(e, a, t), o = 0, i, f = (s + n) / 2;
+  if (s === n)
     o = 0, i = 0;
   else {
-    let g = s - f;
-    switch (i = n > 0.5 ? g / (2 - s - f) : g / (s + f), s) {
+    let g = s - n;
+    switch (i = f > 0.5 ? g / (2 - s - n) : g / (s + n), s) {
       case e:
         o = (a - t) / g + (a < t ? 6 : 0);
         break;
@@ -283,82 +283,86 @@ function T(r) {
     }
     o /= 6;
   }
-  return { h: Math.round(o * 360), s: Math.round(i * 100), l: Math.round(n * 100) };
+  return { h: Math.round(o * 360), s: Math.round(i * 100), l: Math.round(f * 100) };
 }
-function j(r) {
-  let e = A(r);
-  return T(e);
+function H(r) {
+  let e = j(r);
+  return C(e);
 }
-function $(r) {
-  const e = typeof r == "string" ? A(r) : r, a = (t) => (t /= 255, t <= 0.03928 ? t / 12.92 : Math.pow((t + 0.055) / 1.055, 2.4));
+function A(r) {
+  const e = typeof r == "string" ? j(r) : r, a = (t) => (t /= 255, t <= 0.03928 ? t / 12.92 : Math.pow((t + 0.055) / 1.055, 2.4));
   return 0.2126 * a(e.r) + 0.7152 * a(e.g) + 0.0722 * a(e.b);
 }
-function C(r, e) {
-  const a = $(r), t = $(e);
+function T(r, e) {
+  const a = A(r), t = A(e);
   return a > t ? (a + 0.05) / (t + 0.05) : (t + 0.05) / (a + 0.05);
 }
-const G = (r = 4) => {
+const D = (r = 4) => {
   let e = /* @__PURE__ */ new Set(), a = [];
-  return Object.keys(m).forEach((s) => {
-    let o = m[s].colors;
-    L(o, r).forEach((n) => {
-      e.has(`${n[0]}-${n[1]}`.toLowerCase()) || e.has(`${n[1]}-${n[0]}`.toLowerCase()) || (e.add(`${n[0]}-${n[1]}`.toLowerCase()), a.push(n));
+  return Object.keys(k).forEach((s) => {
+    let o = k[s].colors;
+    G(o, r).forEach((f) => {
+      e.has(`${f[0]}-${f[1]}`.toLowerCase()) || e.has(`${f[1]}-${f[0]}`.toLowerCase()) || (e.add(`${f[0]}-${f[1]}`.toLowerCase()), a.push(f));
     });
   }), a;
-}, L = (r, e = 4) => {
+}, G = (r, e = 4) => {
   let a = [];
   return r.forEach((t, s) => {
-    r.slice(s + 1).forEach((f) => {
-      C(t, f) < e || a.push([t, f]);
+    r.slice(s + 1).forEach((n) => {
+      T(t, n) < e || a.push([t, n]);
     });
   }), a;
 };
-let h = null;
-const M = () => h || (h = Object.keys(m).map((e) => m[e]), h);
-function H(r, {
+let p = null;
+const I = () => p || (p = Object.keys(k).map((e) => k[e]), p), P = I();
+function R(r, {
   minContrastBg: e,
   isolateColors: a = !1,
-  useStroke: t = !0,
-  minColors: s = 1,
-  maxColors: f = 1 / 0,
-  bgShade: o
+  useStroke: t = !1,
+  requireStroke: s = !1,
+  minColors: n = 1,
+  maxColors: o = 1 / 0,
+  bgShade: i,
+  bgColor: f
 } = {}) {
-  let i = r.name, n = r.variants, g = 0, p = [];
-  return n.forEach((k) => {
-    let { bg: d, omit: y, add: w } = k;
-    if (d = d.toLowerCase(), o) {
-      let { type: l, edge: u = 50, maxSaturation: F } = o, E = j(d), c = E.l;
+  let g = r.name, L = r.variants, x = 0, y = [], h;
+  return typeof f == "object" ? h = f : f === void 0 && typeof i == "object" && (h = i), L.forEach((m) => {
+    if (s && !m.stroke) return;
+    let { omit: w, add: v } = m, d = typeof f == "string" ? f : m.bg;
+    if (d = d.toLowerCase(), h) {
+      let { type: l, edge: u = 50, maxSaturation: E } = h, $ = H(d), c = $.l;
       if (l === "dark") {
         if (c > u) return;
       } else if (l === "light") {
         if (c < 100 - u) return;
       } else if (l === "edge" && (c < 50 && c > u || c >= 50 && 100 - c > u))
         return;
-      if (typeof F == "number" && E.s > F)
+      if (typeof E == "number" && $.s > E)
         return;
     }
-    let v = t ? k.stroke : void 0, b = [...r.colors].map((l) => l.toLowerCase());
-    b = a ? b.filter((l) => l !== d && l !== v) : b, y && (b = b.filter((l) => !y.includes(l.toLowerCase()))), w && b.push(...w), e && (b = b.filter((l) => C(d, l) >= e)), !(b.length < s || b.length > f) && p.push({
+    let F = t ? m.stroke : void 0, b = [...r.colors].map((l) => l.toLowerCase());
+    b = a ? b.filter((l) => l !== d && l !== F) : b, w && (b = b.filter((l) => !w.includes(l.toLowerCase()))), v && b.push(...v), e && (b = b.filter((l) => T(d, l) >= e)), !(b.length < n || b.length > o) && y.push({
       bg: d,
-      stroke: v,
+      stroke: F,
       colors: b,
-      name: `${i}-${g++}`
+      name: `${g}-${x++}`
     });
-  }), p;
+  }), y;
 }
-function I({
+function O({
   excludePalettes: r,
   includePalettes: e,
   ...a
 } = {}) {
-  let t = M();
-  return e && (t = t.filter((s) => e.includes(s.name))), r && (t = t.filter((s) => !r.includes(s.name))), t.flatMap((s) => H(s, a));
+  let t = [...P];
+  return e && (t = t.filter((s) => e.includes(s.name))), r && (t = t.filter((s) => !r.includes(s.name))), t.flatMap((s) => R(s, a));
 }
 export {
-  G as getAllPairs,
-  L as getPairsFromPalette,
-  I as getPaletteVariants,
-  M as getPalettesArray,
-  H as getVariantsFromSinglePalette,
-  m as palettes
+  D as getAllPairs,
+  G as getPairsFromPalette,
+  O as getPaletteVariants,
+  I as getPalettesArray,
+  R as getVariantsFromSinglePalette,
+  k as palettes,
+  P as palettesList
 };

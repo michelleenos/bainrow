@@ -1,9 +1,33 @@
 import { getContrast, hexToHsl } from './color-utils'
-import { getPalettesArray } from './get-palettes-array'
+import { palettesList } from './get-palettes-array'
 import { PaletteName } from './palette-defs'
 import type { Palette, PaletteVariant } from './types'
 
-type SinglePaletteVariantOpts = {
+interface BgColorOptions {
+	/**
+	 * only include variants with a background color that is dark, light, or on either edge of the spectrum
+	 */
+	type?: 'dark' | 'light' | 'edge'
+	/**
+	 * Will keep lightness value nearer to 0 or 100 (or both) by this amount
+	 *
+	 * For example, a value of 10 with a type = 'dark' means the variant will
+	 * be included if the background color has a lightness value of 10 or less.
+	 * With a type of 'edge', the variant will be included if the
+	 * background color has a lightness value of 10 or less, or 90 or more.
+	 *
+	 * Accepts values between 0 and 100
+	 *
+	 * @default 50
+	 */
+	edge?: number
+	/**
+	 * max HSL saturation of background color
+	 */
+	maxSaturation?: number
+}
+
+interface SinglePaletteVariantOpts {
 	/**
 	 * minimum contrast ratio against background color
 	 */
@@ -14,37 +38,33 @@ type SinglePaletteVariantOpts = {
 	isolateColors?: boolean
 	/**
 	 * Whether to include a stroke color
-	 * @default true
+	 * @default false
 	 */
 	useStroke?: boolean
+	/**
+	 * Require a stroke color for the variant to be included
+	 * @default false
+	 */
+	requireStroke?: boolean
 	minColors?: number
 	maxColors?: number
-	bgShade?: {
-		/**
-		 * background shade
-		 */
-		type?: 'dark' | 'light' | 'edge'
-		/**
-		 * will keep lightness value on the dark/light edge by this amount.
-		 * accepts values between 0 and 100
-		 * @default 50
-		 */
-		edge?: number
-		/**
-		 * max hsl saturation
-		 */
-		maxSaturation?: number
-	}
+	bgColor?: string | BgColorOptions
+	/**
+	 * @deprecated use bgColor option instead
+	 */
+	bgShade?: BgColorOptions
 }
 export function getVariantsFromSinglePalette(
 	palette: Palette,
 	{
 		minContrastBg,
 		isolateColors = false,
-		useStroke = true,
+		useStroke = false,
+		requireStroke = false,
 		minColors = 1,
 		maxColors = Infinity,
 		bgShade,
+		bgColor,
 	}: SinglePaletteVariantOpts = {},
 ): PaletteVariant[] {
 	let name = palette.name
@@ -53,11 +73,21 @@ export function getVariantsFromSinglePalette(
 	let count = 0
 	let result: PaletteVariant[] = []
 
+	let bgOpts: BgColorOptions | undefined
+	if (typeof bgColor === 'object') {
+		bgOpts = bgColor
+	} else if (bgColor === undefined && typeof bgShade === 'object') {
+		bgOpts = bgShade
+	}
+
 	contexts.forEach((context) => {
-		let { bg, omit, add } = context
+		if (requireStroke && !context.stroke) return
+		let { omit, add } = context
+		let bg = typeof bgColor === 'string' ? bgColor : context.bg
 		bg = bg.toLowerCase()
-		if (bgShade) {
-			let { type, edge = 50, maxSaturation } = bgShade
+
+		if (bgOpts) {
+			let { type, edge = 50, maxSaturation } = bgOpts
 			let hsl = hexToHsl(bg)
 			let lightness = hsl.l
 			if (type === 'dark') {
@@ -109,7 +139,7 @@ export function getPaletteVariants({
 	includePalettes,
 	...options
 }: GetPaletteVariantOpts = {}): PaletteVariant[] {
-	let palettes = getPalettesArray()
+	let palettes = [...palettesList]
 	if (includePalettes) palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
 	if (excludePalettes) palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
 	return palettes.flatMap((p) => getVariantsFromSinglePalette(p, options))

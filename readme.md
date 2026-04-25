@@ -36,8 +36,7 @@ import { palettes } from 'mish-bainrow'
 ### Get palettes as array
 
 ```typescript
-import { getPalettesArray } from 'mish-bainrow'
-const palettes = getPalettesArray()
+import { palettesList } from 'mish-bainrow'
 ```
 
 ## Palette pairs
@@ -76,18 +75,16 @@ const variants = getPaletteVariants(options: {
 	excludePalettes?: PaletteName[]
 	// list of palette names to include
 	includePalettes?: PaletteName[]
-
 	// if true, include stroke in returned variants (default false)
 	useStroke?: boolean
 	// if true, the the background/stroke colors are excluded from the colors list
 	isolateColors?: boolean
 	minColors?: number
 	maxColors?: number
-
-	bgShade?: {
+	bgColor?: string | {
 		type?: 'light' | 'dark' | 'edge'
 		// keep lightness (hsl) value of the background within this percentage of 0 or 100
-		// (e.g. 10 means keep lightness between 0-10 or 90-100)
+		// (e.g. 10 with a type of 'edge' means keep lightness between 0-10 or 90-100)
 		edge?: number
 		// keep saturation (hsl) value of the background below this percentage
 		maxSaturation?: number
