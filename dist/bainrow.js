@@ -1,4 +1,4 @@
-const M = {
+const G = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4c1e4f", "#496ddb", "#ffc4eb"],
@@ -250,119 +250,141 @@ const M = {
       }
     ]
   }
-}, k = M;
-function j(r) {
+}, k = G;
+function T(r) {
   let e = r.replace("#", "");
-  e.length === 3 && (e = e.split("").map((o) => `${o}${o}`).join(""));
-  const a = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
-  if (!a)
+  e.length === 3 && (e = e.split("").map((n) => `${n}${n}`).join(""));
+  const t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
+  if (!t)
     throw new Error("Could not parse Hex Color");
-  const t = parseInt(a[1], 16), s = parseInt(a[2], 16), n = parseInt(a[3], 16);
+  const a = parseInt(t[1], 16), s = parseInt(t[2], 16), o = parseInt(t[3], 16);
   return {
-    r: t,
+    r: a,
     g: s,
-    b: n
+    b: o
   };
 }
-function C(r) {
-  let e = r.r / 255, a = r.g / 255, t = r.b / 255, s = Math.max(e, a, t), n = Math.min(e, a, t), o = 0, i, f = (s + n) / 2;
-  if (s === n)
-    o = 0, i = 0;
+function I(r) {
+  let e = r.r / 255, t = r.g / 255, a = r.b / 255, s = Math.max(e, t, a), o = Math.min(e, t, a), n = 0, i, f = (s + o) / 2;
+  if (s === o)
+    n = 0, i = 0;
   else {
-    let g = s - n;
-    switch (i = f > 0.5 ? g / (2 - s - n) : g / (s + n), s) {
+    let d = s - o;
+    switch (i = f > 0.5 ? d / (2 - s - o) : d / (s + o), s) {
       case e:
-        o = (a - t) / g + (a < t ? 6 : 0);
-        break;
-      case a:
-        o = (t - e) / g + 2;
+        n = (t - a) / d + (t < a ? 6 : 0);
         break;
       case t:
-        o = (e - a) / g + 4;
+        n = (a - e) / d + 2;
+        break;
+      case a:
+        n = (e - t) / d + 4;
         break;
     }
-    o /= 6;
+    n /= 6;
   }
-  return { h: Math.round(o * 360), s: Math.round(i * 100), l: Math.round(f * 100) };
+  return { h: Math.round(n * 360), s: Math.round(i * 100), l: Math.round(f * 100) };
 }
-function H(r) {
-  let e = j(r);
-  return C(e);
+function M(r) {
+  let e = T(r);
+  return I(e);
 }
-function A(r) {
-  const e = typeof r == "string" ? j(r) : r, a = (t) => (t /= 255, t <= 0.03928 ? t / 12.92 : Math.pow((t + 0.055) / 1.055, 2.4));
-  return 0.2126 * a(e.r) + 0.7152 * a(e.g) + 0.0722 * a(e.b);
+function j(r) {
+  const e = typeof r == "string" ? T(r) : r, t = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
+  return 0.2126 * t(e.r) + 0.7152 * t(e.g) + 0.0722 * t(e.b);
 }
-function T(r, e) {
-  const a = A(r), t = A(e);
-  return a > t ? (a + 0.05) / (t + 0.05) : (t + 0.05) / (a + 0.05);
+function y(r, e) {
+  const t = j(r), a = j(e);
+  return t > a ? (t + 0.05) / (a + 0.05) : (a + 0.05) / (t + 0.05);
 }
-const D = (r = 4) => {
-  let e = /* @__PURE__ */ new Set(), a = [];
+const O = (r = 4) => {
+  let e = /* @__PURE__ */ new Set(), t = [];
   return Object.keys(k).forEach((s) => {
-    let o = k[s].colors;
-    G(o, r).forEach((f) => {
-      e.has(`${f[0]}-${f[1]}`.toLowerCase()) || e.has(`${f[1]}-${f[0]}`.toLowerCase()) || (e.add(`${f[0]}-${f[1]}`.toLowerCase()), a.push(f));
+    let n = k[s].colors;
+    L(n, r).forEach((f) => {
+      e.has(`${f[0]}-${f[1]}`.toLowerCase()) || e.has(`${f[1]}-${f[0]}`.toLowerCase()) || (e.add(`${f[0]}-${f[1]}`.toLowerCase()), t.push(f));
     });
-  }), a;
-}, G = (r, e = 4) => {
-  let a = [];
-  return r.forEach((t, s) => {
-    r.slice(s + 1).forEach((n) => {
-      T(t, n) < e || a.push([t, n]);
+  }), t;
+}, L = (r, e = 4) => {
+  let t = [];
+  return r.forEach((a, s) => {
+    r.slice(s + 1).forEach((o) => {
+      y(a, o) < e || t.push([a, o]);
     });
-  }), a;
+  }), t;
 };
 let p = null;
-const I = () => p || (p = Object.keys(k).map((e) => k[e]), p), P = I();
-function R(r, {
+const R = () => p || (p = Object.keys(k).map((e) => k[e]), p), H = R();
+function C(r, {
   minContrastBg: e,
-  isolateColors: a = !1,
-  useStroke: t = !1,
+  isolateColors: t = !1,
+  useStroke: a = !1,
   requireStroke: s = !1,
-  minColors: n = 1,
-  maxColors: o = 1 / 0,
+  minColors: o = 1,
+  maxColors: n = 1 / 0,
   bgShade: i,
   bgColor: f
 } = {}) {
-  let g = r.name, L = r.variants, x = 0, y = [], h;
-  return typeof f == "object" ? h = f : f === void 0 && typeof i == "object" && (h = i), L.forEach((m) => {
+  let d = r.name, P = r.variants, x = 0, w = [], h;
+  return typeof f == "object" ? h = f : f === void 0 && typeof i == "object" && (h = i), P.forEach((m) => {
     if (s && !m.stroke) return;
-    let { omit: w, add: v } = m, d = typeof f == "string" ? f : m.bg;
-    if (d = d.toLowerCase(), h) {
-      let { type: l, edge: u = 50, maxSaturation: E } = h, $ = H(d), c = $.l;
+    let { omit: v, add: F } = m, g = typeof f == "string" ? f : m.bg;
+    if (g = g.toLowerCase(), h) {
+      let { type: l, edge: u = 50, maxSaturation: $ } = h, A = M(g), c = A.l;
       if (l === "dark") {
         if (c > u) return;
       } else if (l === "light") {
         if (c < 100 - u) return;
       } else if (l === "edge" && (c < 50 && c > u || c >= 50 && 100 - c > u))
         return;
-      if (typeof E == "number" && $.s > E)
+      if (typeof $ == "number" && A.s > $)
         return;
     }
-    let F = t ? m.stroke : void 0, b = [...r.colors].map((l) => l.toLowerCase());
-    b = a ? b.filter((l) => l !== d && l !== F) : b, w && (b = b.filter((l) => !w.includes(l.toLowerCase()))), v && b.push(...v), e && (b = b.filter((l) => T(d, l) >= e)), !(b.length < n || b.length > o) && y.push({
-      bg: d,
-      stroke: F,
+    let E = a ? m.stroke : void 0, b = [...r.colors].map((l) => l.toLowerCase());
+    b = t ? b.filter((l) => l !== g && l !== E) : b, v && (b = b.filter((l) => !v.includes(l.toLowerCase()))), F && b.push(...F), e && (b = b.filter((l) => y(g, l) >= e)), !(b.length < o || b.length > n) && w.push({
+      bg: g,
+      stroke: E,
       colors: b,
-      name: `${g}-${x++}`
+      name: `${d}-${x++}`
     });
-  }), y;
+  }), w;
 }
-function O({
+function S({
   excludePalettes: r,
   includePalettes: e,
-  ...a
+  ...t
 } = {}) {
-  let t = [...P];
-  return e && (t = t.filter((s) => e.includes(s.name))), r && (t = t.filter((s) => !r.includes(s.name))), t.flatMap((s) => R(s, a));
+  let a = [...H];
+  return e && (a = a.filter((s) => e.includes(s.name))), r && (a = a.filter((s) => !r.includes(s.name))), a.flatMap((s) => C(s, t));
+}
+function V({
+  minColors: r,
+  maxColors: e,
+  ...t
+}) {
+  let a = [];
+  return H.forEach((s) => {
+    let o = D(s, t);
+    e !== void 0 && o.length > e || r !== void 0 && o.length < r || a.push({ name: s.name, colors: o });
+  }), a;
+}
+function D(r, { minLightness: e, maxLightness: t, minContrast: a, minContrastCompare: s }) {
+  return r.colors.filter((n) => {
+    if (e !== void 0 || t !== void 0) {
+      let f = M(n).l;
+      if (e !== void 0 && f < e || t !== void 0 && f > t) return !1;
+    }
+    return !(a !== void 0 && y(n, s || "#ffffff") < a);
+  });
 }
 export {
-  D as getAllPairs,
-  G as getPairsFromPalette,
-  O as getPaletteVariants,
-  I as getPalettesArray,
-  R as getVariantsFromSinglePalette,
+  D as filterPalette,
+  O as getAllPairs,
+  V as getFilteredPalettes,
+  L as getPairsFromPalette,
+  S as getPaletteVariants,
+  R as getPalettesArray,
+  C as getVariantsFromSinglePalette,
   k as palettes,
-  P as palettesList
+  H as palettesList
 };
