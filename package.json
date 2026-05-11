@@ -10,6 +10,7 @@
 		"build:lib": "tsc && vite build",
 		"build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
 		"build": "run-s clean build:lib build:types",
+		"build:site": "vite build --config vite.config.site.ts",
 		"preview": "vite preview",
 		"test": "vitest run",
 		"test:ui": "vitest --ui",
