@@ -11,10 +11,10 @@
 		"build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
 		"build": "run-s clean build:lib build:types",
 		"preview": "vite preview",
-		"test": "vitest",
+		"test": "vitest run",
 		"test:ui": "vitest --ui",
 		"test:coverage": "vitest --coverage",
-		"preversion": "pnpm test && pnpm build",
+		"preversion": "pnpm test && pnpm build && git add dist",
 		"postversion": "pnpm publish",
 		"postpublish": "git push && git push --tags",
 		"release:patch": "pnpm version patch"
