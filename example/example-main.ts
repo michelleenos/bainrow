@@ -5,6 +5,8 @@ import { palettes } from '~/lib/palette-defs'
 import { Palette } from '~/lib/types'
 import { createElement } from './utils'
 
+// TODO (example) - add the rest of the options to controls?
+
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 
 const listenCheck = (

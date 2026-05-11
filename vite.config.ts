@@ -17,6 +17,12 @@ export default defineConfig({
 			fileName: 'bainrow',
 		},
 	},
+	test: {
+		coverage: {
+			enabled: true,
+			provider: 'v8',
+		},
+	},
 	// test: {
 	// 	include: ['../src/**/*.{test,spec}.{ts}'],
 	// },

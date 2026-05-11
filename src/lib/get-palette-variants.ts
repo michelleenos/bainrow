@@ -68,7 +68,7 @@ export function getVariantsFromSinglePalette(
 	}: SinglePaletteVariantOpts = {},
 ): PaletteVariant[] {
 	let name = palette.name
-	let contexts = palette.variants
+	let variants = palette.variants
 
 	let count = 0
 	let result: PaletteVariant[] = []
@@ -80,10 +80,10 @@ export function getVariantsFromSinglePalette(
 		bgOpts = bgShade
 	}
 
-	contexts.forEach((context) => {
-		if (requireStroke && !context.stroke) return
-		let { omit, add } = context
-		let bg = typeof bgColor === 'string' ? bgColor : context.bg
+	variants.forEach((variant) => {
+		if (requireStroke && !variant.stroke) return
+		let { omit, add } = variant
+		let bg = typeof bgColor === 'string' ? bgColor : variant.bg
 		bg = bg.toLowerCase()
 
 		if (bgOpts) {
@@ -104,7 +104,7 @@ export function getVariantsFromSinglePalette(
 			}
 		}
 
-		let stroke = useStroke ? context.stroke : undefined
+		let stroke = useStroke ? variant.stroke : undefined
 
 		let colors = [...palette.colors].map((c) => c.toLowerCase())
 		colors = isolateColors ? colors.filter((c) => c !== bg && c !== stroke) : colors
