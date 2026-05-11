@@ -3,6 +3,7 @@ import { getPairsFromPalette } from '~/lib/get-pairs'
 import { GetPaletteVariantOpts, getVariantsFromSinglePalette } from '~/lib/get-palette-variants'
 import { palettes } from '~/lib/palette-defs'
 import { Palette } from '~/lib/types'
+import { createElement } from './utils'
 
 const keys = Object.keys(palettes) as (keyof typeof palettes)[]
 
@@ -46,7 +47,7 @@ type PaletteControls = {
 	bgShade: HTMLSelectElement | null
 	bgEdge: HTMLInputElement | null
 	maxSaturation: HTMLInputElement | null
-	darkMode: HTMLInputElement | null
+	viewMode: HTMLSelectElement | null
 	toggle: HTMLButtonElement | null
 }
 
@@ -114,7 +115,7 @@ class PaletteExamples {
 			maxSaturation: this.controlsContainer.querySelector<HTMLInputElement>(
 				'input#br-bg-max-saturation',
 			),
-			darkMode: this.controlsContainer.querySelector<HTMLInputElement>('input#br-dark-mode'),
+			viewMode: this.controlsContainer.querySelector<HTMLSelectElement>('select#br-view-mode'),
 			toggle: document.querySelector<HTMLButtonElement>('button#toggle-controls'),
 		}
 	}
@@ -133,7 +134,7 @@ class PaletteExamples {
 	}
 
 	toggleClasses() {
-		this.container.classList.toggle('dark-mode', this.show.darkMode)
+		// this.container.classList.toggle('dark-mode', this.show.darkMode)
 		this.container.classList.toggle('show-palettes', this.show.palettes)
 		this.container.classList.toggle('show-pairs', this.show.pairs)
 		this.container.classList.toggle('show-variants', this.show.variants)
@@ -144,8 +145,9 @@ class PaletteExamples {
 		this.controls.pairs && listenCheck(this, this.controls.pairs, 'pairs')
 		this.controls.variants && listenCheck(this, this.controls.variants, 'variants')
 		this.controls.stroke && listenCheck(this, this.controls.stroke, 'stroke', true)
-		this.controls.darkMode && listenCheck(this, this.controls.darkMode, 'darkMode')
+		// this.controls.viewMode && listenCheck(this, this.controls.viewMode, 'darkMode')
 
+		// this.controls.viewMode && listenInputVal(this, this.controls.viewMode, '')
 		this.controls.minContrast && listenInputVal(this, this.controls.minContrast, 'minContrast')
 		this.controls.maxSaturation && listenInputVal(this, this.controls.maxSaturation, 'maxSaturation')
 		this.controls.bgEdge && listenInputVal(this, this.controls.bgEdge, 'edge')
@@ -170,6 +172,16 @@ class PaletteExamples {
 				}
 			})
 		}
+
+		this.controls.viewMode &&
+			this.controls.viewMode.addEventListener('change', () => {
+				const value = this.controls.viewMode!.value
+				if (value === 'dark') {
+					document.body.classList.add('dark-mode')
+				} else {
+					document.body.classList.remove('dark-mode')
+				}
+			})
 	}
 }
 
@@ -193,8 +205,8 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 		const paletteDiv = document.createElement('div')
 
 		const credit = item.palette.credit
-		paletteDiv.classList.add('palette-example')
-		paletteDiv.innerHTML = `<h2>${palette.name}</h2>`
+		paletteDiv.classList.add('palette')
+		paletteDiv.innerHTML = `<h3 class="palette__title">${palette.name}</h3>`
 		let paletteSideHtml = ''
 		if (credit) {
 			const url = credit.url
@@ -208,25 +220,27 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 
 			paletteSideHtml += `<div class='credit'>credit: ${creditHtml}</div>`
 		}
-		paletteSideHtml += `
-			<a href='https://coolors.co/${palette.colors
-				.map((color) => color.replace('#', ''))
-				.join(
-					'-',
-				)}' target='_blank' rel='noopener noreferrer' class='coolors-link'>open in coolors</a>`
-		paletteDiv.innerHTML += `<div class="palette-side">${paletteSideHtml}</div>`
-		paletteDiv.innerHTML += `<div class="palette-example-colors">
-				${palette.colors.map((color) => `<div class="color" style="background-color: ${color}"></div>`).join('')}
-			</div>
-		`
+
+		const coolorsLink = `https://coolors.co/${palette.colors.map((color) => color.replace('#', '')).join('-')}`
+		const paletteHover = createElement('div', { class: 'palette__hover' }, [
+			createElement('a', { href: coolorsLink, target: '_blank', rel: 'noopener noreferrer' }, [
+				'view ↗',
+			]),
+		])
+		paletteDiv.innerHTML += `<div class="palette__side-notes">${paletteSideHtml}</div>`
+		const paletteColorsDiv = createElement('div', { class: 'palette__colors' }, [
+			paletteHover,
+			`${palette.colors.map((color) => `<div class="color" style="background-color: ${color}"></div>`).join('')}`,
+		])
+		paletteDiv.innerHTML += paletteColorsDiv.outerHTML
 
 		let pairsDiv = document.createElement('div')
-		pairsDiv.classList.add('palette-example-pairs')
+		pairsDiv.classList.add('palette__pairs')
 
 		let pairsList = item.pairs
 		pairsList.forEach((pair) => {
 			const pairDiv = document.createElement('div')
-			pairDiv.classList.add('palette-example-pair')
+			pairDiv.classList.add('palette__pair')
 			pairDiv.innerHTML = `
 				<div class="pair-color" style="background-color: ${pair[0]}"></div>
 				<div class="pair-color" style="background-color: ${pair[1]}"></div>
@@ -236,11 +250,15 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 		paletteDiv.appendChild(pairsDiv)
 
 		let variantsDiv = document.createElement('div')
-		variantsDiv.classList.add('palette-example-variants')
+		variantsDiv.classList.add('palette__variants')
+		const variantsTitle = document.createElement('h4')
+		variantsTitle.classList.add('palette__variants-title')
+		variantsTitle.innerText = 'Variants'
+		variantsDiv.appendChild(variantsTitle)
 
 		item.variants.forEach(({ stroke, bg, colors }) => {
 			const variantDiv = document.createElement('div')
-			variantDiv.classList.add('palette-example-variant')
+			variantDiv.classList.add('palette__variant')
 			variantDiv.style.backgroundColor = bg || ''
 
 			variantDiv.innerHTML = `
@@ -250,7 +268,7 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 								if (!stroke && color === bg) return ''
 								if (stroke) style += `border-color: ${stroke};`
 								style += `background-color: ${color};`
-								return `<div class="context-color" style="${style}"></div>`
+								return `<div style="${style}"></div>`
 							})
 							.join('')}
 				`
@@ -262,8 +280,8 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 	})
 }
 
-let container = document.querySelector('.palette-examples')
-let controlsContainer = document.querySelector('.example-controls')
+let container = document.querySelector('.palettes-list')
+let controlsContainer = document.querySelector('.controls')
 if (container instanceof HTMLElement && controlsContainer instanceof HTMLElement) {
 	new PaletteExamples(container, controlsContainer)
 }

@@ -1,0 +1,143 @@
+@use './mixins' as *;
+
+.palette {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	position: relative;
+
+	> * {
+		grid-column: 1 / -1;
+	}
+
+	&__title {
+		grid-column: 1;
+		align-self: end;
+		margin-bottom: 1rem;
+		line-height: 1;
+	}
+
+	&__colors-title {
+		grid-column: 1 / -1;
+	}
+
+	&__side-notes {
+		grid-column: 2;
+		margin-right: 1rem;
+		text-align: right;
+		font-size: 15px;
+		align-self: end;
+		margin-bottom: 1rem;
+	}
+
+	&__colors {
+		width: 100%;
+		height: 130px;
+		display: flex;
+		position: relative;
+		> div {
+			flex: 1 0 auto;
+		}
+
+		@include md {
+			height: 150px;
+		}
+
+		@include lg {
+			height: 180px;
+		}
+	}
+
+	&__pairs {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 30%);
+		justify-content: space-between;
+		row-gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	&__pair {
+		display: flex;
+		height: 50px;
+		> div {
+			flex: 1 0 auto;
+		}
+	}
+
+	&__variants {
+		display: grid;
+		grid-column: 1 / -1;
+		grid-template-columns: 1fr 1fr;
+		column-gap: 1rem;
+		row-gap: 1rem;
+		margin-top: 1rem;
+
+		@include md {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+
+	&__variants-title {
+		grid-column: 1 / -1;
+		margin-bottom: 0;
+	}
+
+	&__variant {
+		aspect-ratio: 5;
+		display: flex;
+		padding: 3% 3%;
+		column-gap: 3%;
+		position: relative;
+		> div {
+			border-width: 3px;
+			border-style: solid;
+			border-color: transparent;
+			flex: 1 0 auto;
+		}
+	}
+
+	&__hover {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		height: 100%;
+		transform: translate(100%, 0);
+		width: 80px;
+		padding-left: 10px;
+		display: flex;
+		align-items: end;
+		opacity: 0;
+		// visibility: hidden;
+	}
+
+	&__colors:hover,
+	&__colors:focus-within {
+		.palette__hover {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+}
+
+.palettes-list {
+	display: grid;
+	grid-template-columns: 100%;
+	column-gap: 1.5rem;
+	row-gap: 180px;
+	padding-bottom: 5rem;
+	margin-right: 80px;
+
+	&:not(.show-pairs) .palette__pairs {
+		display: none;
+	}
+
+	&:not(.show-variants) .palette__variants {
+		display: none;
+	}
+
+	&:not(.show-palettes) {
+		.palette__colors,
+		.palette__side-notes {
+			display: none;
+		}
+	}
+}

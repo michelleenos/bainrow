@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Bainrow Palettes</title>
 	</head>
-	<body class="hide-contexts">
+	<body>
 		<div class="topbar">
 			<h1><span>b</span>ain<span>r</span>ow</h1>
 			<div class="example-controls-wrap">
@@ -60,7 +60,94 @@
 			</div>
 		</div>
 
-		<div class="palette-examples"></div>
+		<div class="layout">
+			<div class="layout__sidebar">
+				<h1 class="main-title"><span>b</span>ain<span>r</span>ow</h1>
+
+				<div class="controls">
+					<label class="input-wrap">
+						<span class="input-wrap__label">view mode</span>
+						<select id="br-view-mode">
+							<option value="light">light</option>
+							<option value="dark">dark</option>
+						</select>
+					</label>
+					<h2 class="controls__section-title title-4">palette variant controls</h2>
+
+					<fieldset class="input-wrap input-wrap--group">
+						<legend class="input-wrap__label">Show:</legend>
+						<div class="input-wrap__group-items">
+							<label class="input-wrap__item">
+								<input type="checkbox" id="br-toggle-palettes" checked />
+								palettes
+							</label>
+							<label class="input-wrap__item">
+								<input type="checkbox" id="br-toggle-pairs" />
+								pairs
+							</label>
+							<label class="input-wrap__item">
+								<input type="checkbox" id="br-toggle-variants" checked />
+								variants
+							</label>
+							<label class="input-wrap__item context-control">
+								<input type="checkbox" id="br-toggle-stroke" />
+								stroke
+							</label>
+						</div>
+					</fieldset>
+
+					<label class="context-control input-wrap input-wrap--num">
+						<span class="input-wrap__label">minContrast</span>
+						<input type="number" step="0.1" min="0" max="14" id="br-contrast" />
+					</label>
+
+					<h3 class="controls__section-title title-5">bgColor options</h3>
+					<label class="context-control input-wrap input-wrap--select">
+						<span class="input-wrap__label">type</span>
+						<select id="br-bg-shade">
+							<option value=""></option>
+							<option value="light">light</option>
+							<option value="dark">dark</option>
+							<option value="edge">edge</option>
+						</select>
+					</label>
+					<label class="context-control input-wrap input-wrap--num">
+						<span class="input-wrap__label">edge</span>
+						<!-- <input type="range" step="1" min="0" max="100" id="br-bg-edge" /> -->
+						<input type="number" step="1" min="0" max="100" id="br-bg-edge" />
+					</label>
+
+					<label class="context-control input-wrap input-wrap--num">
+						<span class="input-wrap__label">maxSaturation</span>
+						<input type="number" step="1" min="0" max="100" id="br-bg-max-saturation" />
+					</label>
+				</div>
+			</div>
+			<div class="layout__main">
+				<div class="intro">
+					<h2>About</h2>
+					<p>
+						This is a collection of hand-picked color palettes I use in generative art / creative
+						coding projects.
+					</p>
+
+					<p>
+						Each palette has some 'variants,' which are different combinations of the palette
+						colors sorted into background, stroke (sometimes). Sometimes the variants have one or
+						two different or additional colors as well.
+					</p>
+
+					<p>
+						The library contains functions for retrieving these variants as a list, optionally
+						filtered by certain parameters (e.g. only variants with stroke colors, only variants
+						with a dark background color, etc).
+					</p>
+				</div>
+
+				<h2 class="palettes-list-title">Colors</h2>
+				<div class="palettes-list"></div>
+			</div>
+		</div>
 
 		<script type="module" src="./example/example-main.ts"></script>
 	</body>
