@@ -1,7 +1,7 @@
 {
 	"name": "mish-bainrow",
 	"description": "a collection of color palettes for generative art projects",
-	"version": "1.0.23",
+	"version": "1.0.24",
 	"type": "module",
 	"license": "ISC",
 	"scripts": {
