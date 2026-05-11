@@ -30,6 +30,28 @@ test('isolate colors', () => {
 	expect(v.colors.length).toEqual(2)
 })
 
+describe('bgShade renamed to bgColor', () => {
+	test('bgShade option returns same result as bgColor option', () => {
+		const variantsShade = getPaletteVariants({ bgShade: { type: 'dark', edge: 20 } })
+		const variantsColor = getPaletteVariants({ bgColor: { type: 'dark', edge: 20 } })
+		expect(variantsColor).toEqual(variantsShade)
+	})
+})
+
+describe('stroke', () => {
+	test('useStroke returns some variants with a stroke', () => {
+		const variants = getPaletteVariants({ useStroke: true })
+		expect(variants.some((v) => v.stroke !== undefined)).toBe(true)
+	})
+
+	test('requireStroke returns only variants with a stroke', () => {
+		const variants = getPaletteVariants({ requireStroke: true })
+		variants.forEach((v) => {
+			expect(v).toHaveProperty('stroke')
+		})
+	})
+})
+
 describe('bg color options', () => {
 	test('bgColor.type light + dark', () => {
 		const testPal: Palette = {

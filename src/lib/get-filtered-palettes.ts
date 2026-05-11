@@ -10,7 +10,7 @@ interface FilteredPaletteOpts {
 }
 
 export function getFilteredPalettes({
-	minColors,
+	minColors = 1,
 	maxColors,
 	...opts
 }: FilteredPaletteOpts & { minColors?: number; maxColors?: number }) {

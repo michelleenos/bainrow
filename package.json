@@ -11,7 +11,8 @@
 		"build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
 		"build": "run-s clean build:lib build:types",
 		"preview": "vite preview",
-		"test": "vitest --ui"
+		"test": "vitest --ui",
+		"test:coverage": "vitest --coverage"
 	},
 	"devDependencies": {
 		"@rollup/plugin-typescript": "^12.1.1",

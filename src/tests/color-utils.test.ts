@@ -41,6 +41,12 @@ describe('hex → rgb', () => {
 	test('shortened hex', () => {
 		expect(hexToRgb('#f0f')).toEqual({ r: 255, g: 0, b: 255 })
 	})
+
+	test('throws error if hex color is invalid', () => {
+		expect(() => hexToRgb('abcdzy')).toThrowErrorMatchingInlineSnapshot(
+			`[Error: Could not parse Hex Color]`,
+		)
+	})
 })
 
 describe('rgb → hsl', () => {
