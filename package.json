@@ -12,7 +12,11 @@
 		"build": "run-s clean build:lib build:types",
 		"preview": "vite preview",
 		"test": "vitest --ui",
-		"test:coverage": "vitest --coverage"
+		"test:coverage": "vitest --coverage",
+		"preversion": "pnpm test && pnpm build",
+		"postversion": "pnpm publish",
+		"postpublish": "git push && git push --tags",
+		"release:patch": "pnpm version patch"
 	},
 	"devDependencies": {
 		"@rollup/plugin-typescript": "^12.1.1",
