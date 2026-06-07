@@ -73,6 +73,15 @@ declare const paletteDefs: {
             stroke: string;
         })[];
     };
+    dust: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("yellow" | "blue" | "purple" | "gray")[];
+        variants: {
+            bg: string;
+        }[];
+    };
     earthGem1: {
         name: string;
         colors: string[];
@@ -97,6 +106,19 @@ declare const paletteDefs: {
         } | {
             bg: string;
             stroke?: undefined;
+        })[];
+    };
+    ember: {
+        name: string;
+        colors: string[];
+        tags: string[];
+        shades: ("red" | "purple")[];
+        variants: ({
+            bg: string;
+            add: string[];
+        } | {
+            bg: string;
+            add?: undefined;
         })[];
     };
     glowFish: {
@@ -334,6 +356,10 @@ declare const paletteDefs: {
     };
     untitledApril15: {
         name: string;
+        credit: {
+            name: string;
+            url: string;
+        };
         colors: string[];
         shades: ("red" | "blue")[];
         tags: string[];

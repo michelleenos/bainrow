@@ -1,4 +1,4 @@
-const G = {
+const H = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4c1e4f", "#496ddb", "#ffc4eb"],
@@ -54,6 +54,13 @@ const G = {
     shades: ["pink", "yellow", "orange", "green"],
     variants: [{ bg: "#fff7e5" }, { bg: "#a0d28d", stroke: "#fff7e5" }, { bg: "#0c0a0b" }]
   },
+  dust: {
+    name: "dust",
+    colors: ["#2C2138", "#5C4569", "#9B7BA6", "#D8B4C9", "#F0D9A8", "#6B8A99"],
+    tags: ["pastel", "witchy"],
+    shades: ["purple", "yellow", "blue", "gray"],
+    variants: [{ bg: "#f0eee9" }, { bg: "#d8dcde" }, { bg: "#0b0b0c" }]
+  },
   earthGem1: {
     name: "earthGem1",
     colors: ["#87425d", "#3c2e6b", "#0081af", "#a7d6c3", "#285943", "#8a8fbd", "#9a79b8", "#fcee49"],
@@ -77,6 +84,18 @@ const G = {
       { bg: "#874286", stroke: "#f2f9f9" },
       { bg: "#f2f9f9" },
       { bg: "#0b040b" }
+    ]
+  },
+  ember: {
+    name: "ember",
+    colors: ["#0D0612", "#3A0E2A", "#962648", "#E85D32", "#F5B14D"],
+    tags: ["mystical"],
+    shades: ["purple", "red"],
+    variants: [
+      { bg: "#0D0612", add: ["#9984D4"] },
+      { bg: "#0d0612" },
+      { bg: "#ffeed5" },
+      { bg: "#F6F4F3" }
     ]
   },
   glowFish: {
@@ -153,10 +172,15 @@ const G = {
   },
   natura: {
     name: "natura",
-    colors: ["#99dfff", "#60ebca", "#c4f5ed", "#b8ccfc", "#04996d", "#4467ab"],
+    colors: ["#04996d", "#60ebca", "#c4f5ed", "#99dfff", "#4467ab", "#b8ccfc"],
     tags: ["nature", "water", "sky"],
     shades: ["blue", "green", "teal"],
-    variants: [{ bg: "#c4f5ed", stroke: "#4467ab" }, { bg: "#04996d" }, { bg: "#4467ab" }]
+    variants: [
+      { bg: "#c4f5ed", stroke: "#4467ab" },
+      { bg: "#04996d" },
+      { bg: "#2a303c" },
+      { bg: "#e9edef" }
+    ]
   },
   neopolito: {
     name: "neopolito",
@@ -227,7 +251,7 @@ const G = {
   },
   untitledApril15: {
     name: "untitledApril15",
-    // https://colorlisa.com/ - Untitled (April 15) by Paul Feeley
+    credit: { name: "colorlisa.com / paul feeley", url: "https://colorlisa.com/" },
     colors: ["#2c458d", "#e4dfd9", "#425b4f", "#ebad30", "#bf2124"],
     shades: ["blue", "red"],
     tags: ["mid"],
@@ -250,10 +274,10 @@ const G = {
       }
     ]
   }
-}, k = G;
-function M(r) {
+}, k = H;
+function $(r) {
   let e = r.replace("#", "");
-  e.length === 3 && (e = e.split("").map((n) => `${n}${n}`).join(""));
+  e.length === 3 && (e = e.split("").map((l) => `${l}${l}`).join(""));
   const t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
   if (!t)
     throw new Error("Could not parse Hex Color");
@@ -264,49 +288,49 @@ function M(r) {
     b: f
   };
 }
-function I(r) {
-  let e = r.r / 255, t = r.g / 255, a = r.b / 255, s = Math.max(e, t, a), f = Math.min(e, t, a), n = 0, d, o = (s + f) / 2;
+function P(r) {
+  let e = r.r / 255, t = r.g / 255, a = r.b / 255, s = Math.max(e, t, a), f = Math.min(e, t, a), l = 0, d, o = (s + f) / 2;
   if (s === f)
-    n = 0, d = 0;
+    l = 0, d = 0;
   else {
     let i = s - f;
     switch (d = o > 0.5 ? i / (2 - s - f) : i / (s + f), s) {
       case e:
-        n = (t - a) / i + (t < a ? 6 : 0);
+        l = (t - a) / i + (t < a ? 6 : 0);
         break;
       case t:
-        n = (a - e) / i + 2;
+        l = (a - e) / i + 2;
         break;
       case a:
-        n = (e - t) / i + 4;
+        l = (e - t) / i + 4;
         break;
     }
-    n /= 6;
+    l /= 6;
   }
-  return { h: Math.round(n * 360), s: Math.round(d * 100), l: Math.round(o * 100) };
+  return { h: Math.round(l * 360), s: Math.round(d * 100), l: Math.round(o * 100) };
 }
-function x(r) {
-  let e = M(r);
-  return I(e);
+function B(r) {
+  let e = $(r);
+  return P(e);
 }
-function $(r) {
-  const e = typeof r == "string" ? M(r) : r, t = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
+function T(r) {
+  const e = typeof r == "string" ? $(r) : r, t = (a) => (a /= 255, a <= 0.03928 ? a / 12.92 : Math.pow((a + 0.055) / 1.055, 2.4));
   return 0.2126 * t(e.r) + 0.7152 * t(e.g) + 0.0722 * t(e.b);
 }
 function w(r, e) {
-  const t = $(r), a = $(e);
+  const t = T(r), a = T(e);
   return t > a ? (t + 0.05) / (a + 0.05) : (a + 0.05) / (t + 0.05);
 }
-const S = (r = 4) => {
+const L = (r = 4) => {
   let e = /* @__PURE__ */ new Set(), t = [];
   return Object.keys(k).forEach((s) => {
-    let n = k[s].colors;
-    R(n, r).forEach((o) => {
+    let l = k[s].colors;
+    C(l, r).forEach((o) => {
       let i = `${o[0]}-${o[1]}`.toLowerCase(), y = `${o[0]}-${o[1]}`.toLowerCase();
       e.has(i) || e.has(y) || (e.add(i), t.push(o));
     });
   }), t;
-}, R = (r, e = 4) => {
+}, C = (r, e = 4) => {
   let t = [];
   return r.forEach((a, s) => {
     r.slice(s + 1).forEach((f) => {
@@ -315,77 +339,77 @@ const S = (r = 4) => {
   }), t;
 };
 let p = null;
-const D = () => p || (p = Object.keys(k).map((e) => k[e]), p), H = D();
-function L(r, {
+const G = () => p || (p = Object.keys(k).map((e) => k[e]), p), M = G();
+function I(r, {
   minContrastBg: e,
   isolateColors: t = !1,
   useStroke: a = !1,
   requireStroke: s = !1,
   minColors: f = 1,
-  maxColors: n = 1 / 0,
+  maxColors: l = 1 / 0,
   bgShade: d,
   bgColor: o
 } = {}) {
-  let i = r.name, y = r.variants, P = 0, v = [], h;
+  let i = r.name, y = r.variants, x = 0, v = [], h;
   return typeof o == "object" ? h = o : o === void 0 && typeof d == "object" && (h = d), y.forEach((m) => {
     if (s && !m.stroke) return;
-    let { omit: F, add: E } = m, c = typeof o == "string" ? o : m.bg;
+    let { omit: F, add: A } = m, c = typeof o == "string" ? o : m.bg;
     if (c = c.toLowerCase(), h) {
-      let { type: l, edge: u = 50, maxSaturation: j } = h, T = x(c), g = T.l;
-      if (l === "dark") {
+      let { type: n, edge: u = 50, maxSaturation: D } = h, j = B(c), g = j.l;
+      if (n === "dark") {
         if (g > u) return;
-      } else if (l === "light") {
+      } else if (n === "light") {
         if (g < 100 - u) return;
-      } else if (l === "edge" && (g < 50 && g > u || g >= 50 && 100 - g > u))
+      } else if (n === "edge" && (g < 50 && g > u || g >= 50 && 100 - g > u))
         return;
-      if (typeof j == "number" && T.s > j)
+      if (typeof D == "number" && j.s > D)
         return;
     }
-    let A = a ? m.stroke : void 0, b = [...r.colors].map((l) => l.toLowerCase());
-    b = t ? b.filter((l) => l !== c && l !== A) : b, F && (b = b.filter((l) => !F.includes(l.toLowerCase()))), E && b.push(...E), e && (b = b.filter((l) => w(c, l) >= e)), !(b.length < f || b.length > n) && v.push({
+    let E = a ? m.stroke : void 0, b = [...r.colors].map((n) => n.toLowerCase());
+    b = t ? b.filter((n) => n !== c && n !== E) : b, F && (b = b.filter((n) => !F.includes(n.toLowerCase()))), A && b.push(...A), e && (b = b.filter((n) => w(c, n) >= e)), !(b.length < f || b.length > l) && v.push({
       bg: c,
-      stroke: A,
+      stroke: E,
       colors: b,
-      name: `${i}-${P++}`
+      name: `${i}-${x++}`
     });
   }), v;
 }
-function V({
+function O({
   excludePalettes: r,
   includePalettes: e,
   ...t
 } = {}) {
-  let a = [...H];
-  return e && (a = a.filter((s) => e.includes(s.name))), r && (a = a.filter((s) => !r.includes(s.name))), a.flatMap((s) => L(s, t));
+  let a = [...M];
+  return e && (a = a.filter((s) => e.includes(s.name))), r && (a = a.filter((s) => !r.includes(s.name))), a.flatMap((s) => I(s, t));
 }
-function q({
+function S({
   minColors: r = 1,
   maxColors: e,
   ...t
 }) {
   let a = [];
-  return H.forEach((s) => {
-    let f = O(s, t);
+  return M.forEach((s) => {
+    let f = R(s, t);
     e !== void 0 && f.length > e || r !== void 0 && f.length < r || a.push({ name: s.name, colors: f });
   }), a;
 }
-function O(r, { minLightness: e, maxLightness: t, minContrast: a, minContrastCompare: s }) {
-  return r.colors.filter((n) => {
+function R(r, { minLightness: e, maxLightness: t, minContrast: a, minContrastCompare: s }) {
+  return r.colors.filter((l) => {
     if (e !== void 0 || t !== void 0) {
-      let o = x(n).l;
+      let o = B(l).l;
       if (e !== void 0 && o < e || t !== void 0 && o > t) return !1;
     }
-    return !(a !== void 0 && w(n, s || "#ffffff") < a);
+    return !(a !== void 0 && w(l, s || "#ffffff") < a);
   });
 }
 export {
-  O as filterPalette,
-  S as getAllPairs,
-  q as getFilteredPalettes,
-  R as getPairsFromPalette,
-  V as getPaletteVariants,
-  D as getPalettesArray,
-  L as getVariantsFromSinglePalette,
+  R as filterPalette,
+  L as getAllPairs,
+  S as getFilteredPalettes,
+  C as getPairsFromPalette,
+  O as getPaletteVariants,
+  G as getPalettesArray,
+  I as getVariantsFromSinglePalette,
   k as palettes,
-  H as palettesList
+  M as palettesList
 };
