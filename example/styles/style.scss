@@ -2,17 +2,19 @@
 @use './palette-display.scss';
 @use './controls.scss';
 @use './mixins' as *;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Piazzolla:ital,opsz,wght@0,8..30,100..900;1,8..30,100..900&display=swap');
 @import 'https://api.fontshare.com/v2/css?f[]=work-sans@1&display=swap';
 
 :root {
-	--light: hsl(60, 4%, 98%);
-	--light-2: hsl(60, 20%, 94%);
+	--light: rgb(250, 250, 250);
+	--light-2: rgb(240, 240, 240);
+	--border: hsl(229, 16%, 79%);
 	--dark: hsl(0, 4%, 10%);
 	--dark-2: hsl(0, 4%, 14%);
 
 	--accent: hsl(0, 75%, 60%);
 
-	--title-big: 54px;
+	--title-big: 40px;
 	--title-2: 32px;
 	--title-3: 24px;
 	--title-4: 20px;
@@ -24,6 +26,11 @@
 
 	--color-text: var(--dark);
 	--color-link: var(--dark);
+
+	--serif: 'Piazzolla', serif;
+	--sans-serif: 'IBM Plex Sans', sans-serif;
+
+	--header-height: 70px;
 }
 
 // TODO improve dark mode, esp controls
@@ -35,9 +42,10 @@ body.dark-mode {
 }
 
 body {
-	font-family: 'Work Sans', sans-serif;
+	// font-family: 'Work Sans', sans-serif;
+	font-family: var(--sans-serif);
 	font-size: var(--font-main);
-	font-weight: 500;
+	font-weight: 400;
 	color: var(--color-text);
 }
 
@@ -57,6 +65,7 @@ a {
 
 h1,
 .title-1 {
+	font-family: var(--serif);
 	font-weight: 700;
 	font-size: var(--title-big);
 	margin: 0;
@@ -68,12 +77,14 @@ h2,
 	font-size: var(--title-2);
 	font-weight: 700;
 	margin-bottom: 0.5rem;
+	font-family: var(--serif);
 }
 
 h3,
 .title-3 {
 	font-size: var(--title-3);
 	font-weight: 600;
+	font-family: var(--serif);
 }
 
 h4,
@@ -81,6 +92,7 @@ h4,
 	font-size: var(--title-4);
 	font-weight: 600;
 	line-height: 1;
+	font-family: var(--serif);
 }
 
 h5,
@@ -92,10 +104,25 @@ h5,
 
 .layout {
 	display: grid;
-	grid-template: 'sidebar main' / clamp(250px, 25%, 340px) 1fr;
+	grid-template: 'sidebar main' / clamp(200px, 25%, 250px) 1fr;
+
+	&__header {
+		position: fixed;
+		top: 0;
+		height: var(--header-height);
+		width: 100%;
+		left: 0;
+		z-index: 2;
+		background-color: #fff;
+		padding-left: 5%;
+		padding-right: 5%;
+		display: flex;
+		align-items: center;
+		border-bottom: 1px solid var(--border);
+	}
 
 	&__main {
-		padding-top: 80px;
+		padding-top: calc(var(--header-height) + 60px);
 		grid-area: main;
 		background-color: var(--bg-main);
 		display: grid;
@@ -105,7 +132,7 @@ h5,
 	}
 
 	&__sidebar {
-		padding-top: 80px;
+		padding-top: calc(var(--header-height) + 50px);
 		grid-area: sidebar;
 		position: sticky;
 		top: 0;
@@ -115,28 +142,10 @@ h5,
 	}
 }
 
-.topbar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 4rem;
-	width: 100%;
-	z-index: 8;
-	background: #fff;
-	border-bottom: 1px solid var(--accent);
-	padding-left: 2rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	display: none;
-
-	input[type='number'] {
-		width: 3.5em;
-	}
-}
-
 .main-title {
 	line-height: 1;
+	margin: 0;
+
 	span {
 		color: var(--accent);
 	}
@@ -144,6 +153,8 @@ h5,
 
 .intro {
 	margin-bottom: 60px;
+	border-bottom: 1px solid var(--border);
+	padding-bottom: 50px;
 
 	&__title {
 		font-weight: 700;

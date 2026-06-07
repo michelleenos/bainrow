@@ -6,64 +6,11 @@
 		<title>Bainrow Palettes</title>
 	</head>
 	<body>
-		<div class="topbar">
-			<h1><span>b</span>ain<span>r</span>ow</h1>
-			<div class="example-controls-wrap">
-				<button class="toggle-controls" id="toggle-controls" aria-expanded="false">
-					toggle controls
-				</button>
-				<div class="example-controls">
-					<fieldset class="checkbox-group">
-						<legend>Show:</legend>
-						<label class="checkbox-wrap">
-							<input type="checkbox" id="br-toggle-palettes" />
-							Palettes
-						</label>
-						<label class="checkbox-wrap">
-							<input type="checkbox" id="br-toggle-pairs" />
-							Pairs
-						</label>
-						<label class="checkbox-wrap">
-							<input type="checkbox" id="br-toggle-variants" />
-							variants
-						</label>
-						<label class="checkbox-wrap context-control">
-							<input type="checkbox" id="br-toggle-stroke" />
-							stroke
-						</label>
-					</fieldset>
-
-					<label class="context-control input-wrap num-wrap">
-						min contrast
-						<input type="number" step="0.1" min="0" max="14" id="br-contrast" />
-					</label>
-
-					<label class="context-control input-wrap select-wrap">
-						bg Shade
-						<select id="br-bg-shade">
-							<option value=""></option>
-							<option value="light">Light</option>
-							<option value="dark">Dark</option>
-							<option value="edge">Edge</option>
-						</select>
-					</label>
-					<label class="context-control input-wrap num-wrap">
-						bg shade edge
-						<input type="number" step="1" min="0" max="100" id="br-bg-edge" />
-					</label>
-
-					<label class="context-control input-wrap num-wrap">
-						max saturation
-						<input type="number" step="1" min="0" max="100" id="br-bg-max-saturation" />
-					</label>
-				</div>
-			</div>
-		</div>
-
 		<div class="layout">
-			<div class="layout__sidebar">
+			<div class="layout__header">
 				<h1 class="main-title"><span>b</span>ain<span>r</span>ow</h1>
-
+			</div>
+			<div class="layout__sidebar">
 				<div class="controls">
 					<label class="input-wrap">
 						<span class="input-wrap__label">view mode</span>

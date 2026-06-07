@@ -56,6 +56,13 @@ const paletteDefs = {
 		shades: ['pink', 'yellow', 'orange', 'green'],
 		variants: [{ bg: '#fff7e5' }, { bg: '#a0d28d', stroke: '#fff7e5' }, { bg: '#0c0a0b' }],
 	},
+	dust: {
+		name: 'dust',
+		colors: ['#2C2138', '#5C4569', '#9B7BA6', '#D8B4C9', '#F0D9A8', '#6B8A99'],
+		tags: ['pastel', 'witchy'],
+		shades: ['purple', 'yellow', 'blue', 'gray'],
+		variants: [{ bg: '#f0eee9' }, { bg: '#d8dcde' }, { bg: '#0b0b0c' }],
+	},
 	earthGem1: {
 		name: 'earthGem1',
 		colors: ['#87425d', '#3c2e6b', '#0081af', '#a7d6c3', '#285943', '#8a8fbd', '#9a79b8', '#fcee49'],
@@ -79,6 +86,18 @@ const paletteDefs = {
 			{ bg: '#874286', stroke: '#f2f9f9' },
 			{ bg: '#f2f9f9' },
 			{ bg: '#0b040b' },
+		],
+	},
+	ember: {
+		name: 'ember',
+		colors: ['#0D0612', '#3A0E2A', '#962648', '#E85D32', '#F5B14D'],
+		tags: ['mystical'],
+		shades: ['purple', 'red'],
+		variants: [
+			{ bg: '#0D0612', add: ['#9984D4'] },
+			{ bg: '#0d0612' },
+			{ bg: '#ffeed5' },
+			{ bg: '#F6F4F3' },
 		],
 	},
 	glowFish: {
@@ -153,10 +172,15 @@ const paletteDefs = {
 	},
 	natura: {
 		name: 'natura',
-		colors: ['#99dfff', '#60ebca', '#c4f5ed', '#b8ccfc', '#04996d', '#4467ab'],
+		colors: ['#04996d', '#60ebca', '#c4f5ed', '#99dfff', '#4467ab', '#b8ccfc'],
 		tags: ['nature', 'water', 'sky'],
 		shades: ['blue', 'green', 'teal'],
-		variants: [{ bg: '#c4f5ed', stroke: '#4467ab' }, { bg: '#04996d' }, { bg: '#4467ab' }],
+		variants: [
+			{ bg: '#c4f5ed', stroke: '#4467ab' },
+			{ bg: '#04996d' },
+			{ bg: '#2a303c' },
+			{ bg: '#e9edef' },
+		],
 	},
 	neopolito: {
 		name: 'neopolito',
@@ -225,7 +249,8 @@ const paletteDefs = {
 		variants: [{ bg: '#011638' }, { bg: '#a64253', stroke: '#011638' }, { bg: '#fff4e2' }],
 	},
 	untitledApril15: {
-		name: 'untitledApril15', // https://colorlisa.com/ - Untitled (April 15) by Paul Feeley
+		name: 'untitledApril15',
+		credit: { name: 'colorlisa.com / paul feeley', url: 'https://colorlisa.com/' },
 		colors: ['#2c458d', '#e4dfd9', '#425b4f', '#ebad30', '#bf2124'],
 		shades: ['blue', 'red'],
 		tags: ['mid'],

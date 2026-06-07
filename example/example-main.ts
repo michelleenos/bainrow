@@ -209,7 +209,14 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 		const credit = item.palette.credit
 		paletteDiv.classList.add('palette')
 		paletteDiv.innerHTML = `<h3 class="palette__title">${palette.name}</h3>`
-		let paletteSideHtml = ''
+
+		const coolorsLink = `https://coolors.co/${palette.colors.map((color) => color.replace('#', '')).join('-')}`
+		const paletteLink = `<a href="${coolorsLink}" class="palette__link" target='_blank' rel='noopener noreferrer'>
+		<svg role="img" aria-label="view on coolors" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12L12 4M6 4h6v6" /></svg>
+		</a>`
+		const paletteHover = `<div class="palette__hover">${paletteLink}</div>`
+
+		let paletteSideHtml = paletteHover
 		if (credit) {
 			const url = credit.url
 			const name = credit.name || url
@@ -222,16 +229,8 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 
 			paletteSideHtml += `<div class='credit'>credit: ${creditHtml}</div>`
 		}
-
-		const coolorsLink = `https://coolors.co/${palette.colors.map((color) => color.replace('#', '')).join('-')}`
-		const paletteHover = createElement('div', { class: 'palette__hover' }, [
-			createElement('a', { href: coolorsLink, target: '_blank', rel: 'noopener noreferrer' }, [
-				'view ↗',
-			]),
-		])
 		paletteDiv.innerHTML += `<div class="palette__side-notes">${paletteSideHtml}</div>`
 		const paletteColorsDiv = createElement('div', { class: 'palette__colors' }, [
-			paletteHover,
 			`${palette.colors.map((color) => `<div class="color" style="background-color: ${color}"></div>`).join('')}`,
 		])
 		paletteDiv.innerHTML += paletteColorsDiv.outerHTML
@@ -253,10 +252,6 @@ const generateExamples = (container: Element, data: ReturnType<typeof getAllPale
 
 		let variantsDiv = document.createElement('div')
 		variantsDiv.classList.add('palette__variants')
-		const variantsTitle = document.createElement('h4')
-		variantsTitle.classList.add('palette__variants-title')
-		variantsTitle.innerText = 'Variants'
-		variantsDiv.appendChild(variantsTitle)
 
 		item.variants.forEach(({ stroke, bg, colors }) => {
 			const variantDiv = document.createElement('div')
