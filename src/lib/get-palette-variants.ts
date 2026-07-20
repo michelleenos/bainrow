@@ -137,7 +137,7 @@ interface BuildVariantOpts {
 export function buildVariant(
 	palette: Palette,
 	index: number,
-	{ useStroke, isolateColors }: BuildVariantOpts,
+	{ useStroke, isolateColors }: BuildVariantOpts = {},
 ): PaletteVariant {
 	const v = palette.variants[index]
 	const { bg, omit, add } = v
