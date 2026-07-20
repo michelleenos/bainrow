@@ -51,6 +51,11 @@ interface SinglePaletteVariantOpts {
     bgShade?: BgColorOptions;
 }
 export declare function getVariantsFromSinglePalette(palette: Palette, { minContrastBg, isolateColors, useStroke, requireStroke, minColors, maxColors, bgShade, bgColor, }?: SinglePaletteVariantOpts): PaletteVariant[];
+interface BuildVariantOpts {
+    isolateColors?: boolean;
+    useStroke?: boolean;
+}
+export declare function buildVariant(palette: Palette, index: number, { useStroke, isolateColors }: BuildVariantOpts): PaletteVariant;
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
     excludePalettes?: PaletteName[];
     includePalettes?: PaletteName[];
