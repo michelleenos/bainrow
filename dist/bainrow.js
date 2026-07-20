@@ -374,7 +374,7 @@ function I(r, {
     });
   }), v;
 }
-function V(r, e, { useStroke: t, isolateColors: a }) {
+function V(r, e, { useStroke: t, isolateColors: a } = {}) {
   const s = r.variants[e], { bg: o, omit: l, add: i } = s, f = t ? s.stroke : void 0;
   let n = [...r.colors].map((c) => c.toLowerCase());
   return a && (n = n.filter((c) => c !== o && c !== f)), l && (n = n.filter((c) => !l.includes(c))), i && n.push(...i), {

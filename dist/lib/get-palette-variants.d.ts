@@ -55,7 +55,7 @@ interface BuildVariantOpts {
     isolateColors?: boolean;
     useStroke?: boolean;
 }
-export declare function buildVariant(palette: Palette, index: number, { useStroke, isolateColors }: BuildVariantOpts): PaletteVariant;
+export declare function buildVariant(palette: Palette, index: number, { useStroke, isolateColors }?: BuildVariantOpts): PaletteVariant;
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
     excludePalettes?: PaletteName[];
     includePalettes?: PaletteName[];
