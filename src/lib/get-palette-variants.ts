@@ -130,6 +130,30 @@ export function getVariantsFromSinglePalette(
 	return result
 }
 
+interface BuildVariantOpts {
+	isolateColors?: boolean
+	useStroke?: boolean
+}
+export function buildVariant(
+	palette: Palette,
+	index: number,
+	{ useStroke, isolateColors }: BuildVariantOpts,
+): PaletteVariant {
+	const v = palette.variants[index]
+	const { bg, omit, add } = v
+	const stroke = useStroke ? v.stroke : undefined
+	let colors = [...palette.colors].map((c) => c.toLowerCase())
+	if (isolateColors) colors = colors.filter((c) => c !== bg && c !== stroke)
+	if (omit) colors = colors.filter((c) => !omit.includes(c))
+	if (add) colors.push(...add)
+	return {
+		bg,
+		stroke,
+		colors,
+		name: `${palette.name}-${index}`,
+	}
+}
+
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
 	excludePalettes?: PaletteName[]
 	includePalettes?: PaletteName[]
