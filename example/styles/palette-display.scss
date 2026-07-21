@@ -152,8 +152,17 @@
 	}
 
 	&:not(.show-palettes) {
+		.palette {
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+
 		.palette__colors,
 		.palette__side-notes {
+			display: none;
+		}
+
+		.palette:not(:has(.palette__variant)) {
 			display: none;
 		}
 	}

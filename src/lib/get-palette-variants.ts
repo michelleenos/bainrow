@@ -1,7 +1,9 @@
 import { getContrast, hexToHsl } from './color-utils'
 import { palettesList } from './get-palettes-array'
-import { PaletteName } from './palette-defs'
+import { PaletteName, palettes } from './palette-defs'
 import type { Palette, PaletteVariant } from './types'
+
+export type PaletteVariantName = `${PaletteName}-${number}`
 
 interface BgColorOptions {
 	/**
@@ -70,7 +72,6 @@ export function getVariantsFromSinglePalette(
 	let name = palette.name
 	let variants = palette.variants
 
-	let count = 0
 	let result: PaletteVariant[] = []
 
 	let bgOpts: BgColorOptions | undefined
@@ -80,7 +81,7 @@ export function getVariantsFromSinglePalette(
 		bgOpts = bgShade
 	}
 
-	variants.forEach((variant) => {
+	variants.forEach((variant, i) => {
 		if (requireStroke && !variant.stroke) return
 		let { omit, add } = variant
 		let bg = typeof bgColor === 'string' ? bgColor : variant.bg
@@ -123,7 +124,7 @@ export function getVariantsFromSinglePalette(
 			bg,
 			stroke,
 			colors,
-			name: `${name}-${count++}`,
+			name: `${name}-${i}`,
 		})
 	})
 
@@ -154,17 +155,32 @@ export function buildVariant(
 	}
 }
 
+export function getPaletteVariant(name: PaletteVariantName) {
+	const parts = name.split('-')
+	const palName = parts[0] as PaletteName
+	const index = +parts[1]
+	return buildVariant(palettes[palName], index)
+}
+
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
 	excludePalettes?: PaletteName[]
 	includePalettes?: PaletteName[]
 }
-export function getPaletteVariants({
-	excludePalettes,
-	includePalettes,
-	...options
-}: GetPaletteVariantOpts = {}): PaletteVariant[] {
+
+export function getPaletteVariants(names: PaletteVariantName[]): PaletteVariant[]
+export function getPaletteVariants(opts?: GetPaletteVariantOpts): PaletteVariant[]
+export function getPaletteVariants(
+	param: PaletteVariantName[] | GetPaletteVariantOpts = {},
+): PaletteVariant[] {
 	let palettes = [...palettesList]
-	if (includePalettes) palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
-	if (excludePalettes) palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
-	return palettes.flatMap((p) => getVariantsFromSinglePalette(p, options))
+	if (Array.isArray(param)) {
+		return param.map((vName) => getPaletteVariant(vName))
+	} else {
+		const { excludePalettes, includePalettes, ...options } = param
+		if (includePalettes)
+			palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
+		if (excludePalettes)
+			palettes = palettes.filter((p) => !excludePalettes.includes(p.name as PaletteName))
+		return palettes.flatMap((p) => getVariantsFromSinglePalette(p, options))
+	}
 }

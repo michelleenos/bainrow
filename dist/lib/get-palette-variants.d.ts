@@ -1,5 +1,6 @@
 import { PaletteName } from './palette-defs';
 import type { Palette, PaletteVariant } from './types';
+export type PaletteVariantName = `${PaletteName}-${number}`;
 interface BgColorOptions {
     /**
      * only include variants with a background color that is dark, light, or on either edge of the spectrum
@@ -56,9 +57,11 @@ interface BuildVariantOpts {
     useStroke?: boolean;
 }
 export declare function buildVariant(palette: Palette, index: number, { useStroke, isolateColors }?: BuildVariantOpts): PaletteVariant;
+export declare function getPaletteVariant(name: PaletteVariantName): PaletteVariant;
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
     excludePalettes?: PaletteName[];
     includePalettes?: PaletteName[];
 };
-export declare function getPaletteVariants({ excludePalettes, includePalettes, ...options }?: GetPaletteVariantOpts): PaletteVariant[];
+export declare function getPaletteVariants(names: PaletteVariantName[]): PaletteVariant[];
+export declare function getPaletteVariants(opts?: GetPaletteVariantOpts): PaletteVariant[];
 export {};
