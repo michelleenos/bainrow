@@ -141,7 +141,8 @@ export function buildVariant(
 	{ useStroke, isolateColors }: BuildVariantOpts = {},
 ): PaletteVariant {
 	const v = palette.variants[index]
-	const { bg, omit, add } = v
+	const bg = v.bg.toLowerCase()
+	const { omit, add } = v
 	const stroke = useStroke ? v.stroke : undefined
 	let colors = [...palette.colors].map((c) => c.toLowerCase())
 	if (isolateColors) colors = colors.filter((c) => c !== bg && c !== stroke)
