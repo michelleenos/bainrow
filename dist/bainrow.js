@@ -1,4 +1,4 @@
-const M = {
+const C = {
   ambry: {
     name: "ambry",
     colors: ["#fcab30", "#ff626a", "#4c1e4f", "#496ddb", "#ffc4eb"],
@@ -274,7 +274,7 @@ const M = {
       }
     ]
   }
-}, h = M;
+}, h = C;
 function j(a) {
   let t = a.replace("#", "");
   t.length === 3 && (t = t.split("").map((o) => `${o}${o}`).join(""));
@@ -288,7 +288,7 @@ function j(a) {
     b: f
   };
 }
-function C(a) {
+function M(a) {
   let t = a.r / 255, e = a.g / 255, r = a.b / 255, s = Math.max(t, e, r), f = Math.min(t, e, r), o = 0, i, l = (s + f) / 2;
   if (s === f)
     o = 0, i = 0;
@@ -311,7 +311,7 @@ function C(a) {
 }
 function T(a) {
   let t = j(a);
-  return C(t);
+  return M(t);
 }
 function D(a) {
   const t = typeof a == "string" ? j(a) : a, e = (r) => (r /= 255, r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4));
@@ -326,8 +326,8 @@ const O = (a = 4) => {
   return Object.keys(h).forEach((s) => {
     let o = h[s].colors;
     H(o, a).forEach((l) => {
-      let n = `${l[0]}-${l[1]}`.toLowerCase(), c = `${l[0]}-${l[1]}`.toLowerCase();
-      t.has(n) || t.has(c) || (t.add(n), e.push(l));
+      let n = `${l[0]}-${l[1]}`.toLowerCase(), d = `${l[0]}-${l[1]}`.toLowerCase();
+      t.has(n) || t.has(d) || (t.add(n), e.push(l));
     });
   }), e;
 }, H = (a, t = 4) => {
@@ -339,8 +339,8 @@ const O = (a = 4) => {
   }), e;
 };
 let y = null;
-const V = () => y || (y = Object.keys(h).map((t) => h[t]), y), x = V();
-function G(a, {
+const L = () => y || (y = Object.keys(h).map((t) => h[t]), y), x = L();
+function V(a, {
   minContrastBg: t,
   isolateColors: e = !1,
   useStroke: r = !1,
@@ -350,8 +350,8 @@ function G(a, {
   bgShade: i,
   bgColor: l
 } = {}) {
-  let n = a.name, c = a.variants, v = [], p;
-  return typeof l == "object" ? p = l : l === void 0 && typeof i == "object" && (p = i), c.forEach((k, B) => {
+  let n = a.name, d = a.variants, v = [], p;
+  return typeof l == "object" ? p = l : l === void 0 && typeof i == "object" && (p = i), d.forEach((k, B) => {
     if (s && !k.stroke) return;
     let { omit: F, add: A } = k, g = typeof l == "string" ? l : k.bg;
     if (g = g.toLowerCase(), p) {
@@ -365,36 +365,36 @@ function G(a, {
       if (typeof P == "number" && $.s > P)
         return;
     }
-    let E = r ? k.stroke : void 0, d = [...a.colors].map((b) => b.toLowerCase());
-    d = e ? d.filter((b) => b !== g && b !== E) : d, F && (d = d.filter((b) => !F.includes(b.toLowerCase()))), A && d.push(...A), t && (d = d.filter((b) => w(g, b) >= t)), !(d.length < f || d.length > o) && v.push({
+    let E = r ? k.stroke : void 0, c = [...a.colors].map((b) => b.toLowerCase());
+    c = e ? c.filter((b) => b !== g && b !== E) : c, F && (c = c.filter((b) => !F.includes(b.toLowerCase()))), A && c.push(...A), t && (c = c.filter((b) => w(g, b) >= t)), !(c.length < f || c.length > o) && v.push({
       bg: g,
       stroke: E,
-      colors: d,
+      colors: c,
       name: `${n}-${B}`
     });
   }), v;
 }
-function I(a, t, { useStroke: e, isolateColors: r } = {}) {
-  const s = a.variants[t], { bg: f, omit: o, add: i } = s, l = e ? s.stroke : void 0;
-  let n = [...a.colors].map((c) => c.toLowerCase());
-  return r && (n = n.filter((c) => c !== f && c !== l)), o && (n = n.filter((c) => !o.includes(c))), i && n.push(...i), {
+function G(a, t, { useStroke: e, isolateColors: r } = {}) {
+  const s = a.variants[t], f = s.bg.toLowerCase(), { omit: o, add: i } = s, l = e ? s.stroke : void 0;
+  let n = [...a.colors].map((d) => d.toLowerCase());
+  return r && (n = n.filter((d) => d !== f && d !== l)), o && (n = n.filter((d) => !o.includes(d))), i && n.push(...i), {
     bg: f,
     stroke: l,
     colors: n,
     name: `${a.name}-${t}`
   };
 }
-function L(a, t) {
+function I(a, t) {
   const e = a.split("-"), r = e[0], s = +e[1];
-  return I(h[r], s, t);
+  return G(h[r], s, t);
 }
 function S(a = {}, t) {
   let e = [...x];
   if (Array.isArray(a))
-    return a.map((r) => L(r, t));
+    return a.map((r) => I(r, t));
   {
     const { excludePalettes: r, includePalettes: s, ...f } = a;
-    return s && (e = e.filter((o) => s.includes(o.name))), r && (e = e.filter((o) => !r.includes(o.name))), e.flatMap((o) => G(o, f));
+    return s && (e = e.filter((o) => s.includes(o.name))), r && (e = e.filter((o) => !r.includes(o.name))), e.flatMap((o) => V(o, f));
   }
 }
 function q({
@@ -418,15 +418,15 @@ function R(a, { minLightness: t, maxLightness: e, minContrast: r, minContrastCom
   });
 }
 export {
-  I as buildVariant,
+  G as buildVariant,
   R as filterPalette,
   O as getAllPairs,
   q as getFilteredPalettes,
   H as getPairsFromPalette,
-  L as getPaletteVariant,
+  I as getPaletteVariant,
   S as getPaletteVariants,
-  V as getPalettesArray,
-  G as getVariantsFromSinglePalette,
+  L as getPalettesArray,
+  V as getVariantsFromSinglePalette,
   h as palettes,
   x as palettesList
 };
