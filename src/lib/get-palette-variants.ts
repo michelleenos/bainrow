@@ -155,11 +155,11 @@ export function buildVariant(
 	}
 }
 
-export function getPaletteVariant(name: PaletteVariantName) {
+export function getPaletteVariant(name: PaletteVariantName, opts?: BuildVariantOpts) {
 	const parts = name.split('-')
 	const palName = parts[0] as PaletteName
 	const index = +parts[1]
-	return buildVariant(palettes[palName], index)
+	return buildVariant(palettes[palName], index, opts)
 }
 
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
@@ -167,16 +167,17 @@ export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
 	includePalettes?: PaletteName[]
 }
 
-export function getPaletteVariants(names: PaletteVariantName[]): PaletteVariant[]
+export function getPaletteVariants(names: PaletteVariantName[], opts?: BuildVariantOpts): PaletteVariant[]
 export function getPaletteVariants(opts?: GetPaletteVariantOpts): PaletteVariant[]
 export function getPaletteVariants(
-	param: PaletteVariantName[] | GetPaletteVariantOpts = {},
+	p0: PaletteVariantName[] | GetPaletteVariantOpts = {},
+	p1?: BuildVariantOpts,
 ): PaletteVariant[] {
 	let palettes = [...palettesList]
-	if (Array.isArray(param)) {
-		return param.map((vName) => getPaletteVariant(vName))
+	if (Array.isArray(p0)) {
+		return p0.map((vName) => getPaletteVariant(vName, p1))
 	} else {
-		const { excludePalettes, includePalettes, ...options } = param
+		const { excludePalettes, includePalettes, ...options } = p0
 		if (includePalettes)
 			palettes = palettes.filter((p) => includePalettes.includes(p.name as PaletteName))
 		if (excludePalettes)
