@@ -57,11 +57,11 @@ interface BuildVariantOpts {
     useStroke?: boolean;
 }
 export declare function buildVariant(palette: Palette, index: number, { useStroke, isolateColors }?: BuildVariantOpts): PaletteVariant;
-export declare function getPaletteVariant(name: PaletteVariantName): PaletteVariant;
+export declare function getPaletteVariant(name: PaletteVariantName, opts?: BuildVariantOpts): PaletteVariant;
 export type GetPaletteVariantOpts = SinglePaletteVariantOpts & {
     excludePalettes?: PaletteName[];
     includePalettes?: PaletteName[];
 };
-export declare function getPaletteVariants(names: PaletteVariantName[]): PaletteVariant[];
+export declare function getPaletteVariants(names: PaletteVariantName[], opts?: BuildVariantOpts): PaletteVariant[];
 export declare function getPaletteVariants(opts?: GetPaletteVariantOpts): PaletteVariant[];
 export {};
