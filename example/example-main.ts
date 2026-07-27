@@ -36,7 +36,7 @@ const listenInputVal = (
 }
 
 const numOrUndefined = (input: string) => {
-	let val = parseInt(input)
+	let val = parseFloat(input)
 	return !Number.isNaN(val) ? val : undefined
 }
 
@@ -49,6 +49,7 @@ type PaletteControls = {
 	bgShade: HTMLSelectElement | null
 	bgEdge: HTMLInputElement | null
 	maxSaturation: HTMLInputElement | null
+	maxChroma: HTMLInputElement | null
 	viewMode: HTMLSelectElement | null
 	toggle: HTMLButtonElement | null
 }
@@ -67,6 +68,7 @@ class PaletteExamples {
 		edge?: number
 		minContrast?: number
 		maxSaturation?: number
+		maxChroma?: number
 	} = {}
 	data: ReturnType<typeof getAllPaletteExampleData>
 	controls: PaletteControls
@@ -94,9 +96,12 @@ class PaletteExamples {
 			minContrastBg: this.vals.minContrast,
 			isolateColors: this.isolateColors,
 			useStroke: this.show.stroke,
-			bgShade:
-				this.bgShadeType || typeof this.vals.maxSaturation === 'number'
+			bgColor:
+				this.bgShadeType ||
+				typeof this.vals.maxSaturation === 'number' ||
+				typeof this.vals.maxChroma === 'number'
 					? {
+							maxChroma: this.vals.maxChroma,
 							type: this.bgShadeType,
 							edge: this.vals.edge,
 							maxSaturation: this.vals.maxSaturation,
@@ -117,6 +122,7 @@ class PaletteExamples {
 			maxSaturation: this.controlsContainer.querySelector<HTMLInputElement>(
 				'input#br-bg-max-saturation',
 			),
+			maxChroma: this.controlsContainer.querySelector<HTMLInputElement>('input#br-bg-max-chroma'),
 			viewMode: this.controlsContainer.querySelector<HTMLSelectElement>('select#br-view-mode'),
 			toggle: document.querySelector<HTMLButtonElement>('button#toggle-controls'),
 		}
@@ -133,6 +139,7 @@ class PaletteExamples {
 		if (this.controls.maxSaturation) {
 			this.controls.maxSaturation.disabled = !this.show.variants
 		}
+		if (this.controls.maxChroma) this.controls.maxChroma.disabled = !this.show.variants
 	}
 
 	toggleClasses() {
@@ -153,6 +160,7 @@ class PaletteExamples {
 		this.controls.minContrast && listenInputVal(this, this.controls.minContrast, 'minContrast')
 		this.controls.maxSaturation && listenInputVal(this, this.controls.maxSaturation, 'maxSaturation')
 		this.controls.bgEdge && listenInputVal(this, this.controls.bgEdge, 'edge')
+		this.controls.maxChroma && listenInputVal(this, this.controls.maxChroma, 'maxChroma')
 
 		this.controls.bgShade?.addEventListener('change', () => {
 			this.bgShadeType = this.controls.bgShade!.value as 'light' | 'dark' | 'edge' | undefined

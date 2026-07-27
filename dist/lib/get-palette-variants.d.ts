@@ -20,9 +20,11 @@ interface BgColorOptions {
      */
     edge?: number;
     /**
+     * @deprecated
      * max HSL saturation of background color
      */
     maxSaturation?: number;
+    maxChroma?: number;
 }
 interface SinglePaletteVariantOpts {
     /**

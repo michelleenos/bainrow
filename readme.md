@@ -86,8 +86,8 @@ const variants = getPaletteVariants(options: {
 		// keep lightness (hsl) value of the background within this percentage of 0 or 100
 		// (e.g. 10 with a type of 'edge' means keep lightness between 0-10 or 90-100)
 		edge?: number
-		// keep saturation (hsl) value of the background below this percentage
-		maxSaturation?: number
+		// max chroma val - use to keep colors to more neutral blackish/whiteish/grayish
+		maxChroma?: number
 	}
 }): PaletteVariant[]
 ```

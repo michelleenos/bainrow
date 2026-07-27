@@ -1,4 +1,4 @@
-import { getContrast, hexToHsl } from './color-utils'
+import { getContrast, hexToHsl, hexToOklch } from './color-utils'
 import { palettesList } from './get-palettes-array'
 import { PaletteName, palettes } from './palette-defs'
 import type { Palette, PaletteVariant } from './types'
@@ -24,9 +24,11 @@ interface BgColorOptions {
 	 */
 	edge?: number
 	/**
+	 * @deprecated
 	 * max HSL saturation of background color
 	 */
 	maxSaturation?: number
+	maxChroma?: number
 }
 
 interface SinglePaletteVariantOpts {
@@ -88,7 +90,7 @@ export function getVariantsFromSinglePalette(
 		bg = bg.toLowerCase()
 
 		if (bgOpts) {
-			let { type, edge = 50, maxSaturation } = bgOpts
+			let { type, edge = 50, maxSaturation, maxChroma } = bgOpts
 			let hsl = hexToHsl(bg)
 			let lightness = hsl.l
 			if (type === 'dark') {
@@ -102,6 +104,11 @@ export function getVariantsFromSinglePalette(
 
 			if (typeof maxSaturation === 'number') {
 				if (hsl.s > maxSaturation) return
+			}
+
+			if (typeof maxChroma === 'number') {
+				const chroma = hexToOklch(bg).c
+				if (chroma > maxChroma) return
 			}
 		}
 

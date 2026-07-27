@@ -81,6 +81,44 @@ export function hexToHsl(hex: string): HSL {
 	return rgbToHsl(rgb)
 }
 
+export interface OKLCH {
+	l: number
+	c: number
+	h: number
+}
+
+/**
+ * Perceptually uniform lightness/chroma/hue.
+ * // TODO test/double check this (AI wrote it)
+ */
+export function rgbToOklch(rgb: RGB): OKLCH {
+	const lin = (val: number) => {
+		val /= 255
+		return val <= 0.04045 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4)
+	}
+
+	const r = lin(rgb.r)
+	const g = lin(rgb.g)
+	const b = lin(rgb.b)
+
+	const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b)
+	const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b)
+	const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b)
+
+	const okL = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s
+	const okA = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s
+	const okB = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s
+
+	let h = (Math.atan2(okB, okA) * 180) / Math.PI
+	if (h < 0) h += 360
+
+	return { l: okL, c: Math.hypot(okA, okB), h }
+}
+
+export function hexToOklch(hex: string): OKLCH {
+	return rgbToOklch(hexToRgb(hex))
+}
+
 export function getRelativeLuminance(color: RGB | string) {
 	const rgb = typeof color === 'string' ? hexToRgb(color) : color
 	const lumVal = (val: number) => {
